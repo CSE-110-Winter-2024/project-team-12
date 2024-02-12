@@ -1,4 +1,11 @@
 package edu.ucsd.cse110.successorator.lib.domain;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import java.io.Serializable;
+import java.util.Objects;
+
+//import edu.ucsd.cse110.successorator.lib.util.errors.NotImplementedException;
 
 
 /*
@@ -12,14 +19,24 @@ package edu.ucsd.cse110.successorator.lib.domain;
  * 1. initializes the String taskText to constructor parameter
  * 2. intializes isDone to false by default;
  */
-public class Task {
+public class Task implements Serializable{
+
+    private final @Nullable Integer id;
+
     private String taskText;
     private boolean isDone;
 
+    private Integer sortOrder;
 
-    public Task(String taskText){
+    /*public Task(String taskText){
         this.taskText = taskText;
         this.isDone = false;
+    }*/
+
+    public Task(@Nullable Integer id, @NonNull String taskText, int sortOrder) {
+        this.id = id;
+        this.taskText = taskText;
+        this.sortOrder = sortOrder;
     }
 
     /* Below are getter methods for the taskText
@@ -60,4 +77,28 @@ public class Task {
     public static void markAsToDo(Task theTask){
         theTask.isDone = false;
     }
+
+    public Task withId(int id) {
+        return new Task(id, taskText, sortOrder);
+    }
+
+    public Task withSortOrder(int sortOrder) {
+        return new Task(id, taskText, sortOrder);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return Objects.equals(taskText, task.taskText);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(taskText);
+    }
+
+
+
 }
