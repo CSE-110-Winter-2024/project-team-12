@@ -15,20 +15,21 @@ import java.util.List;
 
 import edu.ucsd.cse110.successorator.MainViewModel;
 import edu.ucsd.cse110.successorator.databinding.FragmentCreateMitBinding;
+import edu.ucsd.cse110.successorator.databinding.ActivityMainBinding;
 import edu.ucsd.cse110.successorator.ui.list.dialog.ConfirmDeleteTaskDialogFragment;
 import edu.ucsd.cse110.successorator.ui.list.dialog.CreateTaskDialogFragment;
 
 public class TaskListFragment extends Fragment {
     private MainViewModel activityModel;
-    private FragmentCardListBinding view;
-    private CardListAdapter adapter;
+    private ActivityMainBinding view;
+    private TaskListAdapter adapter;
 
-    public CardListFragment() {
+    public TaskListFragment() {
         // Required empty public constructor
     }
 
-    public static CardListFragment newInstance() {
-        CardListFragment fragment = new CardListFragment();
+    public static TaskListFragment newInstance() {
+        TaskListFragment fragment = new TaskListFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -45,14 +46,14 @@ public class TaskListFragment extends Fragment {
         this.activityModel = modelProvider.get(MainViewModel.class);
 
         // Initialize the Adapter (with an empty list for now)
-        this.adapter = new CardListAdapter(requireContext(), List.of(), id -> {
-            var dialogFragment = ConfirmDeleteCardDialogFragment.newInstance(id);
+        this.adapter = new TaskListAdapter(requireContext(), List.of(), id -> {
+            var dialogFragment = ConfirmDeleteTaskDialogFragment.newInstance(id);
             dialogFragment.show(getParentFragmentManager(), "ConfirmDeleteCardDialogFragment");
         });
-        activityModel.getOrderedCards().observe(cards -> {
-            if (cards == null) return;
+        activityModel.getOrderedTasks().observe(tasks -> {
+            if (tasks == null) return;
             adapter.clear();
-            adapter.addAll(new ArrayList<>(cards)); // remember the mutable copy here!
+            adapter.addAll(new ArrayList<>(tasks)); // remember the mutable copy here!
             adapter.notifyDataSetChanged();
         });
     }
@@ -60,13 +61,13 @@ public class TaskListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        this.view = FragmentCardListBinding.inflate(inflater, container, false);
+        this.view = ActivityMainBinding.inflate(inflater, container, false);
 
         // Set the adapter on the ListView
         view.cardList.setAdapter(adapter);
 
-        view.createCardButton.setOnClickListener(v-> {
-            var dialogFragment= CreateCardDialogFragment.newInstance();
+        view.createTaskButton.setOnClickListener(v-> {
+            var dialogFragment= CreateTaskDialogFragment.newInstance();
             dialogFragment.show(getParentFragmentManager(),"CreateCardDialogFragment");
         });
 
