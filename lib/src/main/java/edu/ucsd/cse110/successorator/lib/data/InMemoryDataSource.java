@@ -30,14 +30,14 @@ public class InMemoryDataSource {
     public InMemoryDataSource() {
     }
 
-    public final static List<Task> DEFAULT_CARDS = List.of(
-            new Task("Mow Lawn");
-            new Task("Feed dog");
+    public final static List<Task> DEFAULT_TASKS = List.of(
+            new Task(1, "Mow Lawn", 1),
+            new Task(2, "Feed dog", 2)
     );
 
     public static InMemoryDataSource fromDefault() {
         var data = new InMemoryDataSource();
-        data.putTasks(DEFAULT_CARDS);
+        data.putTasks(DEFAULT_TASKS);
         return data;
     }
 
@@ -73,28 +73,28 @@ public class InMemoryDataSource {
     public void putTask(Task task) {
         var fixedTask = preInsert(task);
 
-        tasks.put(fixedTask.id(), fixedTask);
+        tasks.put(fixedTask.getId(), fixedTask);
         postInsert();
         assertSortOrderConstraints();
 
-        if (taskSubjects.containsKey(fixedTask.id())) {
-            taskSubjects.get(fixedTask.id()).setValue(fixedTask);
+        if (taskSubjects.containsKey(fixedTask.getId())) {
+            taskSubjects.get(fixedTask.getId()).setValue(fixedTask);
         }
         allTasksSubject.setValue(getTasks());
     }
 
-    public void putTasks(List<Task> tasks) {
-        var fixedTasks = tasks.stream()
+    public void putTasks(List<Task> taskList) {
+        var fixedTasks = taskList.stream()
                 .map(this::preInsert)
                 .collect(Collectors.toList());
 
-        fixedTasks.forEach(task -> tasks.put(task.id(), task));
+        fixedTasks.forEach(task -> tasks.put(task.getId(), task));
         postInsert();
         assertSortOrderConstraints();
 
         fixedTasks.forEach(task -> {
-            if (taskSubjects.containsKey(task.id())) {
-                taskSubjects.get(task.id()).setValue(task);
+            if (taskSubjects.containsKey(task.getId())) {
+                taskSubjects.get(task.getId()).setValue(task);
             }
         });
         allTasksSubject.setValue(getTasks());
@@ -102,7 +102,7 @@ public class InMemoryDataSource {
 
     public void removeTask(int id) {
         var task = tasks.get(id);
-        var sortOrder = task.sortOrder();
+        var sortOrder = task.getSortOrder();
 
         tasks.remove(id);
         shiftSortOrders(sortOrder, maxSortOrder, -1);
@@ -114,12 +114,12 @@ public class InMemoryDataSource {
     }
 
     public void shiftSortOrders(int from, int to, int by) {
-        var tasks = tasks.values().stream()
-                .filter(task -> task.sortOrder() >= from && task.sortOrder() <= to)
-                .map(task -> task.withSortOrder(task.sortOrder() + by))
+        var taskList = tasks.values().stream()
+                .filter(task -> task.getSortOrder() >= from && task.getSortOrder() <= to)
+                .map(task -> task.withSortOrder(task.getSortOrder() + by))
                 .collect(Collectors.toList());
 
-        putTasks(tasks);
+        putTasks(taskList);
     }
 
     /**
@@ -127,7 +127,7 @@ public class InMemoryDataSource {
      * tasks inserted have an id, and updates the nextId if necessary.
      */
     private Task preInsert(Task task) {
-        var id = task.id();
+        var id = task.getId();
         if (id == null) {
             // If the task has no id, give it one.
             task = task.withId(nextId++);
@@ -148,12 +148,12 @@ public class InMemoryDataSource {
     private void postInsert() {
         // Keep the min and max sort orders up to date.
         minSortOrder = tasks.values().stream()
-                .map(Task::sortOrder)
+                .map(Task::getSortOrder)
                 .min(Integer::compareTo)
                 .orElse(Integer.MAX_VALUE);
 
         maxSortOrder = tasks.values().stream()
-                .map(Task::sortOrder)
+                .map(Task::getSortOrder)
                 .max(Integer::compareTo)
                 .orElse(Integer.MIN_VALUE);
     }
@@ -168,7 +168,7 @@ public class InMemoryDataSource {
     private void assertSortOrderConstraints() {
         // Get all the sort orders...
         var sortOrders = tasks.values().stream()
-                .map(Task::sortOrder)
+                .map(Task::getSortOrder)
                 .collect(Collectors.toList());
 
         // Non-negative...

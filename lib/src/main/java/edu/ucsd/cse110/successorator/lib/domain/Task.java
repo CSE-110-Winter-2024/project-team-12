@@ -47,6 +47,9 @@ public class Task implements Serializable{
     public String getTaskText() {
         return taskText;
     }
+    public Integer getId() { return id; }
+
+    public Integer getSortOrder() { return sortOrder; }
     public static String getTaskText(Task theTask) {
         return theTask.taskText;
     }

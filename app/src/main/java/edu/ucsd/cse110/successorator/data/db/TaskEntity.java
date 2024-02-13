@@ -16,31 +16,24 @@ public class TaskEntity {
     @ColumnInfo(name="id")
     public Integer id=null;
 
-    @ColumnInfo(name="front")
-    public String front;
-
-    @ColumnInfo(name="back")
-    public String back;
+    @ColumnInfo(name="task-text")
+    public String taskText;
 
     @ColumnInfo(name="sort_order")
     public int sortOrder;
 
-    TaskEntity(String front,String back, int sortOrder) {
-        this.front=front;
-        this.back=back;
+    TaskEntity(String taskText, int sortOrder) {
+        this.taskText=taskText;
         this.sortOrder=sortOrder;
     }
 
     public static TaskEntity fromTask(Task task) {
-        var card=new TaskEntity(task.front(), task.back(), task.sortOrder());
-        card.id=task.id();
-        return card;
+        var taskEntity = new TaskEntity(task.getTaskText(), task.getSortOrder());
+        taskEntity.id = task.getId();
+        return taskEntity;
     }
 
     public Task toTask() {
-        return new Task(id, front,back,sortOrder);
+        return new Task(id, taskText, sortOrder);
     }
-}
-
-public class TaskEntity {
 }

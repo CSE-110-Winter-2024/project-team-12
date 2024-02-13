@@ -20,7 +20,7 @@ public class RoomTaskRepository implements TaskRepository{
     @Override
     public Subject<Task> find(int id) {
         var entityLiveData=taskDao.findAsLiveData(id);
-        var taskLiveData= Transformations.map(entityLiveData,taskEntity::toTask);
+        var taskLiveData= Transformations.map(entityLiveData,TaskEntity::toTask);
         return new LiveDataSubjectAdapter<>(taskLiveData);
     }
     public Subject<List<Task>> findAll() {
@@ -46,10 +46,6 @@ public class RoomTaskRepository implements TaskRepository{
 
     public void append(Task task) {
         taskDao.append(TaskEntity.fromTask(task));
-    }
-
-    public void prepend(Task task) {
-        taskDao.prepend(TaskEntity.fromTask(task));
     }
 
     public void remove(int id) {

@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import edu.ucsd.cse110.successorator.lib.domain.Task;
-import edu.ucsd.cse110.successorator.lib.domain.Tasks;
 import edu.ucsd.cse110.successorator.lib.domain.TaskRepository;
 import edu.ucsd.cse110.successorator.lib.util.MutableSubject;
 import edu.ucsd.cse110.successorator.lib.util.SimpleSubject;
@@ -50,7 +49,7 @@ public class MainViewModel extends ViewModel{
             if (tasks == null) return; // not ready yet, ignore
 
             var newOrderedTasks = tasks.stream()
-                    .sorted(Comparator.comparing(Task::sortOrder))
+                    .sorted(Comparator.comparing(Task::getSortOrder))
                     .collect(Collectors.toList());
             orderedTasks.setValue(tasks);
         });
@@ -65,7 +64,7 @@ public class MainViewModel extends ViewModel{
         // When the top task changes, update the displayed text and display the front side.
         topCard.observe(task -> {
             if (task == null) return;
-            displayedText.setValue(task);
+            displayedText.setValue(task.getTaskText());
         });
 
     }

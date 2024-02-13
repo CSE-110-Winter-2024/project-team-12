@@ -7,7 +7,7 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 
 import java.util.List;
-
+@Dao
 public interface TaskDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -45,22 +45,11 @@ public interface TaskDao {
     default int append(TaskEntity task) {
         var maxSortOrder = getMaxSortOrder();
         var newTask=new TaskEntity(
-                task.front, task.back, maxSortOrder+1
-        );
-        return Math.toIntExact(insert(newTask));
-    }
-
-    @Transaction
-    default int prepend(TaskEntity task) {
-        shiftSortOrders(getMinSortOrder(), getMaxSortOrder(),1);
-        var newTask=new TaskEntity(
-                task.front, task.back, getMinSortOrder()-1
+                task.taskText, maxSortOrder+1
         );
         return Math.toIntExact(insert(newTask));
     }
 
     @Query("DELETE FROM tasks WHERE id = :id")
     void delete(int id);
-}
-
 }
