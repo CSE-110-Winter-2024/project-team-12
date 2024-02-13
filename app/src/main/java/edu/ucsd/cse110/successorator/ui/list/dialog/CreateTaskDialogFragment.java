@@ -11,19 +11,19 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import edu.ucsd.cse110.successorator.app.MainViewModel;
-import edu.ucsd.cse110.successorator.app.databinding.FragmentDialogCreateCardBinding;
+import edu.ucsd.cse110.successorator.MainViewModel;
+import edu.ucsd.cse110.successorator.databinding.FragmentCreateMitBinding;
 import edu.ucsd.cse110.successorator.lib.domain.Task;
 
-public class CreateCardDialogFragment extends DialogFragment{
+public class CreateTaskDialogFragment extends DialogFragment{
     private MainViewModel activityModel;
-    private FragmentDialogCreateCardBinding view;
+    private FragmentCreateMitBinding view;
 
-    CreateCardDialogFragment() {
+    CreateTaskDialogFragment() {
 
     }
-    public static CreateCardDialogFragment newInstance() {
-        var fragment=new CreateCardDialogFragment();
+    public static CreateTaskDialogFragment newInstance() {
+        var fragment=new CreateTaskDialogFragment();
         Bundle args=new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -41,7 +41,7 @@ public class CreateCardDialogFragment extends DialogFragment{
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        this.view=FragmentDialogCreateCardBinding.inflate(getLayoutInflater());
+        this.view=FragmentCreateMitBinding.inflate(getLayoutInflater());
         return new AlertDialog.Builder(getActivity())
                 .setTitle("New Task")
                 .setMessage("Please provide the task that has to be completed. ")
@@ -52,19 +52,17 @@ public class CreateCardDialogFragment extends DialogFragment{
     }
 
     private void onPositiveButtonClick(DialogInterface dialog, int which) {
-        var front=view.cardFrontEditText.getText().toString();
-        var back=view.cardBackEditText.getText().toString();
+        var taskText=view.editTextText.getText().toString();
 
-        var card=new Flashcard(null,front,back,-1);
+        var task = new Task(null, taskText,-1);
+        activityModel.append(task);
 
-        if(view.appendRadioBtn.isChecked()){
-            activityModel.append(card);
+        /*if(view.appendRadioBtn.isChecked()){
+            activityModel.append(task);
         }
-        else if(view.prependRadioBtn.isChecked()){
-            activityModel.prepend(card);
-        } else {
+        else {
             throw new IllegalStateException("No radio button is checked. ");
-        }
+        }*/
         dialog.dismiss();
     }
 
