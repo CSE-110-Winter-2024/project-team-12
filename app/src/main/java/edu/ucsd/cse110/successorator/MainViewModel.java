@@ -1,6 +1,7 @@
 package edu.ucsd.cse110.successorator;
 
 import static androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY;
+import androidx.lifecycle.LiveData;
 
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.viewmodel.ViewModelInitializer;
@@ -67,6 +68,24 @@ public class MainViewModel extends ViewModel{
             displayedText.setValue(task.getTaskText());
         });
 
+    }
+
+
+    public void setTaskAsDone(int taskID, boolean done){
+        List<Task> tasks = orderedTasks.getValue();
+        if (tasks != null) {
+            for (Task task : tasks) {
+                if (task.getId() != null && task.getId() == taskID) {
+                    if (done) {
+                        task.markAsDone();
+                    } else {
+                        task.markAsToDo();
+                    }
+                    orderedTasks.setValue(tasks); // Trigger UI update
+                    break;
+                }
+            }
+        }
     }
 
     public Subject<String> getDisplayedText() {
