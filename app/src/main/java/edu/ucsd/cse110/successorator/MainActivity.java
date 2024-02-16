@@ -8,11 +8,8 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
+
 
 import edu.ucsd.cse110.successorator.databinding.ActivityMainBinding;
 
@@ -24,6 +21,10 @@ public class MainActivity extends AppCompatActivity {
         var view = ActivityMainBinding.inflate(getLayoutInflater(), null, false);
         //view.placeholderText.setText(R.string.hello_world)
         setContentView(view.getRoot());
+        showDate();
+    }
+    /* Function creates and shows date by setting the textview to the calendar date instance.*/
+    public void showDate(){
         // getting date
         Calendar c = Calendar.getInstance();
         String dateString = c.getTime().toString();
