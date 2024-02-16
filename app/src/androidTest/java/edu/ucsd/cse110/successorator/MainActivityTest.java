@@ -27,7 +27,7 @@ import edu.ucsd.cse110.successorator.databinding.ActivityMainBinding;
 public class MainActivityTest {
     @Test
     /* Function tests if the date is displayed as we made the date display through MainActivity.*/
-    public void displaysDate() {
+    public void TestDisplaysDate() {
         try (var scenario = ActivityScenario.launch(MainActivity.class)) {
             // Observe the scenario's lifecycle to wait until the activity is created.
             scenario.onActivity(activity -> {
