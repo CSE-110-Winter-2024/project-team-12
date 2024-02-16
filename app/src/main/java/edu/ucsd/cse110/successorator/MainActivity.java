@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         // getting date
         Calendar c = Calendar.getInstance();
         String dateString = c.getTime().toString();
+        dateString = dateString.substring(0,11);
         // showing it on the textview
         setContentView(R.layout.activity_main);
         TextView dateView = (TextView)findViewById(R.id.date);
