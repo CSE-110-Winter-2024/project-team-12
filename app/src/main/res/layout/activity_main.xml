@@ -15,11 +15,21 @@
         android:theme="?attr/actionBarTheme"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="Monday, February 12, 2024"
+        android:textColor="#FDF6F2F2"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <ImageButton
         android:id="@+id/imageButton2"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_marginEnd="20dp"
         android:background="?android:attr/selectableItemBackgroundBorderless"
         android:backgroundTint="#00FFFFFF"
         android:src="@drawable/ic_add_button"
