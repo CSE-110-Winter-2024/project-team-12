@@ -13,6 +13,7 @@ import edu.ucsd.cse110.successorator.databinding.ActivityMainBinding;
 import edu.ucsd.cse110.successorator.ui.list.TaskListFragment;
 import edu.ucsd.cse110.successorator.lib.data.InMemoryDataSource;
 import edu.ucsd.cse110.successorator.lib.domain.TaskRepository;
+import edu.ucsd.cse110.successorator.ui.list.dialog.CreateTaskDialogFragment;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding view;
@@ -25,6 +26,22 @@ public class MainActivity extends AppCompatActivity {
 
         this.view = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(view.getRoot());
+
+        //this comes from TaskListFragment.java in ui.list
+        //instead of getParentFragmentManager, since it's in main activity
+        //just did getSupportFragmentManager
+        view.createTaskButton.setOnClickListener(v-> {
+            var dialogFragment= CreateTaskDialogFragment.newInstance();
+            dialogFragment.show(getSupportFragmentManager(),"CreateCardDialogFragment");
+        });
+        //We don't need Task List Fragment cuz we can just put it on the Main View
+        //BUT
+        //we still need to call adapter in MainActivity instead of TaskListFragment
+        //AND
+        //We may need to consider using fragment for completed task section cuz otherwise
+        //if we do a continuous list where completed is after the to do
+        //everytime we add, we need to do rotations to add the task before completed and after the last to do
+
     }
 
     @Override
