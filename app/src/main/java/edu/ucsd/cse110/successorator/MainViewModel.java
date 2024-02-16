@@ -23,8 +23,6 @@ public class MainViewModel extends ViewModel{
 
     // UI state
     private final MutableSubject<List<Task>> orderedTasks;
-    private final MutableSubject<Task> topCard;
-    private final MutableSubject<String> displayedText;
 
     public static final ViewModelInitializer<MainViewModel> initializer =
             new ViewModelInitializer<>(
@@ -40,8 +38,6 @@ public class MainViewModel extends ViewModel{
 
         // Create the observable subjects.
         this.orderedTasks = new SimpleSubject<>();
-        this.topCard = new SimpleSubject<>();
-        this.displayedText = new SimpleSubject<>();
 
         // Initialize...
 
@@ -52,22 +48,9 @@ public class MainViewModel extends ViewModel{
             var newOrderedTasks = tasks.stream()
                     .sorted(Comparator.comparing(Task::getSortOrder))
                     .collect(Collectors.toList());
-            orderedTasks.setValue(tasks);
-        });
 
-        // When the ordering changes, update the top task.
-        orderedTasks.observe(tasks -> {
-            if (tasks == null || tasks.size() == 0) return;
-            var task = tasks.get(0);
-            this.topCard.setValue(task);
+            orderedTasks.setValue(newOrderedTasks);
         });
-
-        // When the top task changes, update the displayed text and display the front side.
-        topCard.observe(task -> {
-            if (task == null) return;
-            displayedText.setValue(task.getTaskText());
-        });
-
     }
 
 
@@ -86,10 +69,6 @@ public class MainViewModel extends ViewModel{
                 }
             }
         }
-    }
-
-    public Subject<String> getDisplayedText() {
-        return displayedText;
     }
 
     public Subject<List<Task>> getOrderedTasks() {

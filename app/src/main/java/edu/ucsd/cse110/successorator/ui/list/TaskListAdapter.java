@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import edu.ucsd.cse110.successorator.databinding.ListItemBinding;
+import edu.ucsd.cse110.successorator.databinding.TaskListItemBinding;
 import edu.ucsd.cse110.successorator.lib.domain.Task;
 
 
@@ -40,14 +40,14 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
         assert task != null;
 
         // Check if a view is being reused...
-        ListItemBinding binding;
+        TaskListItemBinding binding;
         if (convertView != null) {
             // if so, bind to it
-            binding = ListItemBinding.bind(convertView);
+            binding = TaskListItemBinding.bind(convertView);
         } else {
             // otherwise inflate a new view from our layout XML.
             var layoutInflater = LayoutInflater.from(getContext());
-            binding = ListItemBinding.inflate(layoutInflater, parent, false);
+            binding = TaskListItemBinding.inflate(layoutInflater, parent, false);
         }
 
         // Populate the view with the flashcard's data.

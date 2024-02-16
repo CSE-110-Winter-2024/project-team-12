@@ -16,12 +16,13 @@ import java.util.List;
 import edu.ucsd.cse110.successorator.MainViewModel;
 import edu.ucsd.cse110.successorator.databinding.FragmentCreateMitBinding;
 import edu.ucsd.cse110.successorator.databinding.ActivityMainBinding;
+import edu.ucsd.cse110.successorator.databinding.FragmentTaskListBinding;
 import edu.ucsd.cse110.successorator.ui.list.dialog.ConfirmDeleteTaskDialogFragment;
 import edu.ucsd.cse110.successorator.ui.list.dialog.CreateTaskDialogFragment;
 
 public class TaskListFragment extends Fragment {
     private MainViewModel activityModel;
-    private ActivityMainBinding view;
+    private FragmentTaskListBinding view;
     private TaskListAdapter adapter;
 
     public TaskListFragment() {
@@ -50,6 +51,7 @@ public class TaskListFragment extends Fragment {
             var dialogFragment = ConfirmDeleteTaskDialogFragment.newInstance(id);
             dialogFragment.show(getParentFragmentManager(), "ConfirmDeleteCardDialogFragment");
         });
+
         activityModel.getOrderedTasks().observe(tasks -> {
             if (tasks == null) return;
             adapter.clear();
@@ -61,15 +63,10 @@ public class TaskListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        this.view = ActivityMainBinding.inflate(inflater, container, false);
+        this.view = FragmentTaskListBinding.inflate(inflater, container, false);
 
         // Set the adapter on the ListView
-        view.cardList.setAdapter(adapter);
-
-        view.createTaskButton.setOnClickListener(v-> {
-            var dialogFragment= CreateTaskDialogFragment.newInstance();
-            dialogFragment.show(getParentFragmentManager(),"CreateCardDialogFragment");
-        });
+        view.taskList.setAdapter(adapter);
 
         return view.getRoot();
     }
