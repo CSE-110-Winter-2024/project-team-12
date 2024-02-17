@@ -16,24 +16,27 @@ public class TaskEntity {
     @ColumnInfo(name="id")
     public Integer id=null;
 
-    @ColumnInfo(name="task-text")
-    public String taskText;
+    @ColumnInfo(name="text")
+    public String text;
+
+    @ColumnInfo(name="is_done")
+    public boolean isDone;
 
     @ColumnInfo(name="sort_order")
     public int sortOrder;
 
-    TaskEntity(String taskText, int sortOrder) {
-        this.taskText=taskText;
-        this.sortOrder=sortOrder;
+    public TaskEntity(Integer id, String text, boolean isDone, int sortOrder) {
+        this.id = id;
+        this.text = text;
+        this.isDone = isDone;
+        this.sortOrder = sortOrder;
     }
 
     public static TaskEntity fromTask(Task task) {
-        var taskEntity = new TaskEntity(task.getTaskText(), task.getSortOrder());
-        taskEntity.id = task.getId();
-        return taskEntity;
+        return new TaskEntity(task.getId(), task.getText(), task.isDone(), task.getSortOrder());
     }
 
     public Task toTask() {
-        return new Task(id, taskText, sortOrder);
+        return new Task(id, text, isDone, sortOrder);
     }
 }

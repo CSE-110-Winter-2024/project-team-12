@@ -47,9 +47,9 @@ public class TaskListFragment extends Fragment {
         this.activityModel = modelProvider.get(MainViewModel.class);
 
         // Initialize the Adapter (with an empty list for now)
-        this.adapter = new TaskListAdapter(requireContext(), List.of(), id -> {
-            var dialogFragment = ConfirmDeleteTaskDialogFragment.newInstance(id);
-            dialogFragment.show(getParentFragmentManager(), "ConfirmDeleteCardDialogFragment");
+        this.adapter = new TaskListAdapter(requireContext(), List.of(), task -> {
+            var updatedTask = task.withDone(!task.isDone());
+            activityModel.save(updatedTask);
         });
 
         activityModel.getOrderedTasks().observe(tasks -> {

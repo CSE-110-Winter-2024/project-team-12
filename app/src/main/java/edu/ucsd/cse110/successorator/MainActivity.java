@@ -1,18 +1,20 @@
 package edu.ucsd.cse110.successorator;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+
+import java.util.Date;
+import java.text.DateFormat;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Calendar;
+
 import edu.ucsd.cse110.successorator.databinding.ActivityMainBinding;
-import edu.ucsd.cse110.successorator.ui.list.TaskListFragment;
-import edu.ucsd.cse110.successorator.lib.data.InMemoryDataSource;
-import edu.ucsd.cse110.successorator.lib.domain.TaskRepository;
 import edu.ucsd.cse110.successorator.ui.list.dialog.CreateTaskDialogFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -26,6 +28,18 @@ public class MainActivity extends AppCompatActivity {
 
         this.view = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(view.getRoot());
+
+
+
+        //do not do this in mainActivity
+        Date calendar = Calendar.getInstance().getTime();
+        String dateFormat = DateFormat.getDateInstance(DateFormat.FULL).format(calendar);
+        String timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT).format(calendar);
+
+        TextView dateTextView = findViewById(R.id.date);
+        TextView timeTextView = findViewById(R.id.time);
+        dateTextView.setText(dateFormat);
+        timeTextView.setText(timeFormat);
 
         //this comes from TaskListFragment.java in ui.list
         //instead of getParentFragmentManager, since it's in main activity

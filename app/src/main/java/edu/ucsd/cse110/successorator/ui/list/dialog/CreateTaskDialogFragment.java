@@ -54,7 +54,7 @@ public class CreateTaskDialogFragment extends DialogFragment{
     private void onPositiveButtonClick(DialogInterface dialog, int which) {
         var taskText=view.editTextText.getText().toString();
 
-        var task = new Task(null, taskText,-1);
+        var task = new Task(null, taskText,false,-1);
         activityModel.append(task);
 
         /*if(view.appendRadioBtn.isChecked()){

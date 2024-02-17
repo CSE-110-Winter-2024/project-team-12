@@ -54,25 +54,16 @@ public class MainViewModel extends ViewModel{
     }
 
 
-    public void setTaskAsDone(int taskID, boolean done){
-        List<Task> tasks = orderedTasks.getValue();
-        if (tasks != null) {
-            for (Task task : tasks) {
-                if (task.getId() != null && task.getId() == taskID) {
-                    if (done) {
-                        task.markAsDone();
-                    } else {
-                        task.markAsToDo();
-                    }
-                    orderedTasks.setValue(tasks); // Trigger UI update
-                    break;
-                }
-            }
-        }
-    }
-
     public Subject<List<Task>> getOrderedTasks() {
         return orderedTasks;
+    }
+
+    public void save(Task task) {
+        taskRepository.save(task);
+    }
+
+    public void deleteDone() {
+        taskRepository.deleteDone();
     }
 
     public void append(Task task)

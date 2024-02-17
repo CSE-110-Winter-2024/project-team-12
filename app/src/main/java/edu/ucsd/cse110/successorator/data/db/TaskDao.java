@@ -1,4 +1,5 @@
 package edu.ucsd.cse110.successorator.data.db;
+
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
@@ -7,6 +8,7 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 
 import java.util.List;
+
 @Dao
 public interface TaskDao {
 
@@ -44,12 +46,15 @@ public interface TaskDao {
     @Transaction
     default int append(TaskEntity task) {
         var maxSortOrder = getMaxSortOrder();
-        var newTask=new TaskEntity(
-                task.taskText, maxSortOrder+1
+        var newTask = new TaskEntity(
+                null, task.text, task.isDone, maxSortOrder + 1
         );
         return Math.toIntExact(insert(newTask));
     }
 
     @Query("DELETE FROM tasks WHERE id = :id")
     void delete(int id);
+
+    @Query("DELETE FROM tasks WHERE is_done = 1")
+    void deleteDone();
 }

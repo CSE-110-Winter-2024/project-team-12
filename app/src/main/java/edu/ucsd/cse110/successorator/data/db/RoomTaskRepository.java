@@ -52,5 +52,8 @@ public class RoomTaskRepository implements TaskRepository{
         taskDao.delete(id);
     }
 
+    public void deleteDone(){
+        taskDao.deleteDone();
+    }
 }
 

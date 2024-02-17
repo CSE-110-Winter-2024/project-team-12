@@ -17,4 +17,6 @@ public interface TaskRepository {
     void remove(int id);
 
     void append(Task task);
+
+    void deleteDone();
 }

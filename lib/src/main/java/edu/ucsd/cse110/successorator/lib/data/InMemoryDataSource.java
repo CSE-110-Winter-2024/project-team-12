@@ -31,8 +31,8 @@ public class InMemoryDataSource {
     }
 
     public final static List<Task> DEFAULT_TASKS = List.of(
-            new Task(1, "Mow Lawn", 1),
-            new Task(2, "Feed dog", 2)
+            new Task(1, "Mow Lawn", false, 1),
+            new Task(2, "Feed dog", false, 2)
     );
 
     public static InMemoryDataSource fromDefault() {

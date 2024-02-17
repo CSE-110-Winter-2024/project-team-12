@@ -19,17 +19,18 @@ import edu.ucsd.cse110.successorator.lib.domain.Task;
 
 
 public class TaskListAdapter extends ArrayAdapter<Task> {
-    Consumer<Integer> onDeleteClick;
+    private final Consumer<Task> onTaskClicked;
+
     public TaskListAdapter(Context context,
                            List<Task> tasks,
-                           Consumer<Integer> onDeleteClick) {
+                           Consumer<Task> onTaskClicked) {
         // This sets a bunch of stuff internally, which we can access
         // with getContext() and getItem() for example.
         //
         // Also note that ArrayAdapter NEEDS a mutable List (ArrayList),
         // or it will crash!
         super(context, 0, new ArrayList<>(tasks));
-        this.onDeleteClick=onDeleteClick;
+        this.onTaskClicked = onTaskClicked;
     }
 
     @NonNull
@@ -50,20 +51,21 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
             binding = TaskListItemBinding.inflate(layoutInflater, parent, false);
         }
 
-        // Populate the view with the flashcard's data.
-        // binding..setText(flashcard.front());
-        binding.checkBox.setOnClickListener(v-> {
-            var id=task.getId();
-            assert id !=null;
-            onDeleteClick.accept(id);
-        });
-
-        binding.checkBox.setText(task.getTaskText());
-        if(task.getDoneStatus()){
-            binding.checkBox.setPaintFlags(binding.checkBox.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        // M -> V
+        // Make the view match the model from the repo.
+        binding.taskText.setText(task.getText());
+        if (task.isDone()) {
+            binding.taskText.setPaintFlags(binding.taskText.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         } else {
-            binding.checkBox.setPaintFlags(binding.checkBox.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+            binding.taskText.setPaintFlags(binding.taskText.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
         }
+
+        // V -> M
+        // Make clicks update the model in the repo.
+
+        binding.taskText.setOnClickListener(v -> {
+            onTaskClicked.accept(task);
+        });
 
         return binding.getRoot();
     }

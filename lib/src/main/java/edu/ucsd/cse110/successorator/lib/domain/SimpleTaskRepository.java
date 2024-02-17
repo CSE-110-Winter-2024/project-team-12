@@ -43,4 +43,9 @@ public class SimpleTaskRepository implements TaskRepository {
         );
     }
 
+    @Override
+    public void deleteDone() {
+
+    }
+
 }
