@@ -1,7 +1,10 @@
 package edu.ucsd.cse110.successorator;
 
+import static android.app.PendingIntent.getActivity;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,14 +13,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.text.DateFormat;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+
 import java.util.Calendar;
 import edu.ucsd.cse110.successorator.databinding.ActivityMainBinding;
 import edu.ucsd.cse110.successorator.ui.list.dialog.CreateTaskDialogFragment;
+import edu.ucsd.cse110.successorator.lib.domain.Task;
+import edu.ucsd.cse110.successorator.MainViewModel;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,15 +34,27 @@ public class MainActivity extends AppCompatActivity {
     private boolean isShowingCreateTask = true;
     int daysToAdd = 0;
 
+    Calendar calendar = Calendar.getInstance();
+
+
+    private MainViewModel activityModel;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle(R.string.app_name);
 
+        var modelOwner=this;
+        var modelFactory= ViewModelProvider.Factory.from(MainViewModel.initializer);
+        var modelProvider=new ViewModelProvider(modelOwner,modelFactory);
+        this.activityModel=modelProvider.get(MainViewModel.class);
+
         this.view = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(view.getRoot());
 
         Button timeskipButton = findViewById(R.id.timeskipButton);
+        saveLastKnownDay(calendar.getTimeInMillis()+daysToAdd-1);
+
         timeskipButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         showTime(0);
-      
+        checkForDayChange();
         view.createTaskButton.setOnClickListener(v-> {
             var dialogFragment= CreateTaskDialogFragment.newInstance();
             dialogFragment.show(getSupportFragmentManager(),"CreateCardDialogFragment");
@@ -57,8 +78,38 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkForDayChange();
+    }
+
+    private void saveLastKnownDay(long epochDay) {
+        SharedPreferences sharedPref = getSharedPreferences("AppPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putLong("LastKnownEpochDay", epochDay);
+        editor.apply();
+    }
+
+    private long getLastKnownDay() {
+        SharedPreferences sharedPref = getSharedPreferences("AppPrefs", MODE_PRIVATE);
+        return sharedPref.getLong("LastKnownEpochDay", -1);
+    }
+
+    private void checkForDayChange() {
+        long currentEpochDay = calendar.getTimeInMillis() / (24 * 60 * 60 * 1000);
+
+        if (currentEpochDay != getLastKnownDay()) {
+            ArrayList<Integer> temp = Task.getDoneToday();
+            for (int taskId : temp) {
+                activityModel.remove(taskId);
+            }
+            Task.clearDoneToday();
+            saveLastKnownDay(currentEpochDay);
+        }
+    }
+
     public void showTime(int daysToAdd) {
-        Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, daysToAdd);
         Date date = calendar.getTime();
 
@@ -67,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
         TextView dateTextView = findViewById(R.id.date);
         TextView timeTextView = findViewById(R.id.time);
+        checkForDayChange();
         dateTextView.setText(dateFormat);
         timeTextView.setText(timeFormat);
     }
