@@ -5,7 +5,7 @@ import edu.ucsd.cse110.successorator.lib.util.Subject;
 import java.util.List;
 
 /* Maintains a coherent collection of tasks that interact with and modify data.InMemoryDataSource
- * by implementing TaskRepository interface's methods*/
+ * by implementing TaskRepository interface's methods */
 public class SimpleTaskRepository implements TaskRepository {
     private final InMemoryDataSource dataSource;
 
