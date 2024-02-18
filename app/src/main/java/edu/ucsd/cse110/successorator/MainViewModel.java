@@ -70,12 +70,11 @@ public class MainViewModel extends ViewModel{
     {
         taskRepository.append(task);
     }
+
     public void prepend(Task task)
     {
         taskRepository.prepend(task);
     }
-
-
     public void remove(int id) {
         taskRepository.remove(id);
     }

@@ -47,10 +47,10 @@ public class RoomTaskRepository implements TaskRepository{
     public void append(Task task) {
         taskDao.append(TaskEntity.fromTask(task));
     }
+
     public void prepend(Task task) {
         taskDao.prepend(TaskEntity.fromTask(task));
     }
-
 
     public void remove(int id) {
         taskDao.delete(id);
