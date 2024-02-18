@@ -24,13 +24,23 @@ public class Task implements Serializable {
     private final @Nullable Integer id;
     private final String text;
     private final boolean isDone;
-    private final int sortOrder;
+    private int sortOrder;
+
+    private static int maxOrder = 0;
+    private static int minOrder = 0;
+
 
     public Task(@Nullable Integer id, String text, boolean isDone, Integer sortOrder) {
         this.id = id;
         this.text = text;
         this.isDone = isDone;
         this.sortOrder = sortOrder;
+        if (maxOrder < sortOrder) {
+            maxOrder = sortOrder;
+        }
+        if (minOrder >sortOrder){
+            minOrder = sortOrder;
+        }
     }
 
     @Nullable
@@ -55,6 +65,13 @@ public class Task implements Serializable {
     }
 
     public Task withDone(boolean isDone) {
+        if(isDone){
+            maxOrder = maxOrder +1;
+            this.sortOrder = maxOrder;
+        }else{
+            minOrder = minOrder -1;
+            this.sortOrder = minOrder;
+        }
         return new Task(id, text, isDone, sortOrder);
     }
 

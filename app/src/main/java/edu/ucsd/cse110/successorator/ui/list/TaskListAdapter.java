@@ -58,6 +58,7 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
             binding.taskText.setPaintFlags(binding.taskText.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         } else {
             binding.taskText.setPaintFlags(binding.taskText.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
+
         }
 
         // V -> M

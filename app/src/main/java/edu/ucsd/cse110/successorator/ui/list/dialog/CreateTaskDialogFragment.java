@@ -55,7 +55,8 @@ public class CreateTaskDialogFragment extends DialogFragment{
         var taskText=view.editTextText.getText().toString();
 
         var task = new Task(null, taskText,false,-1);
-        activityModel.append(task);
+
+        activityModel.prepend(task);
 
         /*if(view.appendRadioBtn.isChecked()){
             activityModel.append(task);
