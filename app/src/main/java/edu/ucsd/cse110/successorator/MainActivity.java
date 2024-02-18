@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.Date;
@@ -21,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding view;
     private boolean isShowingCreateTask = true;
+    int daysToAdd = 0;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,15 +33,16 @@ public class MainActivity extends AppCompatActivity {
         this.view = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(view.getRoot());
 
-        //do not do this in mainActivity
-        Date calendar = Calendar.getInstance().getTime();
-        String dateFormat = DateFormat.getDateInstance(DateFormat.FULL).format(calendar);
-        String timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT).format(calendar);
+        Button timeskipButton = findViewById(R.id.timeskipButton);
+        timeskipButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                daysToAdd = daysToAdd+1;
+                showTime(daysToAdd);
+            }
+        });
 
-        TextView dateTextView = findViewById(R.id.date);
-        TextView timeTextView = findViewById(R.id.time);
-        dateTextView.setText(dateFormat);
-        timeTextView.setText(timeFormat);
+        showTime(0);
       
         view.createTaskButton.setOnClickListener(v-> {
             var dialogFragment= CreateTaskDialogFragment.newInstance();
@@ -51,6 +55,20 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.action_bar, menu);
         return true;
+    }
+
+    public void showTime(int daysToAdd) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, daysToAdd);
+        Date date = calendar.getTime();
+
+        String dateFormat = DateFormat.getDateInstance(DateFormat.FULL).format(date);
+        String timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT).format(date);
+
+        TextView dateTextView = findViewById(R.id.date);
+        TextView timeTextView = findViewById(R.id.time);
+        dateTextView.setText(dateFormat);
+        timeTextView.setText(timeFormat);
     }
 
     @Override
