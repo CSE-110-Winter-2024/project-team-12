@@ -49,6 +49,7 @@
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_marginEnd="20dp"
         android:background="?android:attr/selectableItemBackgroundBorderless"
         android:backgroundTint="#00FFFFFF"
         android:contentDescription="createsTask"
