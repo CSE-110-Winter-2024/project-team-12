@@ -1,4 +1,11 @@
 package edu.ucsd.cse110.successorator.lib.domain;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import java.io.Serializable;
+import java.util.Objects;
+
+//import edu.ucsd.cse110.successorator.lib.util.errors.NotImplementedException;
 
 
 /*
@@ -12,52 +19,63 @@ package edu.ucsd.cse110.successorator.lib.domain;
  * 1. initializes the String taskText to constructor parameter
  * 2. intializes isDone to false by default;
  */
-public class Task {
-    private String taskText;
-    private boolean isDone;
+public class Task implements Serializable {
 
+    private final @Nullable Integer id;
+    private final String text;
+    private final boolean isDone;
+    private final int sortOrder;
 
-    public Task(String taskText){
-        this.taskText = taskText;
-        this.isDone = false;
+    public Task(@Nullable Integer id, String text, boolean isDone, Integer sortOrder) {
+        this.id = id;
+        this.text = text;
+        this.isDone = isDone;
+        this.sortOrder = sortOrder;
     }
 
-    /* Below are getter methods for the taskText
-     * both instance and static
-     *
-     * @return taskText
-     */
-    public String getTaskText() {
-        return taskText;
+    @Nullable
+    public Integer getId() {
+        return id;
     }
-    public static String getTaskText(Task theTask) {
-        return theTask.taskText;
+
+    public Task withId(@Nullable Integer id) {
+        return new Task(id, text, isDone, sortOrder);
     }
-    /* Below are getter methods for whether this task is done or not
-     * @return isDone
-     */
-    public boolean getDoneStatus() {
+
+    public String getText() {
+        return text;
+    }
+
+    public Task withText(String text) {
+        return new Task(id, text, isDone, sortOrder);
+    }
+
+    public boolean isDone() {
         return isDone;
     }
-    public static boolean getDoneStatus(Task theTask) {
-        return theTask.isDone;
+
+    public Task withDone(boolean isDone) {
+        return new Task(id, text, isDone, sortOrder);
     }
 
-    /* Below are setter methods to "mark task as done"
-     */
-    public void markAsDone(){
-        this.isDone = true;
-    }
-    public static void markAsDone(Task theTask){
-        theTask.isDone = true;
+    public Integer getSortOrder() {
+        return sortOrder;
     }
 
-    /* Below are setter methods to "mark task as not done"
-     */
-    public void markAsToDo(){
-        this.isDone = false;
+    public Task withSortOrder(int sortOrder) {
+        return new Task(id, text, isDone, sortOrder);
     }
-    public static void markAsToDo(Task theTask){
-        theTask.isDone = false;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return isDone == task.isDone && Objects.equals(id, task.id) && Objects.equals(text, task.text) && Objects.equals(sortOrder, task.sortOrder);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, text, isDone, sortOrder);
     }
 }
