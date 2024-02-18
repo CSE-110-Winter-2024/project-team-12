@@ -28,9 +28,11 @@ import edu.ucsd.cse110.successorator.lib.domain.Task;
 import edu.ucsd.cse110.successorator.MainViewModel;
 
 
+// Represents the running state of the app (its primary activity)
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding view;
+
     private boolean isShowingCreateTask = true;
     int daysToAdd = 0;
 
@@ -39,8 +41,12 @@ public class MainActivity extends AppCompatActivity {
 
     private MainViewModel activityModel;
 
+    // Called when the app (MainActivity) is starting
+    // if the activity is being re-init after previously shut down, savedInstanceState contains
+    // previous data
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        // Creates from savedInstanceState and sets app title
         super.onCreate(savedInstanceState);
         setTitle(R.string.app_name);
 
@@ -48,7 +54,8 @@ public class MainActivity extends AppCompatActivity {
         var modelFactory= ViewModelProvider.Factory.from(MainViewModel.initializer);
         var modelProvider=new ViewModelProvider(modelOwner,modelFactory);
         this.activityModel=modelProvider.get(MainViewModel.class);
-
+        
+      // Sets view to the inflated binding of activity_main.xml
         this.view = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(view.getRoot());
 
@@ -65,6 +72,9 @@ public class MainActivity extends AppCompatActivity {
 
         showTime(0);
         checkForDayChange();
+
+        // createTaskButton in view listens for click
+        // if clicked, initiates a CreateTaskDialogFragment instance
         view.createTaskButton.setOnClickListener(v-> {
             var dialogFragment= CreateTaskDialogFragment.newInstance();
             dialogFragment.show(getSupportFragmentManager(),"CreateCardDialogFragment");
@@ -72,12 +82,15 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    // Creates the options menu for app from files placed in app/res/menu package
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.action_bar, menu);
         return true;
     }
 
+    // Defines behavior of menu options item once selected (calls to AppCompatActivity
+    // implementation)
     @Override
     protected void onResume() {
         super.onResume();
@@ -115,7 +128,8 @@ public class MainActivity extends AppCompatActivity {
 
         String dateFormat = DateFormat.getDateInstance(DateFormat.FULL).format(date);
         String timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT).format(date);
-
+        
+      // Sets TextView for Time incrementer
         TextView dateTextView = findViewById(R.id.date);
         TextView timeTextView = findViewById(R.id.time);
         checkForDayChange();
