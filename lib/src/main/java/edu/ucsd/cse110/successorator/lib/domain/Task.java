@@ -16,10 +16,33 @@ public class Task {
     private String taskText;
     private boolean isDone;
 
+<<<<<<< Updated upstream
 
     public Task(String taskText){
         this.taskText = taskText;
         this.isDone = false;
+=======
+    private final @Nullable Integer id;
+    private final String text;
+    private final boolean isDone;
+    private int sortOrder;
+
+    private static int maxOrder = 0;
+    private static int minOrder = 0;
+
+
+    public Task(@Nullable Integer id, String text, boolean isDone, Integer sortOrder) {
+        this.id = id;
+        this.text = text;
+        this.isDone = isDone;
+        this.sortOrder = sortOrder;
+        if (maxOrder < sortOrder) {
+            maxOrder = sortOrder;
+        }
+        if (minOrder >sortOrder){
+            minOrder = sortOrder;
+        }
+>>>>>>> Stashed changes
     }
 
     /* Below are getter methods for the taskText
@@ -39,8 +62,21 @@ public class Task {
     public boolean getDoneStatus() {
         return isDone;
     }
+<<<<<<< Updated upstream
     public static boolean getDoneStatus(Task theTask) {
         return theTask.isDone;
+=======
+
+    public Task withDone(boolean isDone) {
+        if(isDone){
+            maxOrder = maxOrder +1;
+            this.sortOrder = maxOrder;
+        }else{
+            minOrder = minOrder -1;
+            this.sortOrder = minOrder;
+        }
+        return new Task(id, text, isDone, sortOrder);
+>>>>>>> Stashed changes
     }
 
     /* Below are setter methods to "mark task as done"
