@@ -44,15 +44,6 @@
         app:layout_constraintStart_toEndOf="@+id/date"
         app:layout_constraintTop_toTopOf="@+id/toolbar" />
 
-    <TextView
-        android:id="@+id/date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:textColor="#FDF6F2F2"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints" />
-
     <ImageButton
         android:id="@+id/createTaskButton"
         style="?android:attr/borderlessButtonStyle"
