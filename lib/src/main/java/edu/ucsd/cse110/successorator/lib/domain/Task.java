@@ -24,11 +24,6 @@ public class Task implements Serializable {
     private final @Nullable Integer id;
     private final String text;
     private final boolean isDone;
-    private final int sortOrder;
-
-    private final @Nullable Integer id;
-    private final String text;
-    private final boolean isDone;
     private int sortOrder;
 
     private static int maxOrder = 0;
