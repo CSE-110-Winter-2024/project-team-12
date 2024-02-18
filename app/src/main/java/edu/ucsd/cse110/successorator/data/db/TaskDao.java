@@ -9,9 +9,11 @@ import androidx.room.Transaction;
 
 import java.util.List;
 
+// This is a Task Data Access Object for SQL queries to be used for TaskEntity
 @Dao
 public interface TaskDao {
 
+    //
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Long insert(TaskEntity task);
 
