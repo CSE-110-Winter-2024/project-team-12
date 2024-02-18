@@ -1,5 +1,7 @@
 package edu.ucsd.cse110.successorator;
 
+import static android.app.PendingIntent.getActivity;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -17,6 +19,8 @@ import java.text.DateFormat;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+
 import java.util.Calendar;
 import edu.ucsd.cse110.successorator.databinding.ActivityMainBinding;
 import edu.ucsd.cse110.successorator.ui.list.dialog.CreateTaskDialogFragment;
@@ -33,12 +37,17 @@ public class MainActivity extends AppCompatActivity {
     Calendar calendar = Calendar.getInstance();
 
 
-    private MainViewModel ActivityModel;
+    private MainViewModel activityModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle(R.string.app_name);
+
+        var modelOwner=this;
+        var modelFactory= ViewModelProvider.Factory.from(MainViewModel.initializer);
+        var modelProvider=new ViewModelProvider(modelOwner,modelFactory);
+        this.activityModel=modelProvider.get(MainViewModel.class);
 
         this.view = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(view.getRoot());
@@ -93,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         if (currentEpochDay != getLastKnownDay()) {
             ArrayList<Integer> temp = Task.getDoneToday();
             for (int taskId : temp) {
-                ActivityModel.remove(taskId);
+                activityModel.remove(taskId);
             }
             Task.clearDoneToday();
             saveLastKnownDay(currentEpochDay);
@@ -109,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
         TextView dateTextView = findViewById(R.id.date);
         TextView timeTextView = findViewById(R.id.time);
-
+        checkForDayChange();
         dateTextView.setText(dateFormat);
         timeTextView.setText(timeFormat);
     }
