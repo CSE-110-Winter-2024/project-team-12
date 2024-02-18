@@ -53,7 +53,7 @@ public class ConfirmDeleteTaskDialogFragment extends DialogFragment {
                 .create();
     }
 
-    private void onPositiveButtonClick(DialogInterface dialog, int which) {
+    public void onPositiveButtonClick(DialogInterface dialog, int which) {
         activityModel.remove(taskId);
         dialog.dismiss();
     }

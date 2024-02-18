@@ -25,8 +25,6 @@ public interface TaskRepository {
     // appends a Task object in the repository
     void append(Task task);
 
-    // performs deletion from view once a day has passed since Task object has been completed
-    void deleteDone();
 
     // prepends a Task object in the repository
     void prepend(Task task);

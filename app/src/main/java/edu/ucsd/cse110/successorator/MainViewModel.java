@@ -62,10 +62,6 @@ public class MainViewModel extends ViewModel{
         taskRepository.save(task);
     }
 
-    public void deleteDone() {
-        taskRepository.deleteDone();
-    }
-
     public void append(Task task)
     {
         taskRepository.append(task);

@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
 
+
 import java.util.List;
 
 // This is a Task Data Access Object for SQL queries to be used for TaskEntity
@@ -53,6 +54,7 @@ public interface TaskDao {
         );
         return Math.toIntExact(insert(newTask));
     }
+
 
     @Query("DELETE FROM tasks WHERE id = :id")
     void delete(int id);

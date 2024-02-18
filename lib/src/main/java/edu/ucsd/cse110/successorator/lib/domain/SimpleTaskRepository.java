@@ -66,12 +66,6 @@ public class SimpleTaskRepository implements TaskRepository {
         );
     }
 
-    // performs deletion from view once a day has passed since Task object has been completed
-    @Override
-
-    public void deleteDone() {
-
-    }
 
 }
 

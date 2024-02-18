@@ -6,6 +6,8 @@ import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import java.time.LocalDate;
+
 import edu.ucsd.cse110.successorator.lib.domain.Task;
 import edu.ucsd.cse110.successorator.lib.domain.TaskRepository;
 
@@ -35,12 +37,14 @@ public class TaskEntity {
 
 
 
+
     // TaskEntity constructor
     public TaskEntity(Integer id, String text, boolean isDone, int sortOrder) {
         this.id = id;
         this.text = text;
         this.isDone = isDone;
         this.sortOrder = sortOrder;
+
     }
 
     // Returns a TaskEntity object from a Task object
