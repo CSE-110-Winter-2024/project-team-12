@@ -30,7 +30,7 @@ public class InMemoryDataSource {
     public InMemoryDataSource() {
     }
 
-    public final static List<Task> DEFAULT_TASKS = List.of(
+    /*public final static List<Task> DEFAULT_TASKS = List.of(
             new Task(1, "Mow Lawn", false, 1),
             new Task(2, "Feed dog", false, 2)
     );
@@ -39,8 +39,9 @@ public class InMemoryDataSource {
         var data = new InMemoryDataSource();
         data.putTasks(DEFAULT_TASKS);
         return data;
-    }
+    }*/
 
+    
     public List<Task> getTasks() {
         return List.copyOf(tasks.values());
     }
@@ -70,6 +71,10 @@ public class InMemoryDataSource {
         return maxSortOrder;
     }
 
+    /**
+     * Inserts a task the of beginning of the task list. Updates the 
+     * value of 'allTasksSubject' with the current list of tasks.
+     */
     public void putTask(Task task) {
         var fixedTask = preInsert(task);
 
@@ -83,6 +88,10 @@ public class InMemoryDataSource {
         allTasksSubject.setValue(getTasks());
     }
 
+    /**
+     * Inserts a list task at the end of the task list. Updates the 
+     * value of 'allTasksSubject' with the current list of tasks.
+     */
     public void putTasks(List<Task> taskList) {
         var fixedTasks = taskList.stream()
                 .map(this::preInsert)
@@ -100,6 +109,10 @@ public class InMemoryDataSource {
         allTasksSubject.setValue(getTasks());
     }
 
+    /*
+     * Removes the task with the associated id. Updates the 
+     * value of 'allTasksSubject' with the current list of tasks.
+     */
     public void removeTask(int id) {
         var task = tasks.get(id);
         var sortOrder = task.getSortOrder();
@@ -113,6 +126,9 @@ public class InMemoryDataSource {
         allTasksSubject.setValue(getTasks());
     }
 
+    /**
+     * Shifts the provided task to a given amount of times.
+     */
     public void shiftSortOrders(int from, int to, int by) {
         var taskList = tasks.values().stream()
                 .filter(task -> task.getSortOrder() >= from && task.getSortOrder() <= to)
