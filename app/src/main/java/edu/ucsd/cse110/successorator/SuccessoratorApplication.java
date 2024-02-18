@@ -34,7 +34,7 @@ public class SuccessoratorApplication extends Application {
         var isFirstRun=sharedPreferences.getBoolean("isFirstRun",true);
 
         if(isFirstRun && database.taskDao().count() ==0) {
-            taskRepository.save(InMemoryDataSource.DEFAULT_TASKS);
+            //taskRepository.save(InMemoryDataSource.DEFAULT_TASKS);
             sharedPreferences.edit()
                     .putBoolean("isFirstRun", false)
                     .apply();
