@@ -31,16 +31,15 @@ public class MainActivityTest {
         try (var scenario = ActivityScenario.launch(MainActivity.class)) {
             // Observe the scenario's lifecycle to wait until the activity is created.
             scenario.onActivity(activity -> {
-                TextView dateView = activity.findViewById(R.id.date);
+                TextView dateTextView = activity.findViewById(R.id.date);
 
                 // make the expected date string that's the same as what we made before for the date
                 Calendar c = Calendar.getInstance();
                 String expectedDateString = c.getTime().toString().substring(0, 11);
 
                 // get the actual text from the date TextView
-                String actual = dateView.getText().toString();
-
-                // compate
+                String actual = dateTextView.getText().toString();
+                // compare
                 assertEquals(expectedDateString, actual);
             });
             scenario.moveToState(Lifecycle.State.STARTED);

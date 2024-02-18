@@ -1,3 +1,11 @@
+# NOTES!!! PLEASE READ!!!
+WE DON'T NEED FRAGMENT FOR LIST VIEW OF TO DO TASK ONLY
+BUT WE MAY NEED TO CONSIDER 2 FRAGMENTS, FOR TO DO TASKS AND COMPLETED TASKS  
+OUR PROBLEM WAS NOT CONNECTING TaskListFragment with a container in XML that displays it (just need to add the fragment id as one of the parameters in XML)
+
+
+
+
 # Team 12 - Successorator 
 
 ---
