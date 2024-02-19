@@ -38,7 +38,6 @@ android {
 
 dependencies {
     implementation("androidx.test:core:1.5.0")
-    implementation("androidx.fragment:fragment-testing:1.6.2")
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
     val room_version="2.6.1"
     implementation("androidx.room:room-runtime:$room_version")
