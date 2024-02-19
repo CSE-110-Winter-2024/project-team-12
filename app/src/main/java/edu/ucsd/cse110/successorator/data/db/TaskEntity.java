@@ -5,6 +5,13 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import edu.ucsd.cse110.successorator.lib.domain.Task;
 
+import edu.ucsd.cse110.successorator.lib.domain.TaskRepository;
+
+// Represents a single Task object in the Room database
+// Each TaskEntity instance represents a row of data in the
+// TaskEntity table
+
+
 /**
  * This class defines the data model for the task object in the Room Database.  */
 @Entity(tableName = "tasks")
@@ -33,6 +40,7 @@ public class TaskEntity {
         this.isDone = isDone;
         this.sortOrder = sortOrder;
     }
+
     /**
      * This function makes a TaskEntity object from a task
      * @param task this is the task object that the TaskEntity object is made from
