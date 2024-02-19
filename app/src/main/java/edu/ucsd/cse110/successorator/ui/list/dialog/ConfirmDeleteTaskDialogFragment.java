@@ -16,13 +16,14 @@ import edu.ucsd.cse110.successorator.MainViewModel;
 import edu.ucsd.cse110.successorator.lib.domain.Task;
 
 public class ConfirmDeleteTaskDialogFragment extends DialogFragment {
-    private static final String ARG_TASK_ID="task_id";
+    public static final String ARG_TASK_ID="task_id";
     private int taskId;
     private MainViewModel activityModel;
 
     ConfirmDeleteTaskDialogFragment() {
 
     }
+    // creates a new bundle and sets the arguments of the task onto the fragment with the taskId
     public static ConfirmDeleteTaskDialogFragment newInstance(int taskId) {
         var fragment=new ConfirmDeleteTaskDialogFragment();
         Bundle args=new Bundle();
@@ -31,6 +32,7 @@ public class ConfirmDeleteTaskDialogFragment extends DialogFragment {
         return fragment;
     }
 
+    // creating a bundle and initializing the activity model to the main view model
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
