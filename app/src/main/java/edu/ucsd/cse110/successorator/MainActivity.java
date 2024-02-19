@@ -58,13 +58,4 @@ public class MainActivity extends AppCompatActivity {
         var itemId = item.getItemId();
         return super.onOptionsItemSelected(item);
     }
-/*
-    private void swapFragments() {
-        getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, StudyFragment.newInstance())
-                    .commit();
-        }
-        isShowingStudy = !isShowingStudy;
-    }*/
 }
