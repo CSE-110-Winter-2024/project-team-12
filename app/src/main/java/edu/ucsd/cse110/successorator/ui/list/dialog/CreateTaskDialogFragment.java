@@ -31,7 +31,6 @@ public class CreateTaskDialogFragment extends DialogFragment{
 
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         var modelOwner=requireActivity();
         var modelFactory= ViewModelProvider.Factory.from(MainViewModel.initializer);
         var modelProvider=new ViewModelProvider(modelOwner,modelFactory);

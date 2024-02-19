@@ -57,8 +57,7 @@ public interface TaskDao {
 
     @Query("DELETE FROM tasks WHERE is_done = 1")
     void deleteDone();
-
-
+    
     @Transaction
     default int prepend(TaskEntity task) {
         shiftSortOrders(getMinSortOrder(), getMaxSortOrder(),1);
