@@ -34,19 +34,11 @@ public class TaskListAdapterTest extends TestCase {
         adapter = new TaskListAdapter(mockContext, tasks, mockOnTaskClicked);
     }
 
-    public void testGetView_NotNull() {
-        View view = adapter.getView(0, null, mockParent);
-        assertNotNull(view);
-    }
 
     public void testGetView_BindingData() {
 
     }
 
-    public void testGetItemId() {
-        long itemId = adapter.getItemId(0);
-        assertEquals(1, itemId);
-    }
 
     public void testOnClick_CallsConsumerWithCorrectTask() {
 

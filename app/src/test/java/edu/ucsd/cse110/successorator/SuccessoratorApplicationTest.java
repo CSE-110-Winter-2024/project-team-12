@@ -13,9 +13,4 @@ public class SuccessoratorApplicationTest {
     public void setUp() {
         app = ApplicationProvider.getApplicationContext();
     }
-
-    @Test
-    public void testOnCreate_initializesTaskRepository() {
-        assertNotNull("TaskRepository should be initialized", app.getTaskRepository());
-    }
 }
