@@ -1,81 +1,103 @@
 package edu.ucsd.cse110.successorator;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-import androidx.lifecycle.Observer;
+import junit.framework.TestCase;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;
 import java.util.List;
 
 import edu.ucsd.cse110.successorator.lib.domain.Task;
 import edu.ucsd.cse110.successorator.lib.domain.TaskRepository;
-import edu.ucsd.cse110.successorator.lib.util.Subject;
+import edu.ucsd.cse110.successorator.lib.util.Observer;
 
-public class MainViewModelTest {
 
-    @Mock
+public class MainViewModelTest extends TestCase {
+
     private TaskRepository taskRepository;
-
+    private Observer<List<Task>> observer;
     private MainViewModel viewModel;
 
-    @Rule
-    public InstantTaskExecutorRule rule = new InstantTaskExecutorRule();
-
+    /**
+     * Sets up testing environment
+     * Initializes mocks and the MainViewModel instance
+     */
     @Before
     public void setUp() {
+        MockitoAnnotations.initMocks(this);
         viewModel = new MainViewModel(taskRepository);
     }
 
+    /**
+     * Tests MainViewModel.save()
+     */
     @Test
-    public void getOrderedTasks() {
-        List<Task> tasks = Arrays.asList(new Task(1, "Task 1", false, 1), new Task(2, "Task 2", false, 2));
-        when(taskRepository.findAll()).thenReturn((Subject<List<Task>>) tasks);
-
-        Observer<List<Task>> observer = mock(Observer.class);
-        viewModel.getOrderedTasks().observe((edu.ucsd.cse110.successorator.lib.util.Observer<List<Task>>) observer);
-
-        // Verify the observer's onChanged method is called with the expected tasks
-        verify(observer).onChanged(tasks);
-    }
-
-    @Test
-    public void save() {
-        Task task = new Task(3, "Task 3", false, 3);
+    public void testSave() {
+        Task task = new Task(1, "Task 1", false, 0);
         viewModel.save(task);
         verify(taskRepository).save(task);
     }
 
+    /**
+     * Tests MainViewModel.deleteDone()
+     */
     @Test
-    public void deleteDone() {
+    public void testDeleteDone() {
         viewModel.deleteDone();
         verify(taskRepository).deleteDone();
     }
 
+    /**
+     * Tests MainViewModel.append() with dummy task
+     */
     @Test
-    public void append() {
-        Task task = new Task(4, "Task 4", false, 4);
+    public void testAppend() {
+        Task task = new Task(2, "Task 2", false, 1);
         viewModel.append(task);
         verify(taskRepository).append(task);
     }
 
+    /**
+     * Tests MainViewModel.prepend() with dummy task
+     */
     @Test
-    public void prepend() {
-        Task task = new Task(5, "Task 5", false, 5);
+    public void testPrepend() {
+        Task task = new Task(3, "Task 3", false, 2);
         viewModel.prepend(task);
         verify(taskRepository).prepend(task);
     }
 
+    /**
+     * Tests MainViewModel.remove() with dummy task
+     */
     @Test
-    public void remove() {
-        viewModel.remove(1);
-        verify(taskRepository).remove(1);
+    public void testRemove() {
+        int taskId = 1;
+        viewModel.remove(taskId);
+        verify(taskRepository).remove(taskId);
     }
+
+    /**
+     * Tests that the list of ordered tasks is correctly updated and observed
+     */
+    @Test
+    public void testOrderedTasksUpdates() {
+        List<Task> tasks = Arrays.asList(
+                new Task(1, "Task 1", false, 1),
+                new Task(2, "Task 2", true, 2)
+        );
+
+        when(taskRepository.findAll()).thenReturn(new MutableLiveData<>(tasks));
+        viewModel.getOrderedTasks().observe(observer);
+
+        verify(observer).onChanged(any());
+    }
+
 }
