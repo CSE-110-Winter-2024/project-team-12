@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding view;
 
     private boolean isShowingCreateTask = true;
-    int daysToAdd = 0;
+    public boolean daysAdded = false;
 
     Calendar calendar = Calendar.getInstance();
 
@@ -60,17 +60,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(view.getRoot());
 
         Button timeskipButton = findViewById(R.id.timeskipButton);
-        saveLastKnownDay(calendar.getTimeInMillis()+daysToAdd-1);
-
         timeskipButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                daysToAdd = daysToAdd+1;
-                showTime(daysToAdd);
+                daysAdded = true;
+                showTime(daysAdded);
             }
         });
 
-        showTime(0);
+        showTime(daysAdded);
         checkForDayChange();
 
         // createTaskButton in view listens for click
@@ -94,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        showTime(daysAdded);
         checkForDayChange();
     }
 
@@ -122,8 +121,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void showTime(int daysToAdd) {
-        calendar.add(Calendar.DATE, daysToAdd);
+    public void showTime(boolean daysAdded) {
+        if(!daysAdded) {
+            calendar.add(Calendar.DATE, 0);
+        }else{
+            calendar.add(Calendar.DATE, 1);
+        }
         Date date = calendar.getTime();
 
         String dateFormat = DateFormat.getDateInstance(DateFormat.FULL).format(date);
@@ -142,13 +145,4 @@ public class MainActivity extends AppCompatActivity {
         var itemId = item.getItemId();
         return super.onOptionsItemSelected(item);
     }
-/*
-    private void swapFragments() {
-        getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, StudyFragment.newInstance())
-                    .commit();
-        }
-        isShowingStudy = !isShowingStudy;
-    }*/
 }
