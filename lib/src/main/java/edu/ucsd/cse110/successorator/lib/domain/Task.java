@@ -44,6 +44,7 @@ public class Task implements Serializable {
         if (minOrder >sortOrder){
             minOrder = sortOrder;
         }
+
     }
 
     @Nullable
@@ -90,6 +91,7 @@ public class Task implements Serializable {
     public Integer getSortOrder() {
         return sortOrder;
     }
+
 
     public Task withSortOrder(int sortOrder) {
         return new Task(id, text, isDone, sortOrder);

@@ -2,8 +2,6 @@ package edu.ucsd.cse110.successorator;
 
 import static android.app.PendingIntent.getActivity;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.text.DateFormat;
 import androidx.annotation.NonNull;
@@ -22,10 +21,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.Calendar;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import edu.ucsd.cse110.successorator.databinding.ActivityMainBinding;
+import edu.ucsd.cse110.successorator.lib.domain.TaskRepository;
 import edu.ucsd.cse110.successorator.ui.list.dialog.CreateTaskDialogFragment;
 import edu.ucsd.cse110.successorator.lib.domain.Task;
-import edu.ucsd.cse110.successorator.MainViewModel;
 
 
 // Represents the running state of the app (its primary activity)
@@ -65,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 daysAdded = true;
                 showTime(daysAdded);
+                setStartingText();
             }
         });
 
@@ -76,8 +79,10 @@ public class MainActivity extends AppCompatActivity {
         view.createTaskButton.setOnClickListener(v-> {
             var dialogFragment= CreateTaskDialogFragment.newInstance();
             dialogFragment.show(getSupportFragmentManager(),"CreateCardDialogFragment");
+            setStartingText();
         });
 
+        setStartingText();
     }
 
     // Creates the options menu for app from files placed in app/res/menu package
@@ -87,13 +92,32 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    public void setStartingText(){
+        TextView noTasksText = findViewById(R.id.noTasks);
+        TaskRepository temp = activityModel.getTaskRepository();
+        temp.findAll().observe(tasks -> {
+            if (tasks == null || tasks.size() == 0){
+                noTasksText.setText("No goals for the Day.  Click the + at the upper right to enter your Most Important Thing.");
+            }else{
+                noTasksText.setText("");
+            }
+        });
+    }
+
     // Defines behavior of menu options item once selected (calls to AppCompatActivity
     // implementation)
     @Override
     protected void onResume() {
         super.onResume();
-        showTime(daysAdded);
         checkForDayChange();
+        showTime(daysAdded);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        checkForDayChange();
+        showTime(daysAdded);
     }
 
     private void saveLastKnownDay(long epochDay) {
@@ -110,15 +134,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkForDayChange() {
         long currentEpochDay = calendar.getTimeInMillis() / (24 * 60 * 60 * 1000);
-
         if (currentEpochDay != getLastKnownDay()) {
             ArrayList<Integer> temp = Task.getDoneToday();
             for (int taskId : temp) {
                 activityModel.remove(taskId);
             }
             Task.clearDoneToday();
+            setStartingText();
             saveLastKnownDay(currentEpochDay);
         }
+        setStartingText();
     }
 
     public void showTime(boolean daysAdded) {
@@ -138,6 +163,7 @@ public class MainActivity extends AppCompatActivity {
         checkForDayChange();
         dateTextView.setText(dateFormat);
         timeTextView.setText(timeFormat);
+        setStartingText();
     }
 
     @Override
