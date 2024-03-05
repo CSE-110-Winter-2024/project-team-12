@@ -5,6 +5,7 @@
 
 Successorator is an innovative Android application designed to transform the way individuals manage their daily tasks and goals. Born out of the necessity to juggle multiple aspects of life seamlessly, this app introduces a simplified, yet powerful approach to task management. Unlike traditional to-do lists and calendar apps, Successorator employs a hierarchical structure that prioritizes the user's most important tasks (MITs) for the day, encouraging focus and productivity.
 
+
 The creation of Successorator was inspired by the challenges faced by those struggling to balance work, school, and personal life. Recognizing the inefficiency of existing tools, our team developed Successorator to offer a straightforward solution that fits effortlessly into the user's lifestyle. The app leverages voice input for easy task entry, making it accessible and convenient for users on the go.
 
 One of the unique features of Successorator is its emphasis on daily prioritization. By limiting the focus to a few select goals each day, users can achieve a sense of accomplishment and clarity. The application is designed to adapt to the user's needs, rolling over uncompleted tasks to the next day, ensuring that nothing falls through the cracks.
