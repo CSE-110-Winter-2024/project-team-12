@@ -3,7 +3,6 @@ import androidx.annotation.Nullable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Objects;
 
 //import edu.ucsd.cse110.successorator.lib.util.errors.NotImplementedException;
@@ -20,20 +19,19 @@ import java.util.Objects;
  * 1. initializes the String taskText to constructor parameter
  * 2. intializes isDone to false by default;
  */
-public class Task implements Serializable {
-    private final @Nullable Integer id;
-    private final String text;
-    private final boolean isDone;
+public abstract class Task implements Serializable {
+    private @Nullable Integer id = null;
+    private String text = null;
+    private boolean isDone = false;
     private int sortOrder;
+    TaskDateType dueDate;
 
-    private static ArrayList<Integer> DoneToday = new ArrayList<>();;
+    static ArrayList<Integer> Done = new ArrayList<>();
+    static int maxOrder = 0;
+    static int minOrder = 0;
 
 
-    private static int maxOrder = 0;
-    private static int minOrder = 0;
-
-
-    public Task(@Nullable Integer id, String text, boolean isDone, Integer sortOrder) {
+    public Task(@Nullable Integer id, String text, boolean isDone, Integer sortOrder){
         this.id = id;
         this.text = text;
         this.isDone = isDone;
@@ -51,24 +49,26 @@ public class Task implements Serializable {
         return id;
     }
 
-    public Task withId(@Nullable Integer id) {
+    public abstract Task withId(@Nullable Integer id);/*
+    {
         return new Task(id, text, isDone, sortOrder);
-    }
+    }*/
 
     public String getText() {
         return text;
     }
 
-
-    public Task withText(String text) {
+    public abstract Task withText(String text);
+    /*{
         return new Task(id, text, isDone, sortOrder);
-    }
+    }*/
 
     public boolean isDone() {
         return isDone;
     }
 
-    public Task withDone(boolean isDone) {
+    public abstract Task withDone(boolean isDone);
+    /*{
         if(isDone){
             maxOrder = maxOrder +1;
             this.sortOrder = maxOrder;
@@ -79,21 +79,23 @@ public class Task implements Serializable {
             DoneToday.remove(this.id);
         }
         return new Task(id, text, isDone, sortOrder);
-    }
-    public static ArrayList<Integer> getDoneToday(){
-        return DoneToday;
+    }*/
+
+    public static ArrayList<Integer> getDone(){
+        return Done;
     }
 
     public static void clearDoneToday(){
-        DoneToday = new ArrayList<Integer>();
+        Done = new ArrayList<Integer>();
     }
     public Integer getSortOrder() {
         return sortOrder;
     }
 
-    public Task withSortOrder(int sortOrder) {
+    public abstract Task withSortOrder(int sortOrder);
+    /*{
         return new Task(id, text, isDone, sortOrder);
-    }
+    }*/
 
     @Override
     public boolean equals(Object o) {
