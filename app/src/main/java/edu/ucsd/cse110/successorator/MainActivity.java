@@ -157,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
                     String text = task.getText();
                     Boolean isDone = task.isDone();
                     int sortOrder = task.getSortOrder();
+                    activityModel.remove(task.getId());
                     doneList.add(new Task(id, text, isDone, sortOrder, currentEpochDay));
                 } else if (task.getDate() != currentEpochDay && task.isDone()) {
                     activityModel.remove(task.getId());
