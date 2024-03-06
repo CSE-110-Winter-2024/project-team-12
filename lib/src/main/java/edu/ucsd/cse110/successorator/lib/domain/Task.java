@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Objects;
 
+
 //import edu.ucsd.cse110.successorator.lib.util.errors.NotImplementedException;
 
 
@@ -84,8 +85,17 @@ public class Task implements Serializable {
         }
         return new Task(id, text, isDone, sortOrder, calendar.getTimeInMillis() / (24 * 60 * 60 * 1000));
     }
+
+    public Task setDate(long date) {
+        this.date = date;
+        return new Task(id, text, isDone, sortOrder, date);
+    }
     public static ArrayList<Integer> getDoneToday(){
+        // for when the actual date changes
         return DoneToday;
+    }
+    public static void setDoneToday(ArrayList<Integer> todayList){
+        DoneToday = todayList;
     }
 
     public static void clearDoneToday(){
@@ -97,6 +107,8 @@ public class Task implements Serializable {
     public long getDate(){
         return date;
     }
+
+
 
     public Task withSortOrder(int sortOrder) {
         return new Task(id, text, isDone, sortOrder, calendar.getTimeInMillis() / (24 * 60 * 60 * 1000));
@@ -112,6 +124,6 @@ public class Task implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, text, isDone, sortOrder);
+        return Objects.hash(id, text, isDone, sortOrder, date);
     }
 }

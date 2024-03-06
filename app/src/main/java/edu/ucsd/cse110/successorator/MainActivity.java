@@ -68,7 +68,9 @@ public class MainActivity extends AppCompatActivity {
                 daysAdded = daysAdded + 1;
                 showTime(daysAdded);
                 setStartingText();
+                checkForDayChange();
             }
+
         });
 
         showTime(daysAdded);
@@ -109,6 +111,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        long currentEpochDay = calendar.getTimeInMillis() / (24 * 60 * 60 * 1000);
+        TaskRepository temp = activityModel.getTaskRepository();
+        temp.findAll().observe(tasks -> {
+            for (Task task : tasks) {
+                if (task.getDate() != currentEpochDay && task.isDone()) {
+                    activityModel.remove(task.getId());
+                }
+            }
+        });
         checkForDayChange();
         daysAdded = 0;
         showTime(daysAdded);
@@ -136,6 +147,29 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkForDayChange() {
         long currentEpochDay = calendar.getTimeInMillis() / (24 * 60 * 60 * 1000);
+        // for when the app starts again
+        ArrayList<Task>doneList = new ArrayList<>();
+        List<Task> taskRepo = activityModel.getTaskRepository().findAll().getValue();
+        if (taskRepo != null) {
+            for (Task task : taskRepo) {
+                if (task.getDate() != currentEpochDay && !task.isDone()) {
+                    int id = task.getId();
+                    String text = task.getText();
+                    Boolean isDone = task.isDone();
+                    int sortOrder = task.getSortOrder();
+                    doneList.add(new Task(id, text, isDone, sortOrder, currentEpochDay));
+                } else if (task.getDate() != currentEpochDay && task.isDone()) {
+                    activityModel.remove(task.getId());
+                }
+            }
+        }
+        if(doneList != null) {
+            for (Task task : doneList) {
+                activityModel.prepend(task);
+            }
+        }
+
+        // for the timeskip
         if (currentEpochDay != getLastKnownDay()) {
             ArrayList<Integer> temp = Task.getDoneToday();
             for (int taskId : temp) {

@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
+import androidx.room.Update;
 
 
 import java.util.List;
@@ -54,6 +55,8 @@ public interface TaskDao {
         );
         return Math.toIntExact(insert(newTask));
     }
+
+
 
 
     @Query("DELETE FROM tasks WHERE id = :id")
