@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding view;
 
     private boolean isShowingCreateTask = true;
-    public boolean daysAdded = false;
+    public int daysAdded = 0;
 
     Calendar calendar = Calendar.getInstance();
 
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         timeskipButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                daysAdded = true;
+                daysAdded = daysAdded + 1;
                 showTime(daysAdded);
                 setStartingText();
             }
@@ -110,13 +110,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         checkForDayChange();
+        daysAdded = 0;
         showTime(daysAdded);
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
+    protected void onStart() {
+        super.onStart();
         checkForDayChange();
+        daysAdded = 0;
         showTime(daysAdded);
     }
 
@@ -146,12 +148,10 @@ public class MainActivity extends AppCompatActivity {
         setStartingText();
     }
 
-    public void showTime(boolean daysAdded) {
-        if(!daysAdded) {
-            calendar.add(Calendar.DATE, 0);
-        }else{
-            calendar.add(Calendar.DATE, 1);
-        }
+    public void showTime(int daysAdded) {
+        calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, daysAdded);
+
         Date date = calendar.getTime();
 
         String dateFormat = DateFormat.getDateInstance(DateFormat.FULL).format(date);

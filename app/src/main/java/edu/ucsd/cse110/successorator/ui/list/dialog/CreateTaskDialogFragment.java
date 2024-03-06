@@ -11,6 +11,8 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import java.util.Calendar;
+
 import edu.ucsd.cse110.successorator.MainViewModel;
 import edu.ucsd.cse110.successorator.databinding.FragmentCreateMitBinding;
 import edu.ucsd.cse110.successorator.lib.domain.Task;
@@ -18,6 +20,7 @@ import edu.ucsd.cse110.successorator.lib.domain.Task;
 public class CreateTaskDialogFragment extends DialogFragment{
     private MainViewModel activityModel;
     private FragmentCreateMitBinding view;
+    Calendar calendar = Calendar.getInstance();
 
     CreateTaskDialogFragment() {
 
@@ -54,7 +57,8 @@ public class CreateTaskDialogFragment extends DialogFragment{
     private void onPositiveButtonClick(DialogInterface dialog, int which) {
         var taskText=view.editTextText.getText().toString();
 
-        var task = new Task(null, taskText,false,-1);
+
+        var task = new Task(null, taskText,false,-1, calendar.getTimeInMillis() / (24 * 60 * 60 * 1000));
 
         activityModel.prepend(task);
 

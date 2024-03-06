@@ -3,6 +3,7 @@ import androidx.annotation.Nullable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -26,14 +27,16 @@ public class Task implements Serializable {
     private final boolean isDone;
     private int sortOrder;
 
+    private long date;
     private static ArrayList<Integer> DoneToday = new ArrayList<>();;
 
+    Calendar calendar = Calendar.getInstance();
 
     private static int maxOrder = 0;
     private static int minOrder = 0;
 
 
-    public Task(@Nullable Integer id, String text, boolean isDone, Integer sortOrder) {
+    public Task(@Nullable Integer id, String text, boolean isDone, Integer sortOrder, long date) {
         this.id = id;
         this.text = text;
         this.isDone = isDone;
@@ -44,7 +47,7 @@ public class Task implements Serializable {
         if (minOrder >sortOrder){
             minOrder = sortOrder;
         }
-
+        this.date = date;
     }
 
     @Nullable
@@ -53,7 +56,7 @@ public class Task implements Serializable {
     }
 
     public Task withId(@Nullable Integer id) {
-        return new Task(id, text, isDone, sortOrder);
+        return new Task(id, text, isDone, sortOrder, calendar.getTimeInMillis() / (24 * 60 * 60 * 1000));
     }
 
     public String getText() {
@@ -62,7 +65,7 @@ public class Task implements Serializable {
 
 
     public Task withText(String text) {
-        return new Task(id, text, isDone, sortOrder);
+        return new Task(id, text, isDone, sortOrder, calendar.getTimeInMillis() / (24 * 60 * 60 * 1000));
     }
 
     public boolean isDone() {
@@ -79,7 +82,7 @@ public class Task implements Serializable {
             this.sortOrder = minOrder;
             DoneToday.remove(this.id);
         }
-        return new Task(id, text, isDone, sortOrder);
+        return new Task(id, text, isDone, sortOrder, calendar.getTimeInMillis() / (24 * 60 * 60 * 1000));
     }
     public static ArrayList<Integer> getDoneToday(){
         return DoneToday;
@@ -91,10 +94,12 @@ public class Task implements Serializable {
     public Integer getSortOrder() {
         return sortOrder;
     }
-
+    public long getDate(){
+        return date;
+    }
 
     public Task withSortOrder(int sortOrder) {
-        return new Task(id, text, isDone, sortOrder);
+        return new Task(id, text, isDone, sortOrder, calendar.getTimeInMillis() / (24 * 60 * 60 * 1000));
     }
 
     @Override

@@ -7,6 +7,8 @@ import edu.ucsd.cse110.successorator.data.db.SuccessoratorDatabase;
 import edu.ucsd.cse110.successorator.lib.data.InMemoryDataSource;
 import edu.ucsd.cse110.successorator.lib.domain.TaskRepository;
 import androidx.room.Room;
+import androidx.room.migration.Migration;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import edu.ucsd.cse110.successorator.data.db.*;
 
@@ -16,7 +18,12 @@ import edu.ucsd.cse110.successorator.lib.domain.SimpleTaskRepository;
 public class SuccessoratorApplication extends Application {
     private InMemoryDataSource dataSource;
     private TaskRepository taskRepository;
-
+    static final Migration MIGRATION_1_2 = new Migration(1, 2) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE tasks ADD COLUMN date INTEGER NOT NULL DEFAULT 0");
+        }
+    };
     @Override
     public void onCreate() {
         super.onCreate();
@@ -27,6 +34,7 @@ public class SuccessoratorApplication extends Application {
                         "successorator-database"
                 )
                 .allowMainThreadQueries()
+                .addMigrations(MIGRATION_1_2)
                 .build();
         this.taskRepository=new RoomTaskRepository((database.taskDao()));
 
