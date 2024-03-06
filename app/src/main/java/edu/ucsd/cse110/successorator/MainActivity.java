@@ -2,8 +2,6 @@ package edu.ucsd.cse110.successorator;
 
 import static android.app.PendingIntent.getActivity;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.text.DateFormat;
 import androidx.annotation.NonNull;
@@ -22,10 +21,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.Calendar;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import edu.ucsd.cse110.successorator.databinding.ActivityMainBinding;
+import edu.ucsd.cse110.successorator.lib.domain.TaskRepository;
 import edu.ucsd.cse110.successorator.ui.list.dialog.CreateTaskDialogFragment;
 import edu.ucsd.cse110.successorator.lib.domain.Task;
-import edu.ucsd.cse110.successorator.MainViewModel;
 
 
 // Represents the running state of the app (its primary activity)
@@ -34,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding view;
 
     private boolean isShowingCreateTask = true;
-    int daysToAdd = 0;
+    public int daysAdded = 0;
 
     Calendar calendar = Calendar.getInstance();
 
@@ -60,17 +62,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(view.getRoot());
 
         Button timeskipButton = findViewById(R.id.timeskipButton);
-        saveLastKnownDay(calendar.getTimeInMillis()+daysToAdd-1);
-
         timeskipButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                daysToAdd = daysToAdd+1;
-                showTime(daysToAdd);
+                daysAdded = daysAdded + 1;
+                showTime(daysAdded);
+                setStartingText();
+                checkForDayChange();
             }
+
         });
 
-        showTime(0);
+        showTime(daysAdded);
         checkForDayChange();
 
         // createTaskButton in view listens for click
@@ -78,8 +81,10 @@ public class MainActivity extends AppCompatActivity {
         view.createTaskButton.setOnClickListener(v-> {
             var dialogFragment= CreateTaskDialogFragment.newInstance();
             dialogFragment.show(getSupportFragmentManager(),"CreateCardDialogFragment");
+            setStartingText();
         });
 
+        setStartingText();
     }
 
     // Creates the options menu for app from files placed in app/res/menu package
@@ -89,12 +94,43 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    public void setStartingText(){
+        TextView noTasksText = findViewById(R.id.noTasks);
+        TaskRepository temp = activityModel.getTaskRepository();
+        temp.findAll().observe(tasks -> {
+            if (tasks == null || tasks.size() == 0){
+                noTasksText.setText("No goals for the Day.  Click the + at the upper right to enter your Most Important Thing.");
+            }else{
+                noTasksText.setText("");
+            }
+        });
+    }
+
     // Defines behavior of menu options item once selected (calls to AppCompatActivity
     // implementation)
     @Override
     protected void onResume() {
         super.onResume();
+        long currentEpochDay = calendar.getTimeInMillis() / (24 * 60 * 60 * 1000);
+        TaskRepository temp = activityModel.getTaskRepository();
+        temp.findAll().observe(tasks -> {
+            for (Task task : tasks) {
+                if (task.getDate() != currentEpochDay && task.isDone()) {
+                    activityModel.remove(task.getId());
+                }
+            }
+        });
         checkForDayChange();
+        daysAdded = 0;
+        showTime(daysAdded);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        checkForDayChange();
+        daysAdded = 0;
+        showTime(daysAdded);
     }
 
     private void saveLastKnownDay(long epochDay) {
@@ -111,19 +147,46 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkForDayChange() {
         long currentEpochDay = calendar.getTimeInMillis() / (24 * 60 * 60 * 1000);
+        // for when the app starts again
+        ArrayList<Task>doneList = new ArrayList<>();
+        List<Task> taskRepo = activityModel.getTaskRepository().findAll().getValue();
+        if (taskRepo != null) {
+            for (Task task : taskRepo) {
+                if (task.getDate() != currentEpochDay && !task.isDone()) {
+                    int id = task.getId();
+                    String text = task.getText();
+                    Boolean isDone = task.isDone();
+                    int sortOrder = task.getSortOrder();
+                    activityModel.remove(task.getId());
+                    doneList.add(new Task(id, text, isDone, sortOrder, currentEpochDay));
+                } else if (task.getDate() != currentEpochDay && task.isDone()) {
+                    activityModel.remove(task.getId());
+                }
+            }
+        }
+        if(doneList != null) {
+            for (Task task : doneList) {
+                activityModel.prepend(task);
+            }
+        }
 
+        // for the timeskip
         if (currentEpochDay != getLastKnownDay()) {
             ArrayList<Integer> temp = Task.getDoneToday();
             for (int taskId : temp) {
                 activityModel.remove(taskId);
             }
             Task.clearDoneToday();
+            setStartingText();
             saveLastKnownDay(currentEpochDay);
         }
+        setStartingText();
     }
 
-    public void showTime(int daysToAdd) {
-        calendar.add(Calendar.DATE, daysToAdd);
+    public void showTime(int daysAdded) {
+        calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, daysAdded);
+
         Date date = calendar.getTime();
 
         String dateFormat = DateFormat.getDateInstance(DateFormat.FULL).format(date);
@@ -135,6 +198,7 @@ public class MainActivity extends AppCompatActivity {
         checkForDayChange();
         dateTextView.setText(dateFormat);
         timeTextView.setText(timeFormat);
+        setStartingText();
     }
 
     @Override
@@ -142,13 +206,4 @@ public class MainActivity extends AppCompatActivity {
         var itemId = item.getItemId();
         return super.onOptionsItemSelected(item);
     }
-/*
-    private void swapFragments() {
-        getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragment_container, StudyFragment.newInstance())
-                    .commit();
-        }
-        isShowingStudy = !isShowingStudy;
-    }*/
 }

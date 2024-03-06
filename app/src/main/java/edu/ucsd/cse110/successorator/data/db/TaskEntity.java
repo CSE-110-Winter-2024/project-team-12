@@ -26,7 +26,8 @@ public class TaskEntity {
     public boolean isDone;
     @ColumnInfo(name="sort_order")
     public int sortOrder;
-
+    @ColumnInfo(name="date")
+    public long date;
     /**
      * This function initializes a TaskEntity object.
      * @param id the task id
@@ -34,11 +35,12 @@ public class TaskEntity {
      * @param isDone the status of the task - whether or not its done
      * @param sortOrder the sortOrder of the task
      */
-    public TaskEntity(Integer id, String text, boolean isDone, int sortOrder)  {
+    public TaskEntity(Integer id, String text, boolean isDone, int sortOrder, long date)  {
         this.id = id;
         this.text = text;
         this.isDone = isDone;
         this.sortOrder = sortOrder;
+        this.date = date;
     }
 
     /**
@@ -47,13 +49,13 @@ public class TaskEntity {
      * @return returns the TaskEntity object
      */
     public static TaskEntity fromTask(Task task) {
-        return new TaskEntity(task.getId(), task.getText(), task.isDone(), task.getSortOrder());
+        return new TaskEntity(task.getId(), task.getText(), task.isDone(), task.getSortOrder(), task.getDate());
     }
     /**
      * This function makes a task from a TaskEntity object
      * @return it returns a Task object with the features from the TaskEntity Object
      */
     public Task toTask() {
-        return new Task(id, text, isDone, sortOrder);
+        return new Task(id, text, isDone, sortOrder, date);
     }
 }
