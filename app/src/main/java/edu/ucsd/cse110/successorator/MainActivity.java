@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
         long currentEpochDay = calendar.getTimeInMillis() / (24 * 60 * 60 * 1000);
 
         if (currentEpochDay != getLastKnownDay()) {
-            ArrayList<Integer> temp = Task.getDoneToday();
+            ArrayList<Integer> temp = Task.getDone();
             for (int taskId : temp) {
                 activityModel.remove(taskId);
             }

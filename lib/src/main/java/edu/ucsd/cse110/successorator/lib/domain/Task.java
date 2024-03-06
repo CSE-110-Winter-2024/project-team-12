@@ -19,23 +19,24 @@ import java.util.Objects;
  * 1. initializes the String taskText to constructor parameter
  * 2. intializes isDone to false by default;
  */
-public abstract class Task implements Serializable {
+public class Task implements Serializable {
     private @Nullable Integer id = null;
     private String text = null;
     private boolean isDone = false;
     private int sortOrder;
-    TaskDateType dueDate;
+    public int dueDate;
 
     static ArrayList<Integer> Done = new ArrayList<>();
     static int maxOrder = 0;
     static int minOrder = 0;
 
 
-    public Task(@Nullable Integer id, String text, boolean isDone, Integer sortOrder){
+    public Task(@Nullable Integer id, String text, boolean isDone, Integer sortOrder, int dueDate){
         this.id = id;
         this.text = text;
         this.isDone = isDone;
         this.sortOrder = sortOrder;
+        this.dueDate = dueDate;
         if (maxOrder < sortOrder) {
             maxOrder = sortOrder;
         }
@@ -49,37 +50,45 @@ public abstract class Task implements Serializable {
         return id;
     }
 
-    public abstract Task withId(@Nullable Integer id);/*
+    public Task withId(@Nullable Integer id)
     {
-        return new Task(id, text, isDone, sortOrder);
-    }*/
+        return new Task(id, text, isDone, sortOrder, dueDate);
+    }
+
+    public int getDueDate() { return dueDate; }
+
+    public Task withDueDate(int dueDate)
+    {
+        return new Task(id, text, isDone, sortOrder, dueDate);
+
+    }
 
     public String getText() {
         return text;
     }
 
-    public abstract Task withText(String text);
-    /*{
-        return new Task(id, text, isDone, sortOrder);
-    }*/
+    public Task withText(String text)
+    {
+        return new Task(id, text, isDone, sortOrder, dueDate);
+    }
 
     public boolean isDone() {
         return isDone;
     }
 
-    public abstract Task withDone(boolean isDone);
-    /*{
+    public Task withDone(boolean isDone)
+    {
         if(isDone){
             maxOrder = maxOrder +1;
             this.sortOrder = maxOrder;
-            DoneToday.add(this.id);
+            Done.add(this.id);
         }else{
             minOrder = minOrder -1;
             this.sortOrder = minOrder;
-            DoneToday.remove(this.id);
+            Done.remove(this.id);
         }
-        return new Task(id, text, isDone, sortOrder);
-    }*/
+        return new Task(id, text, isDone, sortOrder, dueDate);
+    }
 
     public static ArrayList<Integer> getDone(){
         return Done;
@@ -92,13 +101,14 @@ public abstract class Task implements Serializable {
         return sortOrder;
     }
 
-    public abstract Task withSortOrder(int sortOrder);
-    /*{
-        return new Task(id, text, isDone, sortOrder);
-    }*/
+    public Task withSortOrder(int sortOrder)
+    {
+        return new Task(id, text, isDone, sortOrder, dueDate);
+    }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(Object o)
+    {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
@@ -106,7 +116,8 @@ public abstract class Task implements Serializable {
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         return Objects.hash(id, text, isDone, sortOrder);
     }
 }

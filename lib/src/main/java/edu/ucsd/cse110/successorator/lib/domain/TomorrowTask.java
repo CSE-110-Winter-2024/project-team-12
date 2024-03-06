@@ -5,8 +5,7 @@ import androidx.annotation.Nullable;
 public class TomorrowTask extends Task {
 
     public TomorrowTask(@Nullable Integer id, String text, boolean isDone, Integer sortOrder) {
-        super(id, text, isDone, sortOrder);
-        dueDate=TaskDateType.TOMORROW;
+        super(id, text, isDone, sortOrder,TaskDateType.TOMORROW.ordinal());
     }
 
     @Override

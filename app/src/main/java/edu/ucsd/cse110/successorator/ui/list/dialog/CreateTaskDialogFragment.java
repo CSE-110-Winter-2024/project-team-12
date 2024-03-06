@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 import edu.ucsd.cse110.successorator.MainViewModel;
 import edu.ucsd.cse110.successorator.databinding.FragmentCreateMitBinding;
 import edu.ucsd.cse110.successorator.lib.domain.Task;
+import edu.ucsd.cse110.successorator.lib.domain.TaskDateType;
 
 public class CreateTaskDialogFragment extends DialogFragment{
     private MainViewModel activityModel;
@@ -54,7 +55,7 @@ public class CreateTaskDialogFragment extends DialogFragment{
     private void onPositiveButtonClick(DialogInterface dialog, int which) {
         var taskText=view.editTextText.getText().toString();
 
-        var task = new Task(null, taskText,false,-1);
+        var task = new Task(null, taskText,false,-1, TaskDateType.PENDING.ordinal());
 
         activityModel.prepend(task);
 

@@ -15,6 +15,10 @@ import java.util.List;
 public interface TaskDao {
 
     //
+/*
+    @Query("SELECT * FROM tasks WHERE due_date = :dueDate")
+    List<TaskEntity> findAllAsLiveData(int dueDate);
+*/
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     Long insert(TaskEntity task);
 
@@ -50,7 +54,7 @@ public interface TaskDao {
     default int append(TaskEntity task) {
         var maxSortOrder = getMaxSortOrder();
         var newTask = new TaskEntity(
-                null, task.text, task.isDone, maxSortOrder + 1
+                null, task.text, task.isDone, maxSortOrder + 1, task.dueDate
         );
         return Math.toIntExact(insert(newTask));
     }
@@ -67,7 +71,7 @@ public interface TaskDao {
     default int prepend(TaskEntity task) {
         shiftSortOrders(getMinSortOrder(), getMaxSortOrder(),1);
         var newFlashcard=new TaskEntity(
-                null, task.text, task.isDone, getMinSortOrder()-1
+                null, task.text, task.isDone, getMinSortOrder()-1, task.dueDate
         );
         return Math.toIntExact(insert(newFlashcard));
     }
