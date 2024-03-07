@@ -1,3 +1,107 @@
+# Developer Stories
+
+## Iteration 1 Developer Story
+```
+Start the Application: 
+
+Launch Successorator by tapping the app icon. Expect to see the main dashboard with the date displayed at the top indicating "Today, [current date]."
+
+Add a Task for Today: 
+
+Tap the "+" button to add a new task. Enter "Finish revising paper" and select "Save". Expect to see the task “Finish revising paper” listed under "Today's" tasks.
+
+Navigate to Tomorrow's View: 
+
+Tap the dropdown menu and select "Tomorrow". Expect to see "Tomorrow, [date]" at the top and an empty task list.
+
+Add a Task for Tomorrow: 
+
+Tap the "+" and enter "Turn in paper". Select "Save". Expect to see the task “Turn in paper” listed under "Tomorrow's" tasks.
+
+Check Pending Tasks View: 
+
+Navigate to the "Pending" view from the dropdown menu. Expect to see an empty list titled "Pending" with no task listed so far.
+
+Add a Pending Task: 
+
+Tap "+" and enter "Research plane tickets". Select "Save". Expect to see the task listed under "Pending" tasks.
+
+Move Pending Task to Today: 
+
+Perform a long press on the "Research plane tickets" task and select "Move to Today". Expect to see the task now listed under "Today's" tasks.
+
+Add a Recurring Task: 
+
+Navigate to the "Recurring" view and tap "+". Select a start date for "Put out trash", enter the task, and tap "Save". Expect to see the task listed under "Recurring" with the schedule "weekly on Sunday".
+```
+## Iteration 2 Final Developer Story
+
+
+#### Iteration 1 Coverage:
+```
+Start the Application: 
+
+Launch Successorator by tapping the app icon. Expect to see the main dashboard with the date displayed at the top indicating "Today, [current date]."
+
+Add a Task for Today: 
+
+Tap the "+" button to add a new task. Enter "Finish revising paper" and select "Save". Expect to see the task “Finish revising paper” listed under "Today's" tasks.
+
+Navigate to Tomorrow's View: 
+
+Tap the dropdown menu and select "Tomorrow". Expect to see "Tomorrow, [date]" at the top and an empty task list.
+
+Add a Task for Tomorrow: 
+
+Tap the "+" and enter "Turn in paper". Select "Save". Expect to see the task “Turn in paper” listed under "Tomorrow's" tasks.
+
+Check Pending Tasks View: 
+
+Navigate to the "Pending" view from the dropdown menu. Expect to see an empty list titled "Pending" with no task listed so far.
+
+Add a Pending Task: 
+
+Tap "+" and enter "Research plane tickets". Select "Save". Expect to see the task listed under "Pending" tasks.
+
+Move Pending Task to Today: 
+
+Perform a long press on the "Research plane tickets" task and select "Move to Today". Expect to see the task now listed under "Today's" tasks.
+
+Add a Recurring Task: 
+
+Navigate to the "Recurring" view and tap "+". Select a start date for "Put out trash", enter the task, and tap "Save". Expect to see the task listed under "Recurring" with the schedule "weekly on Sunday".
+
+```
+#### Iteration 2 Coverage
+```
+
+Update and Relaunch the Application: 
+
+After updating Successorator, relaunch the app. Expect to see the main dashboard with no immediate visual changes until a task is added.
+
+Add a Task with Context: 
+
+Tap "+" to add "Caffe Calabria - coffee" to Today's list and assign it the "Errands" context by tapping the "E" circle. Select "Save". Expect to see the task with a moss-green circle indicating the "Errands" context.
+
+Add Multiple Tasks with Different Contexts: 
+
+Add additional tasks assigning each a different context (Home, Work, School, Errands). Expect tasks to be grouped by context in the order “Home, Work, School, and Errands.”
+
+Activate Focus Mode for School Context: 
+
+Access the hamburger menu, select Focus Mode, and choose the "School" context. Expect to see only school-related tasks and a visual indicator of Focus mode.
+
+Complete and Remove a Task: 
+
+Mark a task as completed and expect it to be removed from the view and moved to a completed section, ensuring the app doesn’t display too many tasks at once.
+
+Exit Focus Mode and Review: 
+
+Exit Focus mode and return to the standard view. Review all tasks to ensure they are correctly organized and that the context functionality works across different views.
+``
+
+
+
 
 # Team 12 - Successorator 
 
