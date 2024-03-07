@@ -31,7 +31,7 @@ public class SuccessoratorApplication extends Application {
         var database = Room.databaseBuilder(
                         getApplicationContext(),
                         SuccessoratorDatabase.class,
-                        "successorator-database"
+                        "successorator-database1"
                 )
                 .allowMainThreadQueries()
                 .addMigrations(MIGRATION_1_2)

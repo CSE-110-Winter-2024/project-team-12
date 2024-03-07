@@ -63,7 +63,7 @@ public class CreateTaskDialogFragment extends DialogFragment{
         activityModel.prepend(task);
 
         // Options for a task
-        if(view.dailyButton.isChecked()){
+        /*if(view.dailyButton.isChecked()){
 
         } else if (view.weeklyButton.isChecked()){
 
@@ -75,7 +75,7 @@ public class CreateTaskDialogFragment extends DialogFragment{
             //not sure what to do
         } else {
             throw new IllegalStateException("No radio button is checked. ");
-        }
+        }*/
         dialog.dismiss();
     }
 
