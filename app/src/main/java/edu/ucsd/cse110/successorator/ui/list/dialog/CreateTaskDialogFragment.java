@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -63,17 +64,21 @@ public class CreateTaskDialogFragment extends DialogFragment{
         activityModel.prepend(task);
 
         //Tags for task
-        if(view.hButton.isChecked()){
+        view.hButton.setOnClickListener(v -> {
+           Log.d("ButtonClick", "Button clicked");
             task.setTag('h');
-        } else if (view.wButton.isChecked()){
+        }); 
+        /*if(view.hButton.isPressed()){
+            task.setTag('h');
+        } else if (view.wButton.isPressed()){
             task.setTag('w');
-        } else if (view.sButton.isChecked()){
+        } else if (view.sButton.isPressed()){
             task.setTag('s');
-        } else if (view.eButton.isChecked()){
+        } else if (view.eButton.isPressed()){
             task.setTag('e');
         } else {
             throw new IllegalStateException("No tag was checked.");
-        }
+        }*/
 
         // Options for a task
         /*if(view.dailyButton.isChecked()){
