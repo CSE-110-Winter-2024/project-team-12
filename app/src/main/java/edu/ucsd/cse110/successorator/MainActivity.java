@@ -8,7 +8,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -85,6 +87,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
         setStartingText();
+        Spinner spinnerView=findViewById(R.id.spinner_view);
+        ArrayAdapter<CharSequence> adapter=ArrayAdapter.createFromResource(this, R.array.view, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        spinnerView.setAdapter(adapter);
+
     }
 
     // Creates the options menu for app from files placed in app/res/menu package
