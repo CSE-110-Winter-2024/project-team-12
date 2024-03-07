@@ -49,7 +49,7 @@ public class CreateTaskDialogFragment extends DialogFragment{
                 .setTitle("New Task")
                 .setMessage("Please provide the task that has to be completed. ")
                 .setView(view.getRoot())
-                //.setPositiveButton(view.save_button.isChecked())
+                //.setPositiveButton("Create", this::onPositiveButtonClick)
                 //.setNegativeButton("Cancel",this::onNegativeButtonClick)
                 .create();
     }
@@ -58,26 +58,39 @@ public class CreateTaskDialogFragment extends DialogFragment{
         var taskText=view.editTextText.getText().toString();
 
 
-        var task = new Task(null, taskText,false,-1, calendar.getTimeInMillis() / (24 * 60 * 60 * 1000));
+        var task = new Task(null, taskText,false,-1, calendar.getTimeInMillis() / (24 * 60 * 60 * 1000),'\0');
 
-        if(view.saveButton.isPressed()){
-            // Options for a task
-            if(view.dailyButton.isChecked()){
+        activityModel.prepend(task);
 
-            } else if (view.weeklyButton.isChecked()){
-
-            } else if (view.monthlyButton.isChecked()) {
-
-            } else if (view.yearlyButton.isChecked()) {
-
-            } else if (view.oneTimeButton.isChecked()) {
-                activityModel.prepend(task);
-            } else {
-                throw new IllegalStateException("No radio button is checked. ");
-            }
-
-            dialog.dismiss();
+        //Tags for task
+        if(view.hButton.isChecked()){
+            task.setTag('h');
+        } else if (view.wButton.isChecked()){
+            task.setTag('w');
+        } else if (view.sButton.isChecked()){
+            task.setTag('s');
+        } else if (view.eButton.isChecked()){
+            task.setTag('e');
+        } else {
+            throw new IllegalStateException("No tag was checked.");
         }
+
+        // Options for a task
+        /*if(view.dailyButton.isChecked()){
+
+        } else if (view.weeklyButton.isChecked()){
+
+        } else if (view.monthlyButton.isChecked()) {
+            //should open calendar
+        } else if (view.yearlyButton.isChecked()) {
+            //should open calendar
+        } else if (view.oneTimeButton.isChecked()) {
+            //not sure what to do
+        } else {
+            throw new IllegalStateException("No radio button is checked. ");
+        }*/
+
+        dialog.dismiss();
     }
 
     private void onNegativeButtonClick(DialogInterface dialog, int which) {
