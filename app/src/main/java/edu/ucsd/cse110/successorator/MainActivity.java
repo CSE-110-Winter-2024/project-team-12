@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 
 import edu.ucsd.cse110.successorator.databinding.ActivityMainBinding;
 import edu.ucsd.cse110.successorator.lib.domain.TaskRepository;
+import edu.ucsd.cse110.successorator.ui.list.NavigateTaskFragment;
 import edu.ucsd.cse110.successorator.ui.list.dialog.CreateTaskDialogFragment;
 import edu.ucsd.cse110.successorator.lib.domain.Task;
 
@@ -58,10 +59,16 @@ public class MainActivity extends AppCompatActivity {
         var modelFactory= ViewModelProvider.Factory.from(MainViewModel.initializer);
         var modelProvider=new ViewModelProvider(modelOwner,modelFactory);
         this.activityModel=modelProvider.get(MainViewModel.class);
-        
+
+
       // Sets view to the inflated binding of activity_main.xml
         this.view = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(view.getRoot());
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, new NavigateTaskFragment())
+                    .commit();
+        }
 
         Button timeskipButton = findViewById(R.id.timeskipButton);
         timeskipButton.setOnClickListener(new View.OnClickListener() {
