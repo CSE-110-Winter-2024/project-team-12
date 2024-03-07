@@ -49,8 +49,8 @@ public class CreateTaskDialogFragment extends DialogFragment{
                 .setTitle("New Task")
                 .setMessage("Please provide the task that has to be completed. ")
                 .setView(view.getRoot())
-                .setPositiveButton("Create", this::onPositiveButtonClick)
-                .setNegativeButton("Cancel",this::onNegativeButtonClick)
+                //.setPositiveButton(view.save_button.isChecked())
+                //.setNegativeButton("Cancel",this::onNegativeButtonClick)
                 .create();
     }
 
@@ -60,23 +60,24 @@ public class CreateTaskDialogFragment extends DialogFragment{
 
         var task = new Task(null, taskText,false,-1, calendar.getTimeInMillis() / (24 * 60 * 60 * 1000));
 
-        activityModel.prepend(task);
+        if(view.saveButton.isPressed()){
+            // Options for a task
+            if(view.dailyButton.isChecked()){
 
-        // Options for a task
-        /*if(view.dailyButton.isChecked()){
+            } else if (view.weeklyButton.isChecked()){
 
-        } else if (view.weeklyButton.isChecked()){
+            } else if (view.monthlyButton.isChecked()) {
 
-        } else if (view.monthlyButton.isChecked()) {
-            //should open calendar
-        } else if (view.yearlyButton.isChecked()) {
-            //should open calendar
-        } else if (view.oneTimeButton.isChecked()) {
-            //not sure what to do
-        } else {
-            throw new IllegalStateException("No radio button is checked. ");
-        }*/
-        dialog.dismiss();
+            } else if (view.yearlyButton.isChecked()) {
+
+            } else if (view.oneTimeButton.isChecked()) {
+                activityModel.prepend(task);
+            } else {
+                throw new IllegalStateException("No radio button is checked. ");
+            }
+
+            dialog.dismiss();
+        }
     }
 
     private void onNegativeButtonClick(DialogInterface dialog, int which) {
