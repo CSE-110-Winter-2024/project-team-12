@@ -62,12 +62,20 @@ public class CreateTaskDialogFragment extends DialogFragment{
 
         activityModel.prepend(task);
 
-        /*if(view.appendRadioBtn.isChecked()){
-            activityModel.append(task);
-        }
-        else {
+        // Options for a task
+        if(view.dailyButton.isChecked()){
+
+        } else if (view.weeklyButton.isChecked()){
+
+        } else if (view.monthlyButton.isChecked()) {
+            //should open calendar
+        } else if (view.yearlyButton.isChecked()) {
+            //should open calendar
+        } else if (view.oneTimeButton.isChecked()) {
+            //not sure what to do
+        } else {
             throw new IllegalStateException("No radio button is checked. ");
-        }*/
+        }
         dialog.dismiss();
     }
 
