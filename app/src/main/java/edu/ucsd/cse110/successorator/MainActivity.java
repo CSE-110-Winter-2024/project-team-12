@@ -94,11 +94,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         setStartingText();
+
+        // ui change for the spinner view
         Spinner spinnerView=findViewById(R.id.spinner_view);
         ArrayAdapter<CharSequence> adapter=ArrayAdapter.createFromResource(this, R.array.view, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         spinnerView.setAdapter(adapter);
-
+        
     }
 
     // Creates the options menu for app from files placed in app/res/menu package
