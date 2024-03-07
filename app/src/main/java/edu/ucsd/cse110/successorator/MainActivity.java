@@ -8,7 +8,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ import java.util.stream.Collectors;
 
 import edu.ucsd.cse110.successorator.databinding.ActivityMainBinding;
 import edu.ucsd.cse110.successorator.lib.domain.TaskRepository;
+import edu.ucsd.cse110.successorator.ui.list.NavigateTaskFragment;
 import edu.ucsd.cse110.successorator.ui.list.dialog.CreateTaskDialogFragment;
 import edu.ucsd.cse110.successorator.lib.domain.Task;
 
@@ -56,10 +59,16 @@ public class MainActivity extends AppCompatActivity {
         var modelFactory= ViewModelProvider.Factory.from(MainViewModel.initializer);
         var modelProvider=new ViewModelProvider(modelOwner,modelFactory);
         this.activityModel=modelProvider.get(MainViewModel.class);
-        
+
+
       // Sets view to the inflated binding of activity_main.xml
         this.view = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(view.getRoot());
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.container, new NavigateTaskFragment())
+                    .commit();
+        }
 
         Button timeskipButton = findViewById(R.id.timeskipButton);
         timeskipButton.setOnClickListener(new View.OnClickListener() {
@@ -85,6 +94,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         setStartingText();
+
+        // ui change for the spinner view
+        Spinner spinnerView=findViewById(R.id.spinner_view);
+        ArrayAdapter<CharSequence> adapter=ArrayAdapter.createFromResource(this, R.array.view, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        spinnerView.setAdapter(adapter);
+        
     }
 
     // Creates the options menu for app from files placed in app/res/menu package
