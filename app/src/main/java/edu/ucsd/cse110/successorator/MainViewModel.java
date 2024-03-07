@@ -19,10 +19,12 @@ import edu.ucsd.cse110.successorator.lib.util.Subject;
 public class MainViewModel extends ViewModel{
 
     // Domain state (true "Model" state)
-    private final TaskRepository taskRepository;
+    private TaskRepository taskRepository;
 
     // UI state
-    private final MutableSubject<List<Task>> orderedTasks;
+    private MutableSubject<List<Task>> orderedTasks;
+
+    public boolean empty = true;
 
     public static final ViewModelInitializer<MainViewModel> initializer =
             new ViewModelInitializer<>(
@@ -43,8 +45,11 @@ public class MainViewModel extends ViewModel{
 
         // When the list of tasks changes (or is first loaded), reset the ordering.
         taskRepository.findAll().observe(tasks -> {
-            if (tasks == null) return; // not ready yet, ignore
-
+            if (tasks == null){
+                empty = true;
+                return; // not ready yet, ignore
+            }
+            empty = false;
             var newOrderedTasks = tasks.stream()
                     .sorted(Comparator.comparing(Task::getSortOrder))
                     .collect(Collectors.toList());
@@ -54,8 +59,15 @@ public class MainViewModel extends ViewModel{
     }
 
 
+
+
+
     public Subject<List<Task>> getOrderedTasks() {
         return orderedTasks;
+    }
+
+    public TaskRepository getTaskRepository(){
+        return taskRepository;
     }
 
     public void save(Task task) {
