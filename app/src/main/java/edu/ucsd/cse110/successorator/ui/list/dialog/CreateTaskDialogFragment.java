@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,6 +47,26 @@ public class CreateTaskDialogFragment extends DialogFragment{
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         this.view=FragmentCreateMitBinding.inflate(getLayoutInflater());
+
+        var taskText=view.editTextText.getText().toString();
+
+        var task = new Task(null, taskText,false,-1, calendar.getTimeInMillis() / (24 * 60 * 60 * 1000),'\0');
+
+        view.saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activityModel.prepend(task);
+                dialog.dismiss();
+            }
+        });
+
+        view.hButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                task.setTag('h');
+            }
+        });
+
         return new AlertDialog.Builder(getActivity())
                 .setTitle("New Task")
                 .setMessage("Please provide the task that has to be completed. ")
@@ -55,6 +76,7 @@ public class CreateTaskDialogFragment extends DialogFragment{
                 .create();
     }
 
+
     private void onPositiveButtonClick(DialogInterface dialog, int which) {
         var taskText=view.editTextText.getText().toString();
 
@@ -63,11 +85,12 @@ public class CreateTaskDialogFragment extends DialogFragment{
 
         activityModel.prepend(task);
 
-        //Tags for task
-        view.hButton.setOnClickListener(v -> {
+        //Set tags for the task
+        /*view.hButton.setOnClickListener(v -> {
            Log.d("ButtonClick", "Button clicked");
            task.setTag('h');
-        }); 
+        });*/
+
         /*if(view.hButton.isPressed()){
             task.setTag('h');
         } else if (view.wButton.isPressed()){
