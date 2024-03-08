@@ -79,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
                 setStartingText();
                 checkForDayChange();
             }
-
         });
 
         showTime(daysAdded);
