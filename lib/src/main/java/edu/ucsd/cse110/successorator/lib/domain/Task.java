@@ -119,10 +119,6 @@ public class Task implements Serializable {
         return tag;
     }
 
-
-
-
-
     public Task withSortOrder(int sortOrder) {
         return new Task(id, text, isDone, sortOrder, calendar.getTimeInMillis() / (24 * 60 * 60 * 1000), tag);
     }

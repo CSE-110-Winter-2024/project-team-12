@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -51,6 +53,9 @@ public class CreateTaskDialogFragment extends DialogFragment{// implements View.
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         this.view=FragmentCreateMitBinding.inflate(getLayoutInflater());
+        var taskText=view.editTextText.getText().toString();
+
+        var task = new Task(null, taskText,false,-1, calendar.getTimeInMillis() / (24 * 60 * 60 * 1000),'\0');
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
                 .setTitle("New Task")
                 .setMessage("Please provide the task that has to be completed. ")
@@ -60,41 +65,42 @@ public class CreateTaskDialogFragment extends DialogFragment{// implements View.
                 .create();
 
         // Set OnClickListener to the pre-existing save button
-        Button saveButton = view.getRoot().findViewById(R.id.saveButton);
-        saveButton.setOnClickListener(v -> onPositiveButtonClick(alertDialog));
+        Button saveButton = view.saveButton;
+        saveButton.setOnClickListener(v -> onPositiveButtonClick(alertDialog, task));
+
+        ImageView hButton = view.hButton;
+        hButton.setOnClickListener(v -> onTagHClick(alertDialog, task));
+
+        ImageView wButton = view.wButton;
+        wButton.setOnClickListener(v -> onTagWClick(alertDialog, task));
+
+        ImageView sButton = view.sButton;
+        sButton.setOnClickListener(v -> onTagSClick(alertDialog, task));
+
+        ImageView eButton = view.eButton;
+        eButton.setOnClickListener(v -> onTagEClick(alertDialog, task));
 
         return alertDialog;
     }
 
-    private void onPositiveButtonClick(DialogInterface dialog){//}, int which) {
-        var taskText=view.editTextText.getText().toString();
+    private void onPositiveButtonClick(DialogInterface dialog, Task task){//}, int which) {
 
-        var task = new Task(null, taskText,false,-1, calendar.getTimeInMillis() / (24 * 60 * 60 * 1000),'\0');
+        if(task.getTag() == 'h'){
+            
+        } else if(task.getTag() == 'w') {
 
+        } else if(task.getTag() == 's'){
+
+        } else if(task.getTag() == 'e'){
+
+        }
+
+        //Make more prepends, prepends to different views
         activityModel.prepend(task);
-
-        //Tags for task
-        view.hButton.setOnClickListener(v -> {
-           Log.d("ButtonClick", "Button clicked");
-           task.setTag('h');
-        }); 
-        /*if(view.hButton.isPressed()){
-            task.setTag('h');
-        } else if (view.wButton.isPressed()){
-            task.setTag('w');
-        } else if (view.sButton.isPressed()){
-            task.setTag('s');
-        } else if (view.eButton.isPressed()){
-            task.setTag('e');
-        } else {
-            throw new IllegalStateException("No tag was checked.");
-        }*/
 
         // Options for a task
         /*if(view.dailyButton.isChecked()){
-
         } else if (view.weeklyButton.isChecked()){
-
         } else if (view.monthlyButton.isChecked()) {
             //should open calendar
         } else if (view.yearlyButton.isChecked()) {
@@ -112,10 +118,24 @@ public class CreateTaskDialogFragment extends DialogFragment{// implements View.
         dialog.cancel();
     }
 
-    /**
-     * Called when a view has been clicked.
-     *
-     * @param v The view that was clicked.
-     */
+    private void onTagHClick(DialogInterface dialog, Task task) {
+        //Tags for task
+        task.setTag('h');
+    }
+
+    private void onTagSClick(DialogInterface dialog, Task task) {
+        //Tags for task
+        task.setTag('s');
+    }
+
+    private void onTagWClick(DialogInterface dialog, Task task) {
+        //Tags for task
+        task.setTag('w');
+    }
+
+    private void onTagEClick(DialogInterface dialog, Task task) {
+        //Tags for task
+        task.setTag('e');
+    }
 
 }
