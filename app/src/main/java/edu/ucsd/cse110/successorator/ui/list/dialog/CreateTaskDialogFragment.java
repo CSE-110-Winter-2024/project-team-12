@@ -5,6 +5,10 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,10 +19,11 @@ import androidx.lifecycle.ViewModelProvider;
 import java.util.Calendar;
 
 import edu.ucsd.cse110.successorator.MainViewModel;
+import edu.ucsd.cse110.successorator.R;
 import edu.ucsd.cse110.successorator.databinding.FragmentCreateMitBinding;
 import edu.ucsd.cse110.successorator.lib.domain.Task;
 
-public class CreateTaskDialogFragment extends DialogFragment{
+public class CreateTaskDialogFragment extends DialogFragment{// implements View.OnClickListener{
     private MainViewModel activityModel;
     private FragmentCreateMitBinding view;
     Calendar calendar = Calendar.getInstance();
@@ -46,18 +51,23 @@ public class CreateTaskDialogFragment extends DialogFragment{
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         this.view=FragmentCreateMitBinding.inflate(getLayoutInflater());
-        return new AlertDialog.Builder(getActivity())
+        AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
                 .setTitle("New Task")
                 .setMessage("Please provide the task that has to be completed. ")
                 .setView(view.getRoot())
-                //.setPositiveButton("Create", this::onPositiveButtonClick)
+                //.setPositiveButton(getActivity().findViewById(R.id.saveButton), this::onPositiveButtonClick)
                 //.setNegativeButton("Cancel",this::onNegativeButtonClick)
                 .create();
+
+        // Set OnClickListener to the pre-existing save button
+        Button saveButton = view.getRoot().findViewById(R.id.saveButton);
+        saveButton.setOnClickListener(v -> onPositiveButtonClick(alertDialog));
+
+        return alertDialog;
     }
 
-    private void onPositiveButtonClick(DialogInterface dialog, int which) {
+    private void onPositiveButtonClick(DialogInterface dialog){//}, int which) {
         var taskText=view.editTextText.getText().toString();
-
 
         var task = new Task(null, taskText,false,-1, calendar.getTimeInMillis() / (24 * 60 * 60 * 1000),'\0');
 
@@ -101,4 +111,11 @@ public class CreateTaskDialogFragment extends DialogFragment{
     private void onNegativeButtonClick(DialogInterface dialog, int which) {
         dialog.cancel();
     }
+
+    /**
+     * Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+
 }
