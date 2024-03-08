@@ -66,7 +66,7 @@ public class CreateTaskDialogFragment extends DialogFragment{
         //Tags for task
         view.hButton.setOnClickListener(v -> {
            Log.d("ButtonClick", "Button clicked");
-            task.setTag('h');
+           task.setTag('h');
         }); 
         /*if(view.hButton.isPressed()){
             task.setTag('h');

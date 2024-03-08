@@ -8,13 +8,13 @@
     <EditText
         android:id="@+id/editTextText"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="48dp"
         android:layout_marginTop="9dp"
         android:layout_marginBottom="6dp"
         android:ems="10"
         android:hint="@string/placeholder"
         android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/s_button"
+        app:layout_constraintBottom_toTopOf="@+id/sButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,7 +26,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/s_button">
+        app:layout_constraintTop_toBottomOf="@+id/sButton">
 
         <RadioButton
             android:id="@+id/oneTimeButton"
