@@ -18,18 +18,18 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import java.time.LocalDate;
 import java.util.Calendar;
 
 import edu.ucsd.cse110.successorator.MainViewModel;
 import edu.ucsd.cse110.successorator.R;
 import edu.ucsd.cse110.successorator.databinding.FragmentCreateMitBinding;
+import edu.ucsd.cse110.successorator.lib.domain.Tag;
 import edu.ucsd.cse110.successorator.lib.domain.Task;
 
 public class CreateTaskDialogFragment extends DialogFragment{// implements View.OnClickListener{
     private MainViewModel activityModel;
     private FragmentCreateMitBinding view;
-    Calendar calendar = Calendar.getInstance();
-
     CreateTaskDialogFragment() {
 
     }
@@ -53,9 +53,9 @@ public class CreateTaskDialogFragment extends DialogFragment{// implements View.
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         this.view=FragmentCreateMitBinding.inflate(getLayoutInflater());
-        var taskText=view.editTextText.getText().toString();
+        var taskText = view.editTextText.getText().toString();
 
-        var task = new Task(null, taskText,false,-1, calendar.getTimeInMillis() / (24 * 60 * 60 * 1000),'\0');
+        var task = new Task(null, taskText,false,-1, LocalDate.now(),null);
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
                 .setTitle("New Task")
                 .setMessage("Please provide the task that has to be completed. ")
@@ -85,15 +85,15 @@ public class CreateTaskDialogFragment extends DialogFragment{// implements View.
 
     private void onPositiveButtonClick(DialogInterface dialog, Task task){//}, int which) {
 
-        if(task.getTag() == 'h'){
-            
-        } else if(task.getTag() == 'w') {
-
-        } else if(task.getTag() == 's'){
-
-        } else if(task.getTag() == 'e'){
-
-        }
+//        if(task.getTag() == 'h'){
+//
+//        } else if(task.getTag() == 'w') {
+//
+//        } else if(task.getTag() == 's'){
+//
+//        } else if(task.getTag() == 'e'){
+//
+//        }
 
         //Make more prepends, prepends to different views
         activityModel.prepend(task);
@@ -120,22 +120,22 @@ public class CreateTaskDialogFragment extends DialogFragment{// implements View.
 
     private void onTagHClick(DialogInterface dialog, Task task) {
         //Tags for task
-        task.setTag('h');
+        task.setTag(Tag.HOME);
     }
 
     private void onTagSClick(DialogInterface dialog, Task task) {
         //Tags for task
-        task.setTag('s');
+        task.setTag(Tag.SCHOOl);
     }
 
     private void onTagWClick(DialogInterface dialog, Task task) {
         //Tags for task
-        task.setTag('w');
+        task.setTag(Tag.WORK);
     }
 
     private void onTagEClick(DialogInterface dialog, Task task) {
         //Tags for task
-        task.setTag('e');
+        task.setTag(Tag.ERRANDS);
     }
 
 }

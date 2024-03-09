@@ -1,6 +1,7 @@
 package edu.ucsd.cse110.successorator;
 
 import static androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY;
+
 import androidx.lifecycle.LiveData;
 
 import androidx.lifecycle.ViewModel;
@@ -16,7 +17,7 @@ import edu.ucsd.cse110.successorator.lib.util.MutableSubject;
 import edu.ucsd.cse110.successorator.lib.util.SimpleSubject;
 import edu.ucsd.cse110.successorator.lib.util.Subject;
 
-public class MainViewModel extends ViewModel{
+public class MainViewModel extends ViewModel {
 
     // Domain state (true "Model" state)
     private TaskRepository taskRepository;
@@ -45,7 +46,7 @@ public class MainViewModel extends ViewModel{
 
         // When the list of tasks changes (or is first loaded), reset the ordering.
         taskRepository.findAll().observe(tasks -> {
-            if (tasks == null){
+            if (tasks == null) {
                 empty = true;
                 return; // not ready yet, ignore
             }
@@ -59,14 +60,11 @@ public class MainViewModel extends ViewModel{
     }
 
 
-
-
-
     public Subject<List<Task>> getOrderedTasks() {
         return orderedTasks;
     }
 
-    public TaskRepository getTaskRepository(){
+    public TaskRepository getTaskRepository() {
         return taskRepository;
     }
 
@@ -74,15 +72,14 @@ public class MainViewModel extends ViewModel{
         taskRepository.save(task);
     }
 
-    public void append(Task task)
-    {
+    public void append(Task task) {
         taskRepository.append(task);
     }
 
-    public void prepend(Task task)
-    {
+    public void prepend(Task task) {
         taskRepository.prepend(task);
     }
+
     public void remove(int id) {
         taskRepository.remove(id);
     }

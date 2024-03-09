@@ -3,6 +3,10 @@ package edu.ucsd.cse110.successorator.data.db;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+
+import java.time.LocalDate;
+
+import edu.ucsd.cse110.successorator.lib.domain.Tag;
 import edu.ucsd.cse110.successorator.lib.domain.Task;
 
 import edu.ucsd.cse110.successorator.lib.domain.TaskRepository;
@@ -53,13 +57,13 @@ public class TaskEntity {
      * @return returns the TaskEntity object
      */
     public static TaskEntity fromTask(Task task) {
-        return new TaskEntity(task.getId(), task.getText(), task.isDone(), task.getSortOrder(), task.getDate(), task.getTag());
+        return new TaskEntity(task.getId(), task.getText(), task.isDone(), task.getSortOrder(), task.getDate().toEpochDay(), task.getTag().toChar());
     }
     /**
      * This function makes a task from a TaskEntity object
      * @return it returns a Task object with the features from the TaskEntity Object
      */
     public Task toTask() {
-        return new Task(id, text, isDone, sortOrder, date, tag);
+        return new Task(id, text, isDone, sortOrder, LocalDate.ofEpochDay(date), Tag.fromChar(tag));
     }
 }
