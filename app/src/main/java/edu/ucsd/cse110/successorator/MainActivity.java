@@ -4,6 +4,7 @@ import static android.app.PendingIntent.getActivity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -131,13 +132,13 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         LocalDate today = LocalDate.now();
         TaskRepository temp = activityModel.getTaskRepository();
-        temp.findAll().observe(tasks -> {
+        /*temp.findAll().observe(tasks -> {
             for (Task task : tasks) {
                 if (task.getDate() != today && task.isDone()) {
-                    activityModel.remove(task.getId());
+                    //activityModel.remove(task.getId());
                 }
             }
-        });
+        });*/
         checkForDayChange();
         daysAdded = 0;
         showTime(daysAdded);
