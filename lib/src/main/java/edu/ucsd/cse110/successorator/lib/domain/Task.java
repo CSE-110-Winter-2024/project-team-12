@@ -25,7 +25,7 @@ import java.util.Objects;
  */
 public class Task implements Serializable {
     private final @Nullable Integer id;
-    private final String text;
+    private String text;
     private final boolean isDone;
     private int sortOrder;
 
@@ -65,6 +65,11 @@ public class Task implements Serializable {
 
     public String getText() {
         return text;
+    }
+
+    public Task setText(String text) {
+        this.text = text;
+        return this;
     }
 
 
@@ -114,7 +119,7 @@ public class Task implements Serializable {
 
     public Task setTag(Tag tag){
         this.tag = tag;
-        return new Task(id, text, isDone, sortOrder, date, tag);
+        return this;
     }
 
     public Tag getTag(){

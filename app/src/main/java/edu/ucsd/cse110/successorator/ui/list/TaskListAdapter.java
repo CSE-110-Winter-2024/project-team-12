@@ -66,6 +66,7 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
             binding.taskText.setPaintFlags(binding.taskText.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
         }
 
+        // Displays the corresponding tag with task
         Drawable drawable = tagDrawableFactory.apply(task.getTag());
         binding.taskTagImage.setForeground(drawable);
 

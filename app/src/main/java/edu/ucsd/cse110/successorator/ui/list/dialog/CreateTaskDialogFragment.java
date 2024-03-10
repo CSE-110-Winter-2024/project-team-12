@@ -53,9 +53,10 @@ public class CreateTaskDialogFragment extends DialogFragment{// implements View.
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         this.view=FragmentCreateMitBinding.inflate(getLayoutInflater());
-        var taskText = view.editTextText.getText().toString();
+        //var taskText = view.editTaskText.getText().toString();
 
-        var task = new Task(null, taskText,false,-1, LocalDate.now(),null);
+        var task = new Task(null, null,false,-1, LocalDate.now(),null);
+
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
                 .setTitle("New Task")
                 .setMessage("Please provide the task that has to be completed. ")
@@ -83,17 +84,9 @@ public class CreateTaskDialogFragment extends DialogFragment{// implements View.
         return alertDialog;
     }
 
-    private void onPositiveButtonClick(DialogInterface dialog, Task task){//}, int which) {
-
-//        if(task.getTag() == 'h'){
-//
-//        } else if(task.getTag() == 'w') {
-//
-//        } else if(task.getTag() == 's'){
-//
-//        } else if(task.getTag() == 'e'){
-//
-//        }
+    private void onPositiveButtonClick(DialogInterface dialog, Task task){
+        var taskText = view.editTaskText.getText().toString();
+        task.setText(taskText);
 
         //Make more prepends, prepends to different views
         activityModel.prepend(task);
@@ -137,5 +130,4 @@ public class CreateTaskDialogFragment extends DialogFragment{// implements View.
         //Tags for task
         task.setTag(Tag.ERRANDS);
     }
-
 }
