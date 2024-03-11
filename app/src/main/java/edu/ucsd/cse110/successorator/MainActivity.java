@@ -96,10 +96,22 @@ public class MainActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.view, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         spinnerView.setAdapter(adapter);
+        TextView TaskType = findViewById(R.id.TasksType);
+        TaskType.setText("Today's Tasks");
         spinnerView.setOnItemSelectedListener(new FragmentDropdownSelectListener(this, pos -> {
             switch (pos) {
-                case 0: return TaskListFragment.newInstance(LocalDate.now());
-                case 1: return TaskListFragment.newInstance(LocalDate.now().plusDays(1));
+                case 0:
+                    TaskType.setText("Today's Tasks");
+                    return TaskListFragment.newInstance(LocalDate.now());
+                case 1:
+                    TaskType.setText("Tomorrow's Tasks");
+                    return TaskListFragment.newInstance(LocalDate.now().plusDays(1));
+                case 2:
+                    TaskType.setText("Recurring Tasks");
+                    return TaskListFragment.newInstance(LocalDate.now());
+                case 3:
+                    TaskType.setText("Pending Tasks");
+                    return TaskListFragment.newInstance(LocalDate.now());
                 default:
                     throw new RuntimeException("NOT IMPLEMENTED YET");
             }
