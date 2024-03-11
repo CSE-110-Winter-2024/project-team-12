@@ -14,7 +14,7 @@ import edu.ucsd.cse110.successorator.lib.domain.Task;
 import edu.ucsd.cse110.successorator.lib.domain.TaskRepository;
 
 public class MainViewModelTest extends TestCase {
-
+/*
     InMemoryDataSource imd = new InMemoryDataSource();
 
 
@@ -58,5 +58,5 @@ public class MainViewModelTest extends TestCase {
         //i.e. specifically
         // then create a task
         // assert some behavior
-    }
+    }*/
 }

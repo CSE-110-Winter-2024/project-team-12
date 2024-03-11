@@ -25,11 +25,13 @@ public class TaskTest {
     public void setUp() throws Exception {
         task = new Task(1, "Initial task", false, 1, null, null);
         todayTask = new Task(2, "Initial task", false, 2, LocalDate.now(), null);
-        //tomorrowTask = new Task(3, "Initial task", false, 3, LocalDate.from(LocalDate.now()).plusDays(1), null);
-        homeTask = new Task(4, "Initial task", false, 4, null, Tag.HOME);
-        //workTask = new Task(5, "Initial task", false, 5, null, Tag.WORK);
-        //schoolTask = new Task(6, "Initial task", false, 6, null, Tag.SCHOOl);
-        //errandTask = new Task(7, "Initial task", false, 7, null, Tag.ERRANDS);
+        homeTask = new Task(3, "Initial task", false, 4, null, Tag.HOME);
+        //tomorrowTask = new Task(4, "Initial task", false, 3, LocalDate.from(LocalDate.now()).plusDays(1), null);
+        //pendingTask = new Task(5, "Initial task", false, 3, null, null);
+        //recurringTask = new Task(6, "Initial task", false, 3, null, null);
+        //workTask = new Task(7, "Initial task", false, 5, null, Tag.WORK);
+        //schoolTask = new Task(8, "Initial task", false, 6, null, Tag.SCHOOl);
+        //errandTask = new Task(9, "Initial task", false, 7, null, Tag.ERRANDS);
     }
 
     @Test
