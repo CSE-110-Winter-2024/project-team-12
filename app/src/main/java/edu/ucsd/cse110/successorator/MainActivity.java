@@ -4,6 +4,7 @@ import static android.app.PendingIntent.getActivity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -13,8 +14,8 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Date;
 import java.text.DateFormat;
 import androidx.annotation.NonNull;
@@ -24,11 +25,12 @@ import androidx.lifecycle.ViewModelProvider;
 
 import java.util.Calendar;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import edu.ucsd.cse110.successorator.databinding.ActivityMainBinding;
+import edu.ucsd.cse110.successorator.lib.domain.Tag;
 import edu.ucsd.cse110.successorator.lib.domain.TaskRepository;
-import edu.ucsd.cse110.successorator.ui.list.NavigateTaskFragment;
+import edu.ucsd.cse110.successorator.ui.list.FragmentDropdownSelectListener;
+import edu.ucsd.cse110.successorator.ui.list.TaskListFragment;
 import edu.ucsd.cse110.successorator.ui.list.dialog.CreateTaskDialogFragment;
 import edu.ucsd.cse110.successorator.lib.domain.Task;
 
@@ -64,11 +66,6 @@ public class MainActivity extends AppCompatActivity {
       // Sets view to the inflated binding of activity_main.xml
         this.view = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(view.getRoot());
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, new NavigateTaskFragment())
-                    .commit();
-        }
 
         Button timeskipButton = findViewById(R.id.timeskipButton);
         timeskipButton.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
                 setStartingText();
                 checkForDayChange();
             }
-
         });
 
         showTime(daysAdded);
@@ -96,11 +92,18 @@ public class MainActivity extends AppCompatActivity {
         setStartingText();
 
         // ui change for the spinner view
-        Spinner spinnerView=findViewById(R.id.spinner_view);
-        ArrayAdapter<CharSequence> adapter=ArrayAdapter.createFromResource(this, R.array.view, android.R.layout.simple_spinner_item);
+        Spinner spinnerView = findViewById(R.id.spinner_view);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.view, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         spinnerView.setAdapter(adapter);
-        
+        spinnerView.setOnItemSelectedListener(new FragmentDropdownSelectListener(this, pos -> {
+            switch (pos) {
+                case 0: return TaskListFragment.newInstance(LocalDate.now());
+                case 1: return TaskListFragment.newInstance(LocalDate.now().plusDays(1));
+                default:
+                    throw new RuntimeException("NOT IMPLEMENTED YET");
+            }
+        }));
     }
 
     // Creates the options menu for app from files placed in app/res/menu package
@@ -127,15 +130,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        long currentEpochDay = calendar.getTimeInMillis() / (24 * 60 * 60 * 1000);
+        LocalDate today = LocalDate.now();
         TaskRepository temp = activityModel.getTaskRepository();
-        temp.findAll().observe(tasks -> {
+        /*temp.findAll().observe(tasks -> {
             for (Task task : tasks) {
-                if (task.getDate() != currentEpochDay && task.isDone()) {
-                    activityModel.remove(task.getId());
+                if (task.getDate() != today && task.isDone()) {
+                    //activityModel.remove(task.getId());
                 }
             }
-        });
+        });*/
         checkForDayChange();
         daysAdded = 0;
         showTime(daysAdded);
@@ -149,33 +152,34 @@ public class MainActivity extends AppCompatActivity {
         showTime(daysAdded);
     }
 
-    private void saveLastKnownDay(long epochDay) {
+    private void saveLastKnownDay(LocalDate day) {
         SharedPreferences sharedPref = getSharedPreferences("AppPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putLong("LastKnownEpochDay", epochDay);
+        editor.putLong("LastKnownEpochDay", day.toEpochDay());
         editor.apply();
     }
 
-    private long getLastKnownDay() {
+    private LocalDate getLastKnownDay() {
         SharedPreferences sharedPref = getSharedPreferences("AppPrefs", MODE_PRIVATE);
-        return sharedPref.getLong("LastKnownEpochDay", -1);
+        return LocalDate.ofEpochDay(sharedPref.getLong("LastKnownEpochDay", -1));
     }
 
     private void checkForDayChange() {
-        long currentEpochDay = calendar.getTimeInMillis() / (24 * 60 * 60 * 1000);
+        LocalDate today = LocalDate.now();
         // for when the app starts again
         ArrayList<Task>doneList = new ArrayList<>();
         List<Task> taskRepo = activityModel.getTaskRepository().findAll().getValue();
         if (taskRepo != null) {
             for (Task task : taskRepo) {
-                if (task.getDate() != currentEpochDay && !task.isDone()) {
+                if (task.getDate() != today && !task.isDone()) {
                     int id = task.getId();
                     String text = task.getText();
-                    Boolean isDone = task.isDone();
+                    boolean isDone = task.isDone();
                     int sortOrder = task.getSortOrder();
                     activityModel.remove(task.getId());
-                    doneList.add(new Task(id, text, isDone, sortOrder, currentEpochDay));
-                } else if (task.getDate() != currentEpochDay && task.isDone()) {
+                    Tag tag = task.getTag();
+                    doneList.add(new Task(id, text, isDone, sortOrder, today, tag));
+                } else if (task.getDate() != today && task.isDone()) {
                     activityModel.remove(task.getId());
                 }
             }
@@ -187,14 +191,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // for the timeskip
-        if (currentEpochDay != getLastKnownDay()) {
+        if (today != getLastKnownDay()) {
             ArrayList<Integer> temp = Task.getDoneToday();
             for (int taskId : temp) {
                 activityModel.remove(taskId);
             }
             Task.clearDoneToday();
             setStartingText();
-            saveLastKnownDay(currentEpochDay);
+            saveLastKnownDay(today);
         }
         setStartingText();
     }

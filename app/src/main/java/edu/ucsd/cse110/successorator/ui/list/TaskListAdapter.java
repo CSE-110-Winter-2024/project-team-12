@@ -1,6 +1,7 @@
 package edu.ucsd.cse110.successorator.ui.list;
 import android.content.Context;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,17 +14,21 @@ import androidx.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import edu.ucsd.cse110.successorator.databinding.TaskListItemBinding;
+import edu.ucsd.cse110.successorator.lib.domain.Tag;
 import edu.ucsd.cse110.successorator.lib.domain.Task;
 
 
 public class TaskListAdapter extends ArrayAdapter<Task> {
     private final Consumer<Task> onTaskClicked;
+    private final Function<Tag, Drawable> tagDrawableFactory;
 
     public TaskListAdapter(Context context,
                            List<Task> tasks,
-                           Consumer<Task> onTaskClicked) {
+                           Consumer<Task> onTaskClicked,
+                           Function<Tag, Drawable> tagDrawableFactory) {
         // This sets a bunch of stuff internally, which we can access
         // with getContext() and getItem() for example.
         //
@@ -31,6 +36,7 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
         // or it will crash!
         super(context, 0, new ArrayList<>(tasks));
         this.onTaskClicked = onTaskClicked;
+        this.tagDrawableFactory = tagDrawableFactory;
     }
 
     @NonNull
@@ -58,12 +64,14 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
             binding.taskText.setPaintFlags(binding.taskText.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         } else {
             binding.taskText.setPaintFlags(binding.taskText.getPaintFlags() & (~Paint.STRIKE_THRU_TEXT_FLAG));
-
         }
+
+        // Displays the corresponding tag with task
+        Drawable drawable = tagDrawableFactory.apply(task.getTag());
+        binding.taskTagImage.setForeground(drawable);
 
         // V -> M
         // Make clicks update the model in the repo.
-
         binding.taskText.setOnClickListener(v -> {
             onTaskClicked.accept(task);
         });

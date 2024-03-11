@@ -3,6 +3,10 @@ package edu.ucsd.cse110.successorator.data.db;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+
+import java.time.LocalDate;
+
+import edu.ucsd.cse110.successorator.lib.domain.Tag;
 import edu.ucsd.cse110.successorator.lib.domain.Task;
 
 import edu.ucsd.cse110.successorator.lib.domain.TaskRepository;
@@ -28,6 +32,9 @@ public class TaskEntity {
     public int sortOrder;
     @ColumnInfo(name="date")
     public long date;
+
+    @ColumnInfo(name="tag")
+    public char tag;
     /**
      * This function initializes a TaskEntity object.
      * @param id the task id
@@ -35,12 +42,13 @@ public class TaskEntity {
      * @param isDone the status of the task - whether or not its done
      * @param sortOrder the sortOrder of the task
      */
-    public TaskEntity(Integer id, String text, boolean isDone, int sortOrder, long date)  {
+    public TaskEntity(Integer id, String text, boolean isDone, int sortOrder, long date, char tag)  {
         this.id = id;
         this.text = text;
         this.isDone = isDone;
         this.sortOrder = sortOrder;
         this.date = date;
+        this.tag = tag;
     }
 
     /**
@@ -49,13 +57,13 @@ public class TaskEntity {
      * @return returns the TaskEntity object
      */
     public static TaskEntity fromTask(Task task) {
-        return new TaskEntity(task.getId(), task.getText(), task.isDone(), task.getSortOrder(), task.getDate());
+        return new TaskEntity(task.getId(), task.getText(), task.isDone(), task.getSortOrder(), task.getDate().toEpochDay(), task.getTag().toChar());
     }
     /**
      * This function makes a task from a TaskEntity object
      * @return it returns a Task object with the features from the TaskEntity Object
      */
     public Task toTask() {
-        return new Task(id, text, isDone, sortOrder, date);
+        return new Task(id, text, isDone, sortOrder, LocalDate.ofEpochDay(date), Tag.fromChar(tag));
     }
 }

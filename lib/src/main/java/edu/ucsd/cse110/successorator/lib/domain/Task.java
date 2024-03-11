@@ -2,6 +2,7 @@ package edu.ucsd.cse110.successorator.lib.domain;
 import androidx.annotation.Nullable;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -24,11 +25,12 @@ import java.util.Objects;
  */
 public class Task implements Serializable {
     private final @Nullable Integer id;
-    private final String text;
+    private String text;
     private final boolean isDone;
     private int sortOrder;
 
-    private long date;
+    private LocalDate date;
+    private Tag tag;
     private static ArrayList<Integer> DoneToday = new ArrayList<>();;
 
     Calendar calendar = Calendar.getInstance();
@@ -37,7 +39,7 @@ public class Task implements Serializable {
     private static int minOrder = 0;
 
 
-    public Task(@Nullable Integer id, String text, boolean isDone, Integer sortOrder, long date) {
+    public Task(@Nullable Integer id, String text, boolean isDone, Integer sortOrder, LocalDate date, Tag tag) {
         this.id = id;
         this.text = text;
         this.isDone = isDone;
@@ -49,6 +51,7 @@ public class Task implements Serializable {
             minOrder = sortOrder;
         }
         this.date = date;
+        this.tag = tag;
     }
 
     @Nullable
@@ -57,16 +60,21 @@ public class Task implements Serializable {
     }
 
     public Task withId(@Nullable Integer id) {
-        return new Task(id, text, isDone, sortOrder, calendar.getTimeInMillis() / (24 * 60 * 60 * 1000));
+        return new Task(id, text, isDone, sortOrder, date, tag);
     }
 
     public String getText() {
         return text;
     }
 
+    public Task setText(String text) {
+        this.text = text;
+        return this;
+    }
+
 
     public Task withText(String text) {
-        return new Task(id, text, isDone, sortOrder, calendar.getTimeInMillis() / (24 * 60 * 60 * 1000));
+        return new Task(id, text, isDone, sortOrder, date, tag);
     }
 
     public boolean isDone() {
@@ -83,13 +91,14 @@ public class Task implements Serializable {
             this.sortOrder = minOrder;
             DoneToday.remove(this.id);
         }
-        return new Task(id, text, isDone, sortOrder, calendar.getTimeInMillis() / (24 * 60 * 60 * 1000));
+        return new Task(id, text, isDone, sortOrder, date, tag);
     }
 
-    public Task setDate(long date) {
+    public Task setDate(LocalDate date) {
         this.date = date;
-        return new Task(id, text, isDone, sortOrder, date);
+        return this;
     }
+
     public static ArrayList<Integer> getDoneToday(){
         // for when the actual date changes
         return DoneToday;
@@ -104,14 +113,21 @@ public class Task implements Serializable {
     public Integer getSortOrder() {
         return sortOrder;
     }
-    public long getDate(){
+    public LocalDate getDate(){
         return date;
     }
 
+    public Task setTag(Tag tag){
+        this.tag = tag;
+        return this;
+    }
 
+    public Tag getTag(){
+        return tag;
+    }
 
     public Task withSortOrder(int sortOrder) {
-        return new Task(id, text, isDone, sortOrder, calendar.getTimeInMillis() / (24 * 60 * 60 * 1000));
+        return new Task(id, text, isDone, sortOrder, date, tag);
     }
 
     @Override
