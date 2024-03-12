@@ -1,5 +1,7 @@
 package edu.ucsd.cse110.successorator.ui.list;
 
+import static edu.ucsd.cse110.successorator.lib.domain.Tag.HOME;
+
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,6 +36,7 @@ public class TaskListFragment extends Fragment {
     private TaskListAdapter adapter;
 
     private @Nullable LocalDate filterDate = null;
+    public @Nullable Tag filterType = null;
 
     public TaskListFragment() {
         // Required empty public constructor
@@ -55,6 +58,7 @@ public class TaskListFragment extends Fragment {
         var bundle = getArguments();
         if (bundle != null) {
             filterDate = (LocalDate) bundle.getSerializable(ARG_FILTER_DATE);
+            //filterType = HOME;
         } else {
             filterDate = null;
         }
@@ -85,6 +89,13 @@ public class TaskListFragment extends Fragment {
             var filteredTasks = filterDate == null ? tasks : tasks.stream()
                     .filter(t -> t.getDate().equals(filterDate))
                     .collect(Collectors.toList());
+
+            if(filterType != null) {
+                filteredTasks = filterType == null ? tasks : tasks.stream()
+                        .filter(t -> t.getTag().toChar() == filterType.toChar())
+                        .collect(Collectors.toList());
+            }
+
 
             adapter.clear();
             adapter.addAll(new ArrayList<>(filteredTasks)); // remember the mutable copy here!

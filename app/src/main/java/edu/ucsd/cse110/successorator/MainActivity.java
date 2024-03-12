@@ -102,15 +102,19 @@ public class MainActivity extends AppCompatActivity {
             switch (pos) {
                 case 0:
                     TaskType.setText("Today's Tasks");
+                    showTime(0);
                     return TaskListFragment.newInstance(LocalDate.now());
                 case 1:
                     TaskType.setText("Tomorrow's Tasks");
+                    showTime(1);
                     return TaskListFragment.newInstance(LocalDate.now().plusDays(1));
                 case 2:
                     TaskType.setText("Recurring Tasks");
+                    showTime(0);
                     return TaskListFragment.newInstance(LocalDate.now());
                 case 3:
                     TaskType.setText("Pending Tasks");
+                    showTime(0);
                     return TaskListFragment.newInstance(LocalDate.now());
                 default:
                     throw new RuntimeException("NOT IMPLEMENTED YET");
