@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -98,6 +99,10 @@ public class TaskListFragment extends Fragment {
                         .filter(t -> t.getTag().toChar() == filterType.toChar())
                         .collect(Collectors.toList());
             }
+            filteredTasks = filteredTasks.stream()
+                    .sorted(Comparator.comparing(t -> t.getTag().toString()))
+                    .collect(Collectors.toList());
+
             adapter.clear();
             adapter.addAll(new ArrayList<>(filteredTasks)); // remember the mutable copy here!
             adapter.notifyDataSetChanged();
