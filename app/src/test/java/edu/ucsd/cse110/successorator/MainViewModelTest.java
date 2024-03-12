@@ -1,27 +1,19 @@
 package edu.ucsd.cse110.successorator;
 
-import androidx.annotation.Nullable;
-
 import junit.framework.TestCase;
 
-import org.junit.*;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import edu.ucsd.cse110.successorator.lib.data.InMemoryDataSource;
 import edu.ucsd.cse110.successorator.lib.domain.SimpleTaskRepository;
 import edu.ucsd.cse110.successorator.lib.domain.Tag;
 import edu.ucsd.cse110.successorator.lib.domain.Task;
-import edu.ucsd.cse110.successorator.lib.domain.TaskRepository;
-import edu.ucsd.cse110.successorator.lib.util.MutableSubject;
-import edu.ucsd.cse110.successorator.lib.util.Observer;
 import edu.ucsd.cse110.successorator.lib.util.SimpleSubject;
-import edu.ucsd.cse110.successorator.lib.util.Subject;
 
 public class MainViewModelTest extends TestCase {
 
@@ -40,7 +32,6 @@ public class MainViewModelTest extends TestCase {
     public void setUp(){
         imd.putTask(homeTomorrowTask);
         imd.putTask(errandsTodayTask);
-        imd.putTask(workTomorrowTask);
         imd.putTask(schoolTodayTask);
     }
     @Test
@@ -49,7 +40,6 @@ public class MainViewModelTest extends TestCase {
         tasks.add(homeTomorrowTask);
         tasks.add(schoolTodayTask);
         tasks.add(errandsTodayTask);
-        tasks.add(workTomorrowTask);
 
         SimpleSubject<List<Task>> orderedTasks = new SimpleSubject<List<Task>>();
         orderedTasks.setValue(tasks);
@@ -58,47 +48,58 @@ public class MainViewModelTest extends TestCase {
         assertEquals(mvm.getOrderedTasks().getValue(), orderedTasks.getValue());
     }
 
+    @Test
     public void testGetTaskRepository() {
         assertEquals(str, mvm.getTaskRepository());
     }
 
-    /*
+    @Test
     public void testSave() {
-
+        mvm.save(workTomorrowTask);
+        assertEquals(imd.getTask(imd.getMaxSortOrder()),workTomorrowTask);
     }
 
     @Test
     public void testAppend() {
-        assertEquals(2, imd.getTasks().size());
-        mvm.append(testTask1);
         assertEquals(3, imd.getTasks().size());
-        //getOrderedTasks returns Subject<List<Task>>
+        Task testTask1 = new Task(4, "test", false, 5, LocalDate.from(LocalDate.from(LocalDate.now().plusDays(1))),Tag.HOME);
+        mvm.append(testTask1);
+        assertEquals(4, imd.getTasks().size());
+        assertEquals(imd.getTask(4).getTag(),Tag.HOME);
+        assertEquals(imd.getTask(4).getDate(),LocalDate.from(LocalDate.from(LocalDate.now().plusDays(1))));
+        assertEquals(imd.getTask(4).getText(),"test");
+        assertEquals(imd.getTask(4).getSortOrder(), Integer.valueOf(4));
+        assertFalse(imd.getTask(4).isDone());
     }
 
+    @Test
     public void testPrepend() {
+        assertEquals(3, imd.getTasks().size());
+        Task testTask1 = new Task(5, "test", false, 5, LocalDate.from(LocalDate.from(LocalDate.now().plusDays(1))),Tag.HOME);
+        mvm.prepend(testTask1);
+        assertEquals(4, imd.getTasks().size());
+        assertEquals(imd.getTask(5).getTag(),Tag.HOME);
+        assertEquals(imd.getTask(5).getDate(),LocalDate.from(LocalDate.from(LocalDate.now().plusDays(1))));
+        assertEquals(imd.getTask(5).getText(),"test");
+        assertEquals(imd.getTask(5).getSortOrder(), Integer.valueOf(1));
+        assertFalse(imd.getTask(5).isDone());
     }
 
-
-    public void scenario1(){
-        // create task
-        // then delete it
-        // then move to tmrw
-        //i.e. specifically
-        // then create a task
-        // assert some behavior
-    }*/
-/*
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        MainViewModel mvm = (MainViewModel) o;
-        return mvm.getOrderedTasks().equals(this.);
+    @Test
+    public void testRemove(){
+        assertEquals(3, imd.getTasks().size());
+        Task testTask1 = imd.getTask(3);
+        mvm.remove(3);
+        assertEquals(2, imd.getTasks().size());
+        assertTrue(imd.getTask(3) == null);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, text, isDone, sortOrder, date);
+    public void testMoveDeletedTask(){
+        Task testTask1 = new Task(4,"Test",false,4, LocalDate.from(LocalDate.now()), Tag.WORK);
+        mvm.append(testTask1);
+        mvm.remove(4);
+        testTask1.withDate(LocalDate.from(LocalDate.from(LocalDate.now().plusDays(1))));
+        assertTrue(imd.getTask(4)==null);
     }
-}*/
+
 }
