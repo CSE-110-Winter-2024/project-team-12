@@ -35,12 +35,6 @@ public class SimpleTaskRepository implements TaskRepository {
         dataSource.putTask(task);
     }
 
-    // saves a List<Task> object by putting into dataSource
-    @Override
-    public void save(List<Task> tasks) {
-        dataSource.putTasks(tasks);
-    }
-
     // removes a Task object associated with the input id by calling removeTask query on dataSource
     @Override
     public void remove(int id) {

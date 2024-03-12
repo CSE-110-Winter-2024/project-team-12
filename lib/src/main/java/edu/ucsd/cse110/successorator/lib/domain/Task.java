@@ -8,10 +8,6 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Objects;
 
-
-//import edu.ucsd.cse110.successorator.lib.util.errors.NotImplementedException;
-
-
 /*
  * This class is an object that represents a single task
  *
@@ -67,11 +63,9 @@ public class Task implements Serializable {
         return text;
     }
 
-    public Task setText(String text) {
+    public void setText(String text) {
         this.text = text;
-        return this;
     }
-
 
     public Task withText(String text) {
         return new Task(id, text, isDone, sortOrder, date, tag);
@@ -94,7 +88,7 @@ public class Task implements Serializable {
         return new Task(id, text, isDone, sortOrder, date, tag);
     }
 
-    public Task setDate(LocalDate date) {
+    public Task withDate(LocalDate date) {
         this.date = date;
         return this;
     }
@@ -117,9 +111,8 @@ public class Task implements Serializable {
         return date;
     }
 
-    public Task setTag(Tag tag){
+    public void setTag(Tag tag){
         this.tag = tag;
-        return this;
     }
 
     public Tag getTag(){

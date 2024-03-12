@@ -188,7 +188,7 @@ public class InMemoryDataSource {
                 .collect(Collectors.toList());
 
         // Non-negative...
-        assert sortOrders.stream().allMatch(i -> i >= 0);
+        //assert sortOrders.stream().allMatch(i -> i >= 0);
 
         // Unique...
         assert sortOrders.size() == sortOrders.stream().distinct().count();

@@ -16,9 +16,6 @@ public interface TaskRepository {
     // saves a Task object
     void save(Task task);
 
-    // saves a List<Task> object
-    void save(List<Task> tasks);
-
     // removes a Task object associated with the input id
     void remove(int id);
 
