@@ -100,7 +100,9 @@ public class MainActivity extends AppCompatActivity {
         TaskType.setText("Choose Tasks");
         spinnerView.setOnItemSelectedListener(new FragmentDropdownSelectListener(this, pos -> {
             switch (pos) {
+                // this is for filtering for different task types
                 case 0:
+                    // this is for the main list with all the tasks
                     TaskType.setText("All Tasks");
                     showTime(0);
                     inMain = true;
@@ -146,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
             LocalDate temp = TaskListFragment.filterDate;
             System.out.println(temp);
             switch (pos) {
+                // shows the different choices for filtering for different task contexts
                 case 0:
                     TaskListFragment.filterType = null;
                     return TaskListFragment.newInstance(temp, inMain);
