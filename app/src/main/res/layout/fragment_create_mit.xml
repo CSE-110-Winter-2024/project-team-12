@@ -29,7 +29,7 @@
         app:layout_constraintTop_toBottomOf="@+id/sButton">
 
         <RadioButton
-            android:id="@+id/oneTimeButton"
+            android:id="@+id/TodayButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="30sp"
@@ -37,19 +37,19 @@
             android:textSize="30sp" />
 
         <RadioButton
-            android:id="@+id/dailyButton"
+            android:id="@+id/TomorrowButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="30sp"
-            android:text="Daily"
+            android:text="Tomorrow"
             android:textSize="30sp" />
 
         <RadioButton
-            android:id="@+id/weeklyButton"
+            android:id="@+id/PendingButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="30sp"
-            android:text="Weekly on ..."
+            android:text="Pending"
             android:textSize="30sp" />
 
         <RadioButton

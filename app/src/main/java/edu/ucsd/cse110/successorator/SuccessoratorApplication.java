@@ -24,6 +24,24 @@ public class SuccessoratorApplication extends Application {
             database.execSQL("ALTER TABLE tasks ADD COLUMN date INTEGER NOT NULL DEFAULT 0");
         }
     };
+    static final Migration MIGRATION_2_3 = new Migration(2, 3) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE tasks_temp (" +
+                    "id INTEGER PRIMARY KEY," +
+                    "text TEXT," +
+                    "is_done INTEGER NOT NULL," +
+                    "sort_order INTEGER NOT NULL," +
+                    "date INTEGER," +
+                    "tag INTEGER NOT NULL);");
+
+            database.execSQL("INSERT INTO tasks_temp (id, text, is_done, sort_order, date, tag)" +
+                    "SELECT id, text, is_done, sort_order, date, tag FROM tasks");
+
+            database.execSQL("DROP TABLE tasks");
+            database.execSQL("ALTER TABLE tasks_temp RENAME TO tasks");
+        }
+    };
     @Override
     public void onCreate() {
         super.onCreate();
@@ -35,6 +53,7 @@ public class SuccessoratorApplication extends Application {
                 )
                 .allowMainThreadQueries()
                 .addMigrations(MIGRATION_1_2)
+                .addMigrations(MIGRATION_2_3)
                 .build();
         this.taskRepository=new RoomTaskRepository((database.taskDao()));
 

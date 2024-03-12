@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isShowingCreateTask = true;
     public int daysAdded = 0;
-
+    private boolean inMain = true;
     Calendar calendar = Calendar.getInstance();
 
 
@@ -97,27 +97,39 @@ public class MainActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         spinnerView.setAdapter(adapter);
         TextView TaskType = findViewById(R.id.TasksType);
-        TaskType.setText("Today's Tasks");
+        TaskType.setText("Choose Tasks");
         spinnerView.setOnItemSelectedListener(new FragmentDropdownSelectListener(this, pos -> {
             switch (pos) {
                 case 0:
+                    TaskType.setText("All Tasks");
+                    showTime(0);
+                    inMain = true;
+                    return TaskListFragment.newInstance(null, true);
+                case 1:
                     TaskType.setText("Today's Tasks");
                     showTime(0);
-                    return TaskListFragment.newInstance(LocalDate.now());
-                case 1:
+                    inMain = false;
+                    return TaskListFragment.newInstance(LocalDate.now(), false);
+                case 2:
                     TaskType.setText("Tomorrow's Tasks");
                     showTime(1);
-                    return TaskListFragment.newInstance(LocalDate.now().plusDays(1));
-                case 2:
+                    inMain = false;
+                    return TaskListFragment.newInstance(LocalDate.now().plusDays(1), false);
+                case 3:
                     TaskType.setText("Recurring Tasks");
                     showTime(0);
-                    return TaskListFragment.newInstance(LocalDate.now());
-                case 3:
+                    inMain = false;
+                    return TaskListFragment.newInstance(LocalDate.now(), false);
+                case 4:
                     TaskType.setText("Pending Tasks");
                     showTime(0);
-                    return TaskListFragment.newInstance(LocalDate.now());
+                    inMain = false;
+                    return TaskListFragment.newInstance(null, false);
                 default:
-                    throw new RuntimeException("NOT IMPLEMENTED YET");
+                    TaskType.setText("All Tasks");
+                    showTime(0);
+                    inMain = true;
+                    return TaskListFragment.newInstance(null, true);
             }
         }));
 
@@ -136,22 +148,22 @@ public class MainActivity extends AppCompatActivity {
             switch (pos) {
                 case 0:
                     TaskListFragment.filterType = null;
-                    return TaskListFragment.newInstance(temp);
+                    return TaskListFragment.newInstance(temp, inMain);
                 case 1:
                     TaskListFragment.filterType = Tag.fromChar('h');
-                    return TaskListFragment.newInstance(temp);
+                    return TaskListFragment.newInstance(temp, inMain);
                 case 2:
                     TaskListFragment.filterType = Tag.fromChar('w');
-                    return TaskListFragment.newInstance(temp);
+                    return TaskListFragment.newInstance(temp, inMain);
                 case 3:
                     TaskListFragment.filterType = Tag.fromChar('s');
-                    return TaskListFragment.newInstance(temp);
+                    return TaskListFragment.newInstance(temp, inMain);
                 case 4:
                     TaskListFragment.filterType = Tag.fromChar('e');
-                    return TaskListFragment.newInstance(temp);
+                    return TaskListFragment.newInstance(temp, inMain);
                 default:
                     TaskListFragment.filterType = null;
-                    return TaskListFragment.newInstance(temp);
+                    return TaskListFragment.newInstance(temp, inMain);
             }
         }));
 

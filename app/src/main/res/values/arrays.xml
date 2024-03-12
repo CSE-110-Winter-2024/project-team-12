@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="view">
+        <item>Main View</item>
         <item>Today View</item>
         <item>Tomorrow View</item>
         <item>Recurring View</item>
