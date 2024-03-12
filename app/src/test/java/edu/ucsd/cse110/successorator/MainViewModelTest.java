@@ -11,6 +11,7 @@ import org.junit.Test;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import edu.ucsd.cse110.successorator.lib.data.InMemoryDataSource;
 import edu.ucsd.cse110.successorator.lib.domain.SimpleTaskRepository;
@@ -53,7 +54,8 @@ public class MainViewModelTest extends TestCase {
         SimpleSubject<List<Task>> orderedTasks = new SimpleSubject<List<Task>>();
         orderedTasks.setValue(tasks);
 
-        assertEquals(mvm.getOrderedTasks(), orderedTasks);
+        SimpleSubject<List<Task>> test= (SimpleSubject<List<Task>>) mvm.getOrderedTasks();
+        assertEquals(mvm.getOrderedTasks().getValue(), orderedTasks.getValue());
     }
 
     public void testGetTaskRepository() {
@@ -85,4 +87,18 @@ public class MainViewModelTest extends TestCase {
         // then create a task
         // assert some behavior
     }*/
+/*
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MainViewModel mvm = (MainViewModel) o;
+        return mvm.getOrderedTasks().equals(this.);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, text, isDone, sortOrder, date);
+    }
+}*/
 }
