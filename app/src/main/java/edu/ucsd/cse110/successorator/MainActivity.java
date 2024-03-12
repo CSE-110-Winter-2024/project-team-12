@@ -4,7 +4,6 @@ import static android.app.PendingIntent.getActivity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -25,6 +24,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 import edu.ucsd.cse110.successorator.databinding.ActivityMainBinding;
 import edu.ucsd.cse110.successorator.lib.domain.Tag;
@@ -120,6 +120,41 @@ public class MainActivity extends AppCompatActivity {
                     throw new RuntimeException("NOT IMPLEMENTED YET");
             }
         }));
+
+        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        String[] itemsArray = new String[5];
+        itemsArray[0] = "No Mode Selected";
+        itemsArray[1] = "Home";
+        itemsArray[2] = "Work";
+        itemsArray[3] = "School";
+        itemsArray[4] = "Errand";
+        ArrayAdapter<String> adapter_Two = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, itemsArray);
+        spinner.setAdapter(adapter_Two);
+        spinner.setOnItemSelectedListener(new FragmentDropdownSelectListener(this, pos -> {
+            LocalDate temp = TaskListFragment.filterDate;
+            System.out.println(temp);
+            switch (pos) {
+                case 0:
+                    TaskListFragment.filterType = null;
+                    return TaskListFragment.newInstance(temp);
+                case 1:
+                    TaskListFragment.filterType = Tag.fromChar('h');
+                    return TaskListFragment.newInstance(temp);
+                case 2:
+                    TaskListFragment.filterType = Tag.fromChar('w');
+                    return TaskListFragment.newInstance(temp);
+                case 3:
+                    TaskListFragment.filterType = Tag.fromChar('s');
+                    return TaskListFragment.newInstance(temp);
+                case 4:
+                    TaskListFragment.filterType = Tag.fromChar('e');
+                    return TaskListFragment.newInstance(temp);
+                default:
+                    TaskListFragment.filterType = null;
+                    return TaskListFragment.newInstance(temp);
+            }
+        }));
+
     }
 
     // Creates the options menu for app from files placed in app/res/menu package
@@ -140,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 
     // Defines behavior of menu options item once selected (calls to AppCompatActivity
     // implementation)
@@ -227,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
 
         String dateFormat = DateFormat.getDateInstance(DateFormat.FULL).format(date);
         String timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT).format(date);
-        
+
       // Sets TextView for Time incrementer
         TextView dateTextView = findViewById(R.id.date);
         TextView timeTextView = findViewById(R.id.time);

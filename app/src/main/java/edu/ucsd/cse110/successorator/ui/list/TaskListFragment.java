@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,8 +36,9 @@ public class TaskListFragment extends Fragment {
     private TaskListBinding view;
     private TaskListAdapter adapter;
 
-    private @Nullable LocalDate filterDate = null;
-    public @Nullable Tag filterType = null;
+    public static @Nullable LocalDate filterDate = null;
+    public static @Nullable Tag filterType = null;
+
 
     public TaskListFragment() {
         // Required empty public constructor
@@ -50,6 +52,7 @@ public class TaskListFragment extends Fragment {
         return fragment;
     }
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,9 +61,9 @@ public class TaskListFragment extends Fragment {
         var bundle = getArguments();
         if (bundle != null) {
             filterDate = (LocalDate) bundle.getSerializable(ARG_FILTER_DATE);
-            //filterType = HOME;
         } else {
             filterDate = null;
+            filterType = null;
         }
 
         // Initialize the Model
@@ -90,13 +93,11 @@ public class TaskListFragment extends Fragment {
                     .filter(t -> t.getDate().equals(filterDate))
                     .collect(Collectors.toList());
 
-            if(filterType != null) {
-                filteredTasks = filterType == null ? tasks : tasks.stream()
+            if (filterType != null ) {
+                filteredTasks = filteredTasks.stream()
                         .filter(t -> t.getTag().toChar() == filterType.toChar())
                         .collect(Collectors.toList());
             }
-
-
             adapter.clear();
             adapter.addAll(new ArrayList<>(filteredTasks)); // remember the mutable copy here!
             adapter.notifyDataSetChanged();
