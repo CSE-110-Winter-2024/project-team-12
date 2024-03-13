@@ -25,7 +25,7 @@ public class Task implements Serializable {
     private final boolean isDone;
     private int sortOrder;
 
-    private LocalDate date;
+    private @Nullable LocalDate date;
     private Tag tag;
     private static ArrayList<Integer> DoneToday = new ArrayList<>();;
 
