@@ -20,6 +20,7 @@ import edu.ucsd.cse110.successorator.databinding.TaskListItemBinding;
 import edu.ucsd.cse110.successorator.lib.domain.Tag;
 import edu.ucsd.cse110.successorator.lib.domain.Task;
 import edu.ucsd.cse110.successorator.ui.list.dialog.CreateTaskDialogFragment;
+import edu.ucsd.cse110.successorator.ui.list.dialog.TaskOptionsDialogFragment;
 
 
 public class TaskListAdapter extends ArrayAdapter<Task> {

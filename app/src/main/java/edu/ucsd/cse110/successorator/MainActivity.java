@@ -36,6 +36,7 @@ import edu.ucsd.cse110.successorator.ui.list.FragmentDropdownSelectListener;
 import edu.ucsd.cse110.successorator.ui.list.TaskListFragment;
 import edu.ucsd.cse110.successorator.ui.list.dialog.CreateTaskDialogFragment;
 import edu.ucsd.cse110.successorator.lib.domain.Task;
+import edu.ucsd.cse110.successorator.ui.list.dialog.TaskOptionsDialogFragment;
 
 
 // Represents the running state of the app (its primary activity)
@@ -159,6 +160,11 @@ public class MainActivity extends AppCompatActivity {
         }));
 
     }
+
+    view.task.setOnLongClickListener(v -> {
+        var dialogFragment= TaskOptionsDialogFragment.newInstance(task.getId());
+        dialogFragment.show(getSupportFragmentManager(), "TaskOptionsDialogFragment");
+    });
 
     // Creates the options menu for app from files placed in app/res/menu package
     @Override

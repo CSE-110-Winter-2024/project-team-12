@@ -32,7 +32,7 @@
             android:id="@+id/oneTimeButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30sp"
+            android:layout_marginBottom="10sp"
             android:text="Today"
             android:textSize="30sp" />
 
@@ -40,7 +40,7 @@
             android:id="@+id/dailyButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30sp"
+            android:layout_marginBottom="10sp"
             android:text="Daily"
             android:textSize="30sp" />
 
@@ -48,7 +48,7 @@
             android:id="@+id/weeklyButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30sp"
+            android:layout_marginBottom="10sp"
             android:text="Weekly on ..."
             android:textSize="30sp" />
 
@@ -56,7 +56,7 @@
             android:id="@+id/monthlyButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30sp"
+            android:layout_marginBottom="10sp"
             android:text="Monthly on ..."
             android:textSize="30sp" />
 
@@ -64,7 +64,7 @@
             android:id="@+id/yearlyButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30sp"
+            android:layout_marginBottom="10sp"
             android:text="Yealy on ..."
             android:textSize="30sp" />
 
