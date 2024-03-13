@@ -88,6 +88,10 @@ public class CreateTaskDialogFragment extends DialogFragment{// implements View.
         var taskText = view.editTaskText.getText().toString();
         task.setText(taskText);
 
+        /*if(task.getTag() == null){
+            throw new IllegalStateException("No tag button is checked.");
+        }*/
+
         //Make more prepends, prepends to different views
         activityModel.prepend(task);
 

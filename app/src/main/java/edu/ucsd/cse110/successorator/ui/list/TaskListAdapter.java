@@ -19,6 +19,7 @@ import java.util.function.Function;
 import edu.ucsd.cse110.successorator.databinding.TaskListItemBinding;
 import edu.ucsd.cse110.successorator.lib.domain.Tag;
 import edu.ucsd.cse110.successorator.lib.domain.Task;
+import edu.ucsd.cse110.successorator.ui.list.dialog.CreateTaskDialogFragment;
 
 
 public class TaskListAdapter extends ArrayAdapter<Task> {
@@ -75,6 +76,13 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
         binding.taskText.setOnClickListener(v -> {
             onTaskClicked.accept(task);
         });
+
+        // Checks for a long click and opens a new fragment if there is a long click.
+        /*binding.taskText.setOnLongClickListener(v -> {
+            var dialogFragment= CreateTaskDialogFragment.newInstance();
+            dialogFragment.show(getSupportFragmentManager(),"CreateCardDialogFragment");
+            setStartingText();
+        });*/
 
         return binding.getRoot();
     }
