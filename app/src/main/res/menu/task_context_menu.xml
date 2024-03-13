@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/move_to_today"
+        android:title="@string/move_to_today"/>
+    <item android:id="@+id/move_to_tomorrow"
+        android:title="@string/move_to_tomorrow"/>
+    <item android:id="@+id/mark_as_completed"
+        android:title="@string/completed"/>
+    <item android:id="@+id/delete"
+        android:title="@string/delete"/>
+</menu>

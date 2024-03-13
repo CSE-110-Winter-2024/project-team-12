@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Spinner;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -104,6 +106,13 @@ public class TaskListFragment extends Fragment {
         });
     }
 
+    //Override onCreateContextMenu
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getActivity().getMenuInflater().inflate(R.menu.task_context_menu, menu);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -112,7 +121,10 @@ public class TaskListFragment extends Fragment {
         // Set the adapter on the ListView
         view.taskList.setAdapter(adapter);
 
+        // Register the RecyclerView for context menu
+        registerForContextMenu(view.taskList);
         return view.getRoot();
     }
+
 }
 
