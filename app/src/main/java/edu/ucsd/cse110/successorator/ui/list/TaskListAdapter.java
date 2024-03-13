@@ -77,13 +77,6 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
             onTaskClicked.accept(task);
         });
 
-        // Checks for a long click and opens a new fragment if there is a long click.
-        /*binding.taskText.setOnLongClickListener(v -> {
-            var dialogFragment= CreateTaskDialogFragment.newInstance();
-            dialogFragment.show(getSupportFragmentManager(),"CreateCardDialogFragment");
-            setStartingText();
-        });*/
-
         return binding.getRoot();
     }
 

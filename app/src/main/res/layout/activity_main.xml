@@ -114,25 +114,21 @@
         android:id="@+id/spinner"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        app:layout_constraintBottom_toBottomOf="@+id/noTasks"
+        android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/spinner_view"
-        app:layout_constraintVertical_bias="0.304" />
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_view" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="27dp"
         android:text="Focus Mode: "
-        app:layout_constraintBottom_toBottomOf="@+id/noTasks"
-        app:layout_constraintEnd_toStartOf="@+id/spinner"
-        app:layout_constraintHorizontal_bias="0.47"
+        android:textColor="#000000"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timeskipButton"
-        app:layout_constraintVertical_bias="0.371" />
+        app:layout_constraintTop_toBottomOf="@+id/spinner_view" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

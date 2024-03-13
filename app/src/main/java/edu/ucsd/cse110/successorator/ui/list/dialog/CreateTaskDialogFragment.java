@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import java.time.LocalDate;
 import java.util.Calendar;
+import java.util.IllegalFormatCodePointException;
 
 import edu.ucsd.cse110.successorator.MainViewModel;
 import edu.ucsd.cse110.successorator.R;
@@ -53,16 +54,13 @@ public class CreateTaskDialogFragment extends DialogFragment{// implements View.
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         this.view=FragmentCreateMitBinding.inflate(getLayoutInflater());
-        //var taskText = view.editTaskText.getText().toString();
 
-        var task = new Task(null, null,false,-1, LocalDate.now(),null);
+        var task = new Task(null, null,false,-1, LocalDate.now(),Tag.HOME); // Not sure if setting the default tag to home is okay
 
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
                 .setTitle("New Task")
                 .setMessage("Please provide the task that has to be completed. ")
                 .setView(view.getRoot())
-                //.setPositiveButton(getActivity().findViewById(R.id.saveButton), this::onPositiveButtonClick)
-                //.setNegativeButton("Cancel",this::onNegativeButtonClick)
                 .create();
 
         // Set OnClickListener to the pre-existing save button
@@ -87,10 +85,6 @@ public class CreateTaskDialogFragment extends DialogFragment{// implements View.
     private void onPositiveButtonClick(DialogInterface dialog, Task task){
         var taskText = view.editTaskText.getText().toString();
         task.setText(taskText);
-
-        /*if(task.getTag() == null){
-            throw new IllegalStateException("No tag button is checked.");
-        }*/
 
         //Make more prepends, prepends to different views
         activityModel.prepend(task);
