@@ -33,7 +33,6 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
                            Function<Tag, Drawable> tagDrawableFactory) {
         // This sets a bunch of stuff internally, which we can access
         // with getContext() and getItem() for example.
-        //
         // Also note that ArrayAdapter NEEDS a mutable List (ArrayList),
         // or it will crash!
         super(context, 0, new ArrayList<>(tasks));

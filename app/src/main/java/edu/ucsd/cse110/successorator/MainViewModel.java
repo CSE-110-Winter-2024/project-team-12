@@ -59,7 +59,6 @@ public class MainViewModel extends ViewModel {
         });
     }
 
-
     public Subject<List<Task>> getOrderedTasks() {
         return orderedTasks;
     }

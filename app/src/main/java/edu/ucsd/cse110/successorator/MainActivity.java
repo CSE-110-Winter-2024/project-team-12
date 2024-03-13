@@ -110,8 +110,8 @@ public class MainActivity extends AppCompatActivity {
                     return TaskListFragment.newInstance(LocalDate.now());
                 case 1:
                     TaskType.setText("Tomorrow's Tasks");
-                    showTime(1);
-                    return TaskListFragment.newInstance(LocalDate.now().plusDays(1));
+                    showTime(0);
+                    return TaskListFragment.newInstance(LocalDate.now());
                 case 2:
                     TaskType.setText("Recurring Tasks");
                     showTime(0);
@@ -160,11 +160,6 @@ public class MainActivity extends AppCompatActivity {
         }));
 
     }
-
-    view.task.setOnLongClickListener(v -> {
-        var dialogFragment= TaskOptionsDialogFragment.newInstance(task.getId());
-        dialogFragment.show(getSupportFragmentManager(), "TaskOptionsDialogFragment");
-    });
 
     // Creates the options menu for app from files placed in app/res/menu package
     @Override
