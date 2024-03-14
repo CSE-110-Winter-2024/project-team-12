@@ -16,6 +16,7 @@ import edu.ucsd.cse110.successorator.lib.domain.Task;
 import edu.ucsd.cse110.successorator.lib.util.SimpleSubject;
 import java.time.temporal.ChronoUnit;
 
+
 public class MainViewModelTest extends TestCase {
 
     //we will need to update this, along with TaskTest, once we
@@ -95,12 +96,44 @@ public class MainViewModelTest extends TestCase {
         assertTrue(imd.getTask(3) == null);
     }
 
+    @Test
     public void testMoveDeletedTask(){
         Task testTask1 = new Task(4,"Test",false,4, LocalDate.from(LocalDate.now()), Tag.WORK,0);
         mvm.append(testTask1);
         mvm.remove(4);
         testTask1.withDate(LocalDate.from(LocalDate.from(LocalDate.now().plusDays(1))));
         assertTrue(imd.getTask(4)==null);
+    }
+    @Test
+    public void testSeeTomorrowsTaskInNewPage() {
+        int countInTomorrowFragment = 0;
+        for(Task t : mvm.getOrderedTasks().getValue()) {
+            if(ChronoUnit.DAYS.between(t.getDate(),LocalDate.from(LocalDate.from(LocalDate.now().plusDays(1))))==0){
+                countInTomorrowFragment++;
+            }
+        }
+        assertEquals(countInTomorrowFragment,1);
+    }
+
+    @Test
+    public void testSeeTodaysTaskInNewPage() {
+        int countInTodayFragment = 0;
+        for(Task t : mvm.getOrderedTasks().getValue()) {
+            if(ChronoUnit.DAYS.between(t.getDate(),LocalDate.now())==0){
+                countInTodayFragment++;
+            }
+        }
+        assertEquals(countInTodayFragment,2);
+    }
+
+    @Test
+    public void testSeePendingTaskInNewPage() {
+        /*TODO : implement once we have US 7 finished */
+    }
+
+    @Test
+    public void testSeeRecurringTaskInNewPage() {
+        /*TODO: implement once we have US 8 finished */
     }
 
     public void testSeeTasksOfOnlyOneContext() {
@@ -115,7 +148,7 @@ public class MainViewModelTest extends TestCase {
         assertFalse(focusedErrandsContext.stream().findAny().equals(homeTomorrowTask));
         assertFalse(focusedErrandsContext.stream().findAny().equals(schoolTodayTask));
     }
-  
+
     public void testAddContextForTask() {
         Task testTask1 = new Task(4,"Test",false,4, LocalDate.from(LocalDate.now()), Tag.WORK);
         assertEquals(testTask1.getTag(),Tag.WORK);
