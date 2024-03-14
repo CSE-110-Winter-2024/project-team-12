@@ -102,4 +102,25 @@ public class MainViewModelTest extends TestCase {
         assertTrue(imd.getTask(4)==null);
     }
 
+    @Test
+    public void testToggleBetweenDateViews() {
+        ArrayList<Task> todayTasks = new ArrayList<>();
+        ArrayList<Task> tomorrowTasks = new ArrayList<>();
+        ArrayList<Task> pendingTasks = new ArrayList<>();
+        ArrayList<Task> recurringTasks = new ArrayList<>();
+
+        for(Task t : mvm.getOrderedTasks().getValue())
+        {
+            if(t.getDate()==LocalDate.now()){
+                todayTasks.add(t);
+            }
+            else if(t.getDate()==LocalDate.from(LocalDate.from(LocalDate.now().plusDays(1)))) {
+                tomorrowTasks.add(t);
+            }
+            /*TODO: implement if cases for Pending and Recurring dates once US 7 and 8 done.
+            Assert each arrayList equals the expected amount of tasks for each view
+             */
+        }
+    }
+
 }
