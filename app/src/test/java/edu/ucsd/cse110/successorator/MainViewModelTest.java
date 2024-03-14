@@ -102,4 +102,20 @@ public class MainViewModelTest extends TestCase {
         assertTrue(imd.getTask(4)==null);
     }
 
+    public void testAddContextForTask() {
+        Task testTask1 = new Task(4,"Test",false,4, LocalDate.from(LocalDate.now()), Tag.WORK);
+        assertEquals(testTask1.getTag(),Tag.WORK);
+        testTask1.setTag(Tag.HOME);
+        assertEquals(testTask1.getTag(),Tag.HOME);
+    }
+
+    public void testSeeContextForTasks() {
+        ArrayList<Tag> visibleTags = new ArrayList<>();
+        Tag t1 = mvm.getOrderedTasks().getValue().get(0).getTag();
+        Tag t2 = mvm.getOrderedTasks().getValue().get(1).getTag();
+        Tag t3 = mvm.getOrderedTasks().getValue().get(2).getTag();
+        visibleTags.add(t1); visibleTags.add(t2); visibleTags.add(t3);
+        assertNotNull(visibleTags);
+    }
+
 }
