@@ -81,14 +81,5 @@ public class InMemoryDataSourceTest extends TestCase {
         assertEquals(imd.getTask(3).getSortOrder(), Integer.valueOf(7));
         assertEquals(imd.getTask(4).getSortOrder(), Integer.valueOf(4));
     }
-
-  /*  public void testMoveDeletedTask(){
-        Task testTask1 = new Task(4,"Test",false,4, LocalDate.from(LocalDate.now()), Tag.WORK);
-        mvm.append(testTask1);
-        mvm.remove(4);
-        testTask1.withDate(LocalDate.from(LocalDate.from(LocalDate.now().plusDays(1))));
-        assertTrue(imd.getTask(4)==null);
-    }*/
-
 }
 
