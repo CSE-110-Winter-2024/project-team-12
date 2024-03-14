@@ -2,12 +2,15 @@ package edu.ucsd.cse110.successorator.ui.list;
 
 import static edu.ucsd.cse110.successorator.lib.domain.Tag.HOME;
 
+import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -41,6 +44,7 @@ public class TaskListFragment extends Fragment {
     public static @Nullable LocalDate filterDate = null;
     public static @Nullable Tag filterType = null;
 
+    private Integer selectedTaskId = null;
 
     public TaskListFragment() {
         // Required empty public constructor
@@ -110,6 +114,12 @@ public class TaskListFragment extends Fragment {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
+        if (v.getId() == R.id.task_list) {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+            Task selectedTask = adapter.getItem(info.position);
+            selectedTaskId = selectedTask.getId();
+        }
+
         getActivity().getMenuInflater().inflate(R.menu.task_context_menu, menu);
     }
 
@@ -124,6 +134,30 @@ public class TaskListFragment extends Fragment {
         // Register the RecyclerView for context menu
         registerForContextMenu(view.taskList);
         return view.getRoot();
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        int id = getId();
+        LocalDate newDate;
+
+        // Use the item.getItemId() to compare with your menu item IDs
+        if (item.getItemId() == R.id.move_to_today) {
+            newDate = LocalDate.now();
+            activityModel.rescheduleTask(id, newDate);
+        } else if (item.getItemId() == R.id.move_to_tomorrow) {
+            newDate = LocalDate.now().plusDays(1);
+            activityModel.rescheduleTask(id, newDate);
+        } else if (item.getItemId() == R.id.mark_as_completed) {
+            // Logic for complete, not implemented yet
+            activityModel.remove(id);
+        } else if (item.getItemId() == R.id.delete) {
+            activityModel.remove(id);
+        } else {
+            return super.onContextItemSelected(item);
+        }
+
+        return true;
     }
 
 }
