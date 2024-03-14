@@ -87,4 +87,15 @@ public class MainViewModel extends ViewModel {
     public void rescheduleTask(int taskId, LocalDate newDate) {
         taskRepository.rescheduleTask(taskId, newDate);
     }
+
+    public void markTaskAsDone(int taskId) {
+        // Asynchronously fetch the task, then update its 'isDone' status and save it
+        taskRepository.find(taskId).observe(task -> {
+            if (task != null) {
+                Task updatedTask = task.withDone(true); // Assuming 'withDone' creates a copy with updated isDone status
+                save(updatedTask); // Reuse your existing save method which should handle updating the task in the database
+            }
+        });
+    }
+
 }
