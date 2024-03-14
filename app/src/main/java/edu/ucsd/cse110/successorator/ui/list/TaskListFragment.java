@@ -149,8 +149,7 @@ public class TaskListFragment extends Fragment {
             newDate = LocalDate.now().plusDays(1);
             activityModel.rescheduleTask(id, newDate);
         } else if (item.getItemId() == R.id.mark_as_completed) {
-            // Logic for complete, not implemented yet
-            activityModel.remove(id);
+            activityModel.markTaskAsDone(id);
         } else if (item.getItemId() == R.id.delete) {
             activityModel.remove(id);
         } else {
