@@ -2,6 +2,8 @@ package edu.ucsd.cse110.successorator.lib.domain;
 
 import edu.ucsd.cse110.successorator.lib.data.InMemoryDataSource;
 import edu.ucsd.cse110.successorator.lib.util.Subject;
+
+import java.time.LocalDate;
 import java.util.List;
 
 /* Maintains a coherent collection of tasks that interact with and modify data.InMemoryDataSource
@@ -58,6 +60,11 @@ public class SimpleTaskRepository implements TaskRepository {
         dataSource.putTask(
                 task.withSortOrder(dataSource.getMinSortOrder()-1)
         );
+    }
+
+    @Override
+    public void rescheduleTask(int taskId, LocalDate newDate) {
+
     }
 
 }
