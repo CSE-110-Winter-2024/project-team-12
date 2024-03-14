@@ -235,8 +235,9 @@ public class MainActivity extends AppCompatActivity {
                     int sortOrder = task.getSortOrder();
                     activityModel.remove(task.getId());
                     Tag tag = task.getTag();
-                    doneList.add(new Task(id, text, isDone, sortOrder, today, tag));
-                } else if (task.getDate() != today && task.isDone()) {
+                    int isRecurring = task.isRecurring();
+                    doneList.add(new Task(id, text, isDone, sortOrder, today, tag, isRecurring));
+                } else if (task.getDate() != today && task.isDone() && task.isRecurring() == 0) {
                     activityModel.remove(task.getId());
                 }
             }

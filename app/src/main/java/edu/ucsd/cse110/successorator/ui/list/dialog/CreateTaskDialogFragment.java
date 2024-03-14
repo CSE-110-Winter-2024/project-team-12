@@ -55,7 +55,7 @@ public class CreateTaskDialogFragment extends DialogFragment{// implements View.
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         this.view=FragmentCreateMitBinding.inflate(getLayoutInflater());
 
-        var task = new Task(null, null,false,-1, LocalDate.now(),Tag.HOME); // Not sure if setting the default tag to home is okay
+        var task = new Task(null, null,false,-1, LocalDate.now(),Tag.HOME, 0); // Not sure if setting the default tag to home is okay
 
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
                 .setTitle("New Task")
@@ -90,17 +90,22 @@ public class CreateTaskDialogFragment extends DialogFragment{// implements View.
         activityModel.prepend(task);
 
         // Options for a task
-        /*if(view.dailyButton.isChecked()){
+        if(view.dailyButton.isChecked()){
+            task.setRecurring(1);
         } else if (view.weeklyButton.isChecked()){
+            task.setRecurring(2);
         } else if (view.monthlyButton.isChecked()) {
+            task.setRecurring(3);
             //should open calendar
         } else if (view.yearlyButton.isChecked()) {
+            task.setRecurring(4);
             //should open calendar
         } else if (view.oneTimeButton.isChecked()) {
+            task.setRecurring(0);
             //not sure what to do
         } else {
             throw new IllegalStateException("No radio button is checked. ");
-        }*/
+        }
 
         dialog.dismiss();
     }
