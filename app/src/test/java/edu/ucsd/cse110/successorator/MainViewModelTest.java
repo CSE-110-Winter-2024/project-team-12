@@ -14,6 +14,8 @@ import edu.ucsd.cse110.successorator.lib.domain.SimpleTaskRepository;
 import edu.ucsd.cse110.successorator.lib.domain.Tag;
 import edu.ucsd.cse110.successorator.lib.domain.Task;
 import edu.ucsd.cse110.successorator.lib.util.SimpleSubject;
+import java.time.temporal.ChronoUnit;
+
 
 public class MainViewModelTest extends TestCase {
 
@@ -94,12 +96,44 @@ public class MainViewModelTest extends TestCase {
         assertTrue(imd.getTask(3) == null);
     }
 
+    @Test
     public void testMoveDeletedTask(){
         Task testTask1 = new Task(4,"Test",false,4, LocalDate.from(LocalDate.now()), Tag.WORK);
         mvm.append(testTask1);
         mvm.remove(4);
         testTask1.withDate(LocalDate.from(LocalDate.from(LocalDate.now().plusDays(1))));
         assertTrue(imd.getTask(4)==null);
+    }
+    @Test
+    public void testSeeTomorrowsTaskInNewPage() {
+        int countInTomorrowFragment = 0;
+        for(Task t : mvm.getOrderedTasks().getValue()) {
+            if(ChronoUnit.DAYS.between(t.getDate(),LocalDate.from(LocalDate.from(LocalDate.now().plusDays(1))))==0){
+                countInTomorrowFragment++;
+            }
+        }
+        assertEquals(countInTomorrowFragment,1);
+    }
+
+    @Test
+    public void testSeeTodaysTaskInNewPage() {
+        int countInTodayFragment = 0;
+        for(Task t : mvm.getOrderedTasks().getValue()) {
+            if(ChronoUnit.DAYS.between(t.getDate(),LocalDate.now())==0){
+                countInTodayFragment++;
+            }
+        }
+        assertEquals(countInTodayFragment,2);
+    }
+
+    @Test
+    public void testSeePendingTaskInNewPage() {
+        /*TODO : implement once we have US 7 finished */
+    }
+
+    @Test
+    public void testSeeRecurringTaskInNewPage() {
+        /*TODO: implement once we have US 8 finished */
     }
 
 }
