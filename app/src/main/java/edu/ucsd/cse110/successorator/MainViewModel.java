@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.viewmodel.ViewModelInitializer;
 
+import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -81,5 +82,9 @@ public class MainViewModel extends ViewModel {
 
     public void remove(int id) {
         taskRepository.remove(id);
+    }
+
+    public void rescheduleTask(int taskId, LocalDate newDate) {
+        taskRepository.rescheduleTask(taskId, newDate);
     }
 }
