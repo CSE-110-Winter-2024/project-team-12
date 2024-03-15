@@ -118,6 +118,7 @@ public class MainViewModelTest extends TestCase {
         visibleTags.add(t1); visibleTags.add(t2); visibleTags.add(t3);
         assertNotNull(visibleTags);
         assertNotSame(t1, t2); assertNotSame(t2,t3); assertNotSame(t1,t3);
+    }
 
     public void testAddTodayTask() {
         assertEquals(mvm.getOrderedTasks().getValue().size(), 3);
