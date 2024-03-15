@@ -19,7 +19,7 @@ public class TaskTest {
     private Task homeTask;
     private Task recurringTask;
     private Task workTask;
-    //private Task schoolTask;
+    private Task pendingTask;
     //private Task errandTask;
 
     @Before
@@ -28,7 +28,7 @@ public class TaskTest {
         todayTask = new Task(2, "Initial task", false, 2, LocalDate.now(), null,0);
         homeTask = new Task(3, "Initial task", false, 4, null, Tag.HOME,0);
         //tomorrowTask = new Task(4, "Initial task", false, 3, LocalDate.from(LocalDate.now()).plusDays(1), null);
-        //pendingTask = new Task(5, "Initial task", false, 3, null, null);
+        pendingTask = new Task(5, "Initial task", false, 3, null, null,0);
         recurringTask = new Task(4, "Initial task", false, 3, null, null,1);
         //workTask = new Task(7, "Initial task", false, 5, null, Tag.WORK);
         //schoolTask = new Task(8, "Initial task", false, 6, null, Tag.SCHOOl);
@@ -146,7 +146,6 @@ public class TaskTest {
         assertEquals(recurringTask.isRecurring(),1);
         assertEquals(todayTask.isRecurring(),0);
     }
-
     @Test
     public void testSetRecurring() {
         assertEquals(task.isRecurring(), 0);
@@ -154,4 +153,15 @@ public class TaskTest {
         assertEquals(task.isRecurring(), 1);
     }
 
+    @Test
+    public void testIsPending() {
+        assertEquals(pendingTask.isRecurring(),0);
+        assertNull(pendingTask.getDate());
+    }
+    @Test
+    public void testSetPending() {
+        assertEquals(task.isRecurring(), 0);
+        task=task.withDate(null);
+        assertNull(task.getDate());
+    }
 }
