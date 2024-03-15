@@ -279,6 +279,13 @@ public class MainViewModelTest extends TestCase {
         assertEquals(mvm.getOrderedTasks().getValue().size(), 4);
     }
 
+    public void testMoveTaskFromPending() {
+        assertEquals(mvm.getOrderedTasks().getValue().size(), 3);
+        Task testTask1 = new Task(4,"Test",false,4, null, Tag.WORK,0); //task starts as pending
+        testTask1 = testTask1.withDate(LocalDate.from(LocalDate.now().plusDays(1))); //task now is due tomorrow
+        assertNotNull(testTask1.getDate()); //task now has due date
+    }
+
     public void testAddPendingTask() {
         assertEquals(mvm.getOrderedTasks().getValue().size(), 3);
         Task testTask1 = new Task(4,"Test",false,4, null, Tag.WORK,0);
@@ -286,6 +293,4 @@ public class MainViewModelTest extends TestCase {
         assertNull(testTask1.getDate());
         assertEquals(mvm.getOrderedTasks().getValue().size(), 4);
     }
-
-
 }
