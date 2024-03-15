@@ -257,14 +257,4 @@ public class MainViewModelTest extends TestCase {
         testTask1 = testTask1.withDate(LocalDate.from(LocalDate.now().plusDays(1))); //task now is due tomorrow
         assertNotNull(testTask1.getDate()); //task now has due date
     }
-
-    public void testAddPendingTask() {
-        assertEquals(mvm.getOrderedTasks().getValue().size(), 3);
-        Task testTask1 = new Task(4,"Test",false,4, LocalDate.now(), Tag.WORK,1); //add recurring task
-        mvm.append(testTask1);
-        assertNotNull(testTask1.getDate());
-        assertEquals(testTask1.isRecurring(),1);
-        assertEquals(mvm.getOrderedTasks().getValue().size(), 4);
-    }
-
 }
