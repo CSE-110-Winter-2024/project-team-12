@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.time.LocalDate;
@@ -79,6 +80,12 @@ public class CreateTaskDialogFragment extends DialogFragment{// implements View.
         ImageView eButton = view.eButton;
         eButton.setOnClickListener(v -> onTagEClick(alertDialog, task));
 
+        var weeklyButton = view.weeklyButton;
+        weeklyButton.setOnClickListener(v -> onRecurClick(alertDialog));
+        var yearlyButton = view.yearlyButton;
+        yearlyButton.setOnClickListener(v -> onRecurClick(alertDialog));
+        var monthlyButton = view.monthlyButton;
+        monthlyButton.setOnClickListener(v -> onRecurClick(alertDialog));
         return alertDialog;
     }
 
@@ -103,6 +110,7 @@ public class CreateTaskDialogFragment extends DialogFragment{// implements View.
         } else if (view.monthlyButton.isChecked()) {
             task.setRecurring(3);
             //should open calendar
+
         } else if (view.yearlyButton.isChecked()) {
             task.setRecurring(4);
             //should open calendar
@@ -118,7 +126,10 @@ public class CreateTaskDialogFragment extends DialogFragment{// implements View.
         activityModel.prepend(task);
         dialog.dismiss();
     }
-
+    private void onRecurClick(DialogInterface dialog) {
+        var newFragment = new DatePickerFragment();
+        newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
+    }
     private void onNegativeButtonClick(DialogInterface dialog, int which) {
         dialog.cancel();
     }
