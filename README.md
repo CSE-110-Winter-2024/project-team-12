@@ -180,7 +180,7 @@ MS2
 We were able to complete all the task we wanted for iteration 1 within iteration 1. However, because we did not take account of decencies of the task, we were not able to do the testing for any of the User stories. We need to complete the testing in iteration 2 after everything that is needed for testing is completed.
 
 - [x] iteration 2:
-   - 42 * (22/30) = 30.8 hours
+   - 72 * (22/30) = 52.8 hours
 
 
 ## License
