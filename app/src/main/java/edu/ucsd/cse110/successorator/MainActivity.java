@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
                     TaskType.setText("Tomorrow's Tasks");
                     showTime(0);
                     inMain = false;
-                    return TaskListFragment.newInstance(LocalDate.now());
+                    return TaskListFragment.newInstance(LocalDate.now(), false);
                 case 3:
                     TaskType.setText("Recurring Tasks");
                     showTime(0);
