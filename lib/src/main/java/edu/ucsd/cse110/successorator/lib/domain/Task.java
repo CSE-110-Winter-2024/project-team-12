@@ -24,7 +24,7 @@ public class Task implements Serializable {
     private String text;
     private final boolean isDone;
     private int sortOrder;
-
+    private int isRecurring;
     private @Nullable LocalDate date;
     private Tag tag;
     private static ArrayList<Integer> DoneToday = new ArrayList<>();;
@@ -35,7 +35,7 @@ public class Task implements Serializable {
     private static int minOrder = 0;
 
 
-    public Task(@Nullable Integer id, String text, boolean isDone, Integer sortOrder, LocalDate date, Tag tag) {
+    public Task(@Nullable Integer id, String text, boolean isDone, Integer sortOrder, LocalDate date, Tag tag, int isRecurring) {
         this.id = id;
         this.text = text;
         this.isDone = isDone;
@@ -48,6 +48,7 @@ public class Task implements Serializable {
         }
         this.date = date;
         this.tag = tag;
+        this.isRecurring =isRecurring;
     }
 
     @Nullable
@@ -56,7 +57,7 @@ public class Task implements Serializable {
     }
 
     public Task withId(@Nullable Integer id) {
-        return new Task(id, text, isDone, sortOrder, date, tag);
+        return new Task(id, text, isDone, sortOrder, date, tag, isRecurring);
     }
 
     public String getText() {
@@ -68,7 +69,7 @@ public class Task implements Serializable {
     }
 
     public Task withText(String text) {
-        return new Task(id, text, isDone, sortOrder, date, tag);
+        return new Task(id, text, isDone, sortOrder, date, tag, isRecurring);
     }
 
     public boolean isDone() {
@@ -85,7 +86,7 @@ public class Task implements Serializable {
             this.sortOrder = minOrder;
             DoneToday.remove(this.id);
         }
-        return new Task(id, text, isDone, sortOrder, date, tag);
+        return new Task(id, text, isDone, sortOrder, date, tag, isRecurring);
     }
 
     public Task withDate(LocalDate date) {
@@ -120,7 +121,7 @@ public class Task implements Serializable {
     }
 
     public Task withSortOrder(int sortOrder) {
-        return new Task(id, text, isDone, sortOrder, date, tag);
+        return new Task(id, text, isDone, sortOrder, date, tag, isRecurring);
     }
 
     @Override
@@ -134,5 +135,14 @@ public class Task implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id, text, isDone, sortOrder, date);
+    }
+
+
+    public int isRecurring() {
+        return isRecurring;
+    }
+
+    public void setRecurring(int recurring) {
+        isRecurring = recurring;
     }
 }
