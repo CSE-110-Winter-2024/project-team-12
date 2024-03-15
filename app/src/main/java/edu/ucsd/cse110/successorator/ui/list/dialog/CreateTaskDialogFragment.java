@@ -101,6 +101,8 @@ public class CreateTaskDialogFragment extends DialogFragment{// implements View.
             task.setRecurring(1);
         } else if (view.weeklyButton.isChecked()){
             task.setRecurring(2);
+            //should open calendar
+
         } else if(view.TomorrowButton.isChecked()){
             task.setRecurring(0);
             task.withDate(LocalDate.now().plusDays(1));
