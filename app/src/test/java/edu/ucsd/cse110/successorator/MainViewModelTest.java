@@ -103,6 +103,19 @@ public class MainViewModelTest extends TestCase {
         assertTrue(imd.getTask(4)==null);
     }
 
+    public void testSeeTasksOfOnlyOneContext() {
+        ArrayList<Task> focusedErrandsContext = new ArrayList<>();
+        for(Task t : mvm.getOrderedTasks().getValue()) {
+            if(t.getTag()==Tag.ERRANDS){
+                focusedErrandsContext.add(t);
+            }
+        }
+        assertEquals(focusedErrandsContext.size(), 1);
+        assertEquals(focusedErrandsContext.get(0), errandsTodayTask);
+        assertFalse(focusedErrandsContext.stream().findAny().equals(homeTomorrowTask));
+        assertFalse(focusedErrandsContext.stream().findAny().equals(schoolTodayTask));
+    }
+  
     public void testAddContextForTask() {
         Task testTask1 = new Task(4,"Test",false,4, LocalDate.from(LocalDate.now()), Tag.WORK);
         assertEquals(testTask1.getTag(),Tag.WORK);
