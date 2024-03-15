@@ -11,7 +11,7 @@ import edu.ucsd.cse110.successorator.lib.util.SimpleSubject;
 
 public class MockSimpleSubject extends SimpleSubject {
 
-    private Task value = new Task(1,"task",false,1, LocalDate.now(), Tag.ERRANDS);
+    private Task value = new Task(1,"task",false,1, LocalDate.now(), Tag.ERRANDS,0);
 
     public List<String> observers = new java.util.ArrayList<>();
 

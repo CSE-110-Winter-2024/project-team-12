@@ -5,9 +5,7 @@ import static android.app.PendingIntent.getActivity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.ContextMenu;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import android.view.View;
@@ -24,11 +22,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Calendar;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 import edu.ucsd.cse110.successorator.databinding.ActivityMainBinding;
 import edu.ucsd.cse110.successorator.lib.domain.Tag;
@@ -37,7 +33,6 @@ import edu.ucsd.cse110.successorator.ui.list.FragmentDropdownSelectListener;
 import edu.ucsd.cse110.successorator.ui.list.TaskListFragment;
 import edu.ucsd.cse110.successorator.ui.list.dialog.CreateTaskDialogFragment;
 import edu.ucsd.cse110.successorator.lib.domain.Task;
-import edu.ucsd.cse110.successorator.ui.list.dialog.TaskOptionsDialogFragment;
 
 
 // Represents the running state of the app (its primary activity)
