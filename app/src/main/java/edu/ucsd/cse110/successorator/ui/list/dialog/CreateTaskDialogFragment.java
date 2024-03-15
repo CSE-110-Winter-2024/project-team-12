@@ -16,7 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.time.LocalDate;
@@ -25,6 +24,7 @@ import java.util.IllegalFormatCodePointException;
 
 import edu.ucsd.cse110.successorator.MainViewModel;
 import edu.ucsd.cse110.successorator.R;
+import edu.ucsd.cse110.successorator.data.db.TaskEntity;
 import edu.ucsd.cse110.successorator.databinding.FragmentCreateMitBinding;
 import edu.ucsd.cse110.successorator.lib.domain.Tag;
 import edu.ucsd.cse110.successorator.lib.domain.Task;
@@ -80,12 +80,6 @@ public class CreateTaskDialogFragment extends DialogFragment{// implements View.
         ImageView eButton = view.eButton;
         eButton.setOnClickListener(v -> onTagEClick(alertDialog, task));
 
-        var weeklyButton = view.weeklyButton;
-        weeklyButton.setOnClickListener(v -> onRecurClick(alertDialog));
-        var yearlyButton = view.yearlyButton;
-        yearlyButton.setOnClickListener(v -> onRecurClick(alertDialog));
-        var monthlyButton = view.monthlyButton;
-        monthlyButton.setOnClickListener(v -> onRecurClick(alertDialog));
         return alertDialog;
     }
 
@@ -101,7 +95,16 @@ public class CreateTaskDialogFragment extends DialogFragment{// implements View.
             task.setRecurring(1);
         } else if (view.weeklyButton.isChecked()){
             task.setRecurring(2);
-            //should open calendar
+            for(int i=1;i<=3;i++) {
+                TaskEntity newTask = TaskEntity.fromTask(task);
+                newTask.id += 300+i;
+                newTask.tag='H';
+                newTask.isDone=false;
+                newTask.sortOrder += 300+i;
+                newTask.date = LocalDate.ofEpochDay(newTask.date).plusWeeks(i).toEpochDay();
+                activityModel.append(newTask.toTask());
+            }
+
 
         } else if(view.TomorrowButton.isChecked()){
             task.setRecurring(0);
@@ -112,10 +115,27 @@ public class CreateTaskDialogFragment extends DialogFragment{// implements View.
         } else if (view.monthlyButton.isChecked()) {
             task.setRecurring(3);
             //should open calendar
-
+            for(int i=1;i<=3;i++) {
+                TaskEntity newTask = TaskEntity.fromTask(task);
+                newTask.id += 300+i;
+                newTask.tag='H';
+                newTask.isDone=false;
+                newTask.sortOrder += 300+i;
+                newTask.date = LocalDate.ofEpochDay(newTask.date).plusMonths(i).toEpochDay();
+                activityModel.append(newTask.toTask());
+            }
         } else if (view.yearlyButton.isChecked()) {
             task.setRecurring(4);
             //should open calendar
+            for(int i=1;i<=3;i++) {
+                TaskEntity newTask = TaskEntity.fromTask(task);
+                newTask.id += 300+i;
+                newTask.tag='H';
+                newTask.isDone=false;
+                newTask.sortOrder += 300+i;
+                newTask.date = LocalDate.ofEpochDay(newTask.date).plusYears(i).toEpochDay();
+                activityModel.append(newTask.toTask());
+            }
         } else if (view.oneTimeButton.isChecked()) {
             task.setRecurring(0);
             //not sure what to do
@@ -128,10 +148,7 @@ public class CreateTaskDialogFragment extends DialogFragment{// implements View.
         activityModel.prepend(task);
         dialog.dismiss();
     }
-    private void onRecurClick(DialogInterface dialog) {
-        var newFragment = new DatePickerFragment();
-        newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
-    }
+
     private void onNegativeButtonClick(DialogInterface dialog, int which) {
         dialog.cancel();
     }
