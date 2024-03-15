@@ -14,6 +14,7 @@ import edu.ucsd.cse110.successorator.lib.domain.SimpleTaskRepository;
 import edu.ucsd.cse110.successorator.lib.domain.Tag;
 import edu.ucsd.cse110.successorator.lib.domain.Task;
 import edu.ucsd.cse110.successorator.lib.util.SimpleSubject;
+import java.time.temporal.ChronoUnit;
 
 public class MainViewModelTest extends TestCase {
 
@@ -117,6 +118,21 @@ public class MainViewModelTest extends TestCase {
         visibleTags.add(t1); visibleTags.add(t2); visibleTags.add(t3);
         assertNotNull(visibleTags);
         assertNotSame(t1, t2); assertNotSame(t2,t3); assertNotSame(t1,t3);
+
+    public void testAddTodayTask() {
+        assertEquals(mvm.getOrderedTasks().getValue().size(), 3);
+        Task testTask1 = new Task(4,"Test",false,4, LocalDate.from(LocalDate.now()), Tag.WORK);
+        mvm.append(testTask1);
+        assertTrue(ChronoUnit.DAYS.between(mvm.getOrderedTasks().getValue().get(3).getDate(),LocalDate.now()) == 0);
+        assertEquals(mvm.getOrderedTasks().getValue().size(),4);
+    }
+
+    public void testAddTomorrowTask() {
+        assertEquals(mvm.getOrderedTasks().getValue().size(), 3);
+        Task testTask1 = new Task(4,"Test",false,4, LocalDate.from(LocalDate.now().plusDays(1)), Tag.WORK);
+        mvm.append(testTask1);
+        assertTrue(ChronoUnit.DAYS.between(mvm.getOrderedTasks().getValue().get(3).getDate(),LocalDate.from(LocalDate.now().plusDays(1))) == 0);
+        assertEquals(mvm.getOrderedTasks().getValue().size(), 4);
     }
 
 }
