@@ -1,5 +1,6 @@
 package edu.ucsd.cse110.successorator.data.db;
 // imports
+import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -8,8 +9,6 @@ import java.time.LocalDate;
 
 import edu.ucsd.cse110.successorator.lib.domain.Tag;
 import edu.ucsd.cse110.successorator.lib.domain.Task;
-
-import edu.ucsd.cse110.successorator.lib.domain.TaskRepository;
 
 // Represents a single Task object in the Room database
 // Each TaskEntity instance represents a row of data in the
@@ -31,7 +30,8 @@ public class TaskEntity {
     @ColumnInfo(name="sort_order")
     public int sortOrder;
     @ColumnInfo(name="date")
-    public long date;
+    @Nullable
+    public Long date;
 
     @ColumnInfo(name="tag")
     public char tag;
@@ -61,13 +61,19 @@ public class TaskEntity {
      * @return returns the TaskEntity object
      */
     public static TaskEntity fromTask(Task task) {
-        return new TaskEntity(task.getId(), task.getText(), task.isDone(), task.getSortOrder(), task.getDate().toEpochDay(), task.getTag().toChar(), task.isRecurring());
+        Long epochDate = task.getDate() != null ? task.getDate().toEpochDay() : null;
+        return new TaskEntity(task.getId(), task.getText(), task.isDone(), task.getSortOrder(), epochDate, task.getTag().toChar(), task.isRecurring());
     }
     /**
      * This function makes a task from a TaskEntity object
      * @return it returns a Task object with the features from the TaskEntity Object
      */
     public Task toTask() {
-        return new Task(id, text, isDone, sortOrder, LocalDate.ofEpochDay(date), Tag.fromChar(tag), isRecurring);
+
+        if(date != null) {
+            return new Task(id, text, isDone, sortOrder, LocalDate.ofEpochDay(date), Tag.fromChar(tag), isRecurring);
+        }else{
+            return new Task(id, text, isDone, sortOrder, null, Tag.fromChar(tag), isRecurring);
+        }
     }
 }

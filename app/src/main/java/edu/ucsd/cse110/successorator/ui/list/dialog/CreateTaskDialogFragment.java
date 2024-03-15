@@ -87,13 +87,19 @@ public class CreateTaskDialogFragment extends DialogFragment{// implements View.
         task.setText(taskText);
 
         //Make more prepends, prepends to different views
-        activityModel.prepend(task);
+
 
         // Options for a task
         if(view.dailyButton.isChecked()){
             task.setRecurring(1);
         } else if (view.weeklyButton.isChecked()){
             task.setRecurring(2);
+        } else if(view.TomorrowButton.isChecked()){
+            task.setRecurring(0);
+            task.withDate(LocalDate.now().plusDays(1));
+        } else if (view.PendingButton.isChecked()){
+            task.setRecurring(0);
+            task.withDate(null);
         } else if (view.monthlyButton.isChecked()) {
             task.setRecurring(3);
             //should open calendar
@@ -103,10 +109,13 @@ public class CreateTaskDialogFragment extends DialogFragment{// implements View.
         } else if (view.oneTimeButton.isChecked()) {
             task.setRecurring(0);
             //not sure what to do
+        } else if (view.TodayButton.isChecked()) {
+            task.setRecurring(0);
+            task.withDate(LocalDate.now());
         } else {
             throw new IllegalStateException("No radio button is checked. ");
         }
-
+        activityModel.prepend(task);
         dialog.dismiss();
     }
 

@@ -27,8 +27,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sButton">
-
-        <RadioButton
+// noice
+      <RadioButton
             android:id="@+id/oneTimeButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,6 +50,52 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10sp"
             android:text="Weekly on ..."
+            android:textSize="30sp" />
+
+        <RadioButton
+            android:id="@+id/monthlyButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10sp"
+            android:text="Monthly on ..."
+            android:textSize="30sp" />
+
+        <RadioButton
+            android:id="@+id/yearlyButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10sp"
+            android:text="Yealy on ..."
+            android:textSize="30sp" />
+  // noice
+        <RadioButton
+            android:id="@+id/TodayButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10sp"
+            android:text="Today"
+            android:textSize="30sp" />
+
+        <RadioButton
+            android:id="@+id/TomorrowButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10sp"
+            android:text="Tomorrow"
+            android:textSize="30sp" />
+        <RadioButton
+            android:id="@+id/TomorrowButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10sp"
+            android:text="Tomorrow"
+            android:textSize="30sp" />
+        <RadioButton
+            android:id="@+id/PendingButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10sp"
+            android:text="Pending"
             android:textSize="30sp" />
 
         <RadioButton

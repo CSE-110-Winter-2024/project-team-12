@@ -53,9 +53,17 @@ public interface TaskDao {
     @Transaction
     default int append(TaskEntity task) {
         var maxSortOrder = getMaxSortOrder();
-        var newTask = new TaskEntity(
-                null, task.text, task.isDone, maxSortOrder + 1, task.date, task.tag, task.isRecurring
-        );
+
+        var newTask = task;
+        if(task.date!= null) {
+            newTask = new TaskEntity(
+                    null, task.text, task.isDone, maxSortOrder + 1, task.date, task.tag
+            );
+        } else {
+            newTask = new TaskEntity(
+                    null, task.text, task.isDone, maxSortOrder + 1, null, task.tag
+            );
+        }
         return Math.toIntExact(insert(newTask));
     }
 

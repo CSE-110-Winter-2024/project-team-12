@@ -23,6 +23,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -40,7 +41,7 @@ public class TaskListFragment extends Fragment {
     private MainViewModel activityModel;
     private TaskListBinding view;
     private TaskListAdapter adapter;
-
+    private static boolean hasDateFilter = false;
     public static @Nullable LocalDate filterDate = null;
     public static @Nullable Tag filterType = null;
 
@@ -48,16 +49,20 @@ public class TaskListFragment extends Fragment {
 
     public TaskListFragment() {
         // Required empty public constructor
+
     }
 
-    public static TaskListFragment newInstance(@Nullable LocalDate filterDate) {
+    public static TaskListFragment newInstance(@Nullable LocalDate filterDate, boolean inMainView) {
         TaskListFragment fragment = new TaskListFragment();
         Bundle args = new Bundle();
         args.putSerializable(ARG_FILTER_DATE, filterDate);
         fragment.setArguments(args);
+        hasDateFilter = true;
+        if(inMainView){
+            hasDateFilter = false;
+        }
         return fragment;
     }
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,16 +99,30 @@ public class TaskListFragment extends Fragment {
 
         activityModel.getOrderedTasks().observe(tasks -> {
             if (tasks == null) return;
+            var filteredTasks = tasks.stream().collect(Collectors.toList());
 
-            var filteredTasks = filterDate == null ? tasks : tasks.stream()
-                    .filter(t -> t.getDate().equals(filterDate))
-                    .collect(Collectors.toList());
+            filteredTasks = filterDate == null ?
+                    tasks.stream()
+                        .filter(t -> t.getDate() == null)
+                        .collect(Collectors.toList())
+                    :
+                    tasks.stream()
+                            .filter(t -> t.getDate() != null && t.getDate().equals(filterDate))
+                            .collect(Collectors.toList());
+
+            if(filterDate == null && !hasDateFilter){
+                filteredTasks = tasks.stream().collect(Collectors.toList());
+            }
 
             if (filterType != null ) {
                 filteredTasks = filteredTasks.stream()
                         .filter(t -> t.getTag().toChar() == filterType.toChar())
                         .collect(Collectors.toList());
             }
+            filteredTasks = filteredTasks.stream()
+                    .sorted(Comparator.comparing(t -> t.getTag().toString()))
+                    .collect(Collectors.toList());
+
             adapter.clear();
             adapter.addAll(new ArrayList<>(filteredTasks)); // remember the mutable copy here!
             adapter.notifyDataSetChanged();
