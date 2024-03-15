@@ -14,6 +14,7 @@ import edu.ucsd.cse110.successorator.lib.domain.SimpleTaskRepository;
 import edu.ucsd.cse110.successorator.lib.domain.Tag;
 import edu.ucsd.cse110.successorator.lib.domain.Task;
 import edu.ucsd.cse110.successorator.lib.util.SimpleSubject;
+import java.time.temporal.ChronoUnit;
 
 public class MainViewModelTest extends TestCase {
 
@@ -100,6 +101,52 @@ public class MainViewModelTest extends TestCase {
         mvm.remove(4);
         testTask1.withDate(LocalDate.from(LocalDate.from(LocalDate.now().plusDays(1))));
         assertTrue(imd.getTask(4)==null);
+    }
+
+    public void testSeeTasksOfOnlyOneContext() {
+        ArrayList<Task> focusedErrandsContext = new ArrayList<>();
+        for(Task t : mvm.getOrderedTasks().getValue()) {
+            if(t.getTag()==Tag.ERRANDS){
+                focusedErrandsContext.add(t);
+            }
+        }
+        assertEquals(focusedErrandsContext.size(), 1);
+        assertEquals(focusedErrandsContext.get(0), errandsTodayTask);
+        assertFalse(focusedErrandsContext.stream().findAny().equals(homeTomorrowTask));
+        assertFalse(focusedErrandsContext.stream().findAny().equals(schoolTodayTask));
+    }
+  
+    public void testAddContextForTask() {
+        Task testTask1 = new Task(4,"Test",false,4, LocalDate.from(LocalDate.now()), Tag.WORK);
+        assertEquals(testTask1.getTag(),Tag.WORK);
+        testTask1.setTag(Tag.HOME);
+        assertEquals(testTask1.getTag(),Tag.HOME);
+    }
+
+    public void testSeeContextForTasks() {
+        ArrayList<Tag> visibleTags = new ArrayList<>();
+        Tag t1 = mvm.getOrderedTasks().getValue().get(0).getTag();
+        Tag t2 = mvm.getOrderedTasks().getValue().get(1).getTag();
+        Tag t3 = mvm.getOrderedTasks().getValue().get(2).getTag();
+        visibleTags.add(t1); visibleTags.add(t2); visibleTags.add(t3);
+        assertNotNull(visibleTags);
+        assertNotSame(t1, t2); assertNotSame(t2,t3); assertNotSame(t1,t3);
+    }
+
+    public void testAddTodayTask() {
+        assertEquals(mvm.getOrderedTasks().getValue().size(), 3);
+        Task testTask1 = new Task(4,"Test",false,4, LocalDate.from(LocalDate.now()), Tag.WORK);
+        mvm.append(testTask1);
+        assertTrue(ChronoUnit.DAYS.between(mvm.getOrderedTasks().getValue().get(3).getDate(),LocalDate.now()) == 0);
+        assertEquals(mvm.getOrderedTasks().getValue().size(),4);
+    }
+
+    public void testAddTomorrowTask() {
+        assertEquals(mvm.getOrderedTasks().getValue().size(), 3);
+        Task testTask1 = new Task(4,"Test",false,4, LocalDate.from(LocalDate.now().plusDays(1)), Tag.WORK);
+        mvm.append(testTask1);
+        assertTrue(ChronoUnit.DAYS.between(mvm.getOrderedTasks().getValue().get(3).getDate(),LocalDate.from(LocalDate.now().plusDays(1))) == 0);
+        assertEquals(mvm.getOrderedTasks().getValue().size(), 4);
     }
 
 }
