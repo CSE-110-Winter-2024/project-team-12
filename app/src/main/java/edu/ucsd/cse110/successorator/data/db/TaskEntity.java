@@ -45,7 +45,7 @@ public class TaskEntity {
      * @param isDone the status of the task - whether or not its done
      * @param sortOrder the sortOrder of the task
      */
-    public TaskEntity(Integer id, String text, boolean isDone, int sortOrder, long date, char tag, int isRecurring)  {
+    public TaskEntity(Integer id, String text, boolean isDone, int sortOrder, Long date, char tag, int isRecurring)  {
         this.id = id;
         this.text = text;
         this.isDone = isDone;
