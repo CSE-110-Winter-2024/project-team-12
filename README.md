@@ -98,7 +98,8 @@ Mark a task as completed and expect it to be removed from the view and moved to 
 Exit Focus Mode and Review: 
 
 Exit Focus mode and return to the standard view. Review all tasks to ensure they are correctly organized and that the context functionality works across different views.
-``
+
+```
 
 
 
@@ -162,14 +163,25 @@ Successorator was developed by a dedicated team of developers passionate about c
 We also acknowledge the valuable insights and suggestions from our beta testers and the continuous support from our user community in the future.
 
 #### Developer Velocity
+MS1
 - [x] iteration 1:
    - 25/72 hours we can work was used
    - 22 were expected to be used, ( 1 uncompleted task )
    - 12/25 = 0.48
 
-
 - [x] iteration 2:
    - 72*(12/25) = 34.56 hours
+
+MS2
+- [x] iteration 1:
+   - 22 hours of work was expected.
+   - 30/72 hours of work was used.
+   - 22/30 = 0.73
+We were able to complete all the task we wanted for iteration 1 within iteration 1. However, because we did not take account of decencies of the task, we were not able to do the testing for any of the User stories. We need to complete the testing in iteration 2 after everything that is needed for testing is completed.
+
+- [x] iteration 2:
+   - 42 * (22/30) = 30.8 hours
+
 
 ## License
 
