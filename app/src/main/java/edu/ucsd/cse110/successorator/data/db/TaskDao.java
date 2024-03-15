@@ -73,6 +73,8 @@ public interface TaskDao {
     @Query("DELETE FROM tasks WHERE is_done = 1")
     void deleteDone();
 
+    @Update
+    void update(TaskEntity taskEntity);
 
     @Transaction
     default int prepend(TaskEntity task) {

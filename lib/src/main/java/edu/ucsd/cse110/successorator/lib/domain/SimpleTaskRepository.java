@@ -67,5 +67,7 @@ public class SimpleTaskRepository implements TaskRepository {
 
     }
 
+    public void markTaskAsDone(int taskId) {}
+
 }
 
