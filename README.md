@@ -98,7 +98,8 @@ Mark a task as completed and expect it to be removed from the view and moved to 
 Exit Focus Mode and Review: 
 
 Exit Focus mode and return to the standard view. Review all tasks to ensure they are correctly organized and that the context functionality works across different views.
-``
+
+```
 
 
 
