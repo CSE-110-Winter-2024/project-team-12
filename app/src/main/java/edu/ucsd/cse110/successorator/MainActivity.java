@@ -1,10 +1,13 @@
 package edu.ucsd.cse110.successorator;
-
+// I want to cry
+// So does half my team
 import static android.app.PendingIntent.getActivity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import android.view.View;
@@ -21,6 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Calendar;
 import java.util.List;
@@ -33,6 +37,7 @@ import edu.ucsd.cse110.successorator.ui.list.FragmentDropdownSelectListener;
 import edu.ucsd.cse110.successorator.ui.list.TaskListFragment;
 import edu.ucsd.cse110.successorator.ui.list.dialog.CreateTaskDialogFragment;
 import edu.ucsd.cse110.successorator.lib.domain.Task;
+import edu.ucsd.cse110.successorator.ui.list.dialog.TaskOptionsDialogFragment;
 
 
 // Represents the running state of the app (its primary activity)
@@ -114,9 +119,9 @@ public class MainActivity extends AppCompatActivity {
                     return TaskListFragment.newInstance(LocalDate.now(), false);
                 case 2:
                     TaskType.setText("Tomorrow's Tasks");
-                    showTime(1);
+                    showTime(0);
                     inMain = false;
-                    return TaskListFragment.newInstance(LocalDate.now().plusDays(1), false);
+                    return TaskListFragment.newInstance(LocalDate.now(), false);
                 case 3:
                     TaskType.setText("Recurring Tasks");
                     showTime(0);
@@ -192,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
     // Defines behavior of menu options item once selected (calls to AppCompatActivity
     // implementation)
     @Override
@@ -245,8 +251,9 @@ public class MainActivity extends AppCompatActivity {
                     int sortOrder = task.getSortOrder();
                     activityModel.remove(task.getId());
                     Tag tag = task.getTag();
-                    doneList.add(new Task(id, text, isDone, sortOrder, today, tag));
-                } else if (task.getDate() != today && task.isDone()) {
+                    int isRecurring = task.isRecurring();
+                    doneList.add(new Task(id, text, isDone, sortOrder, today, tag, isRecurring));
+                } else if (task.getDate() != today && task.isDone() && task.isRecurring() == 0) {
                     activityModel.remove(task.getId());
                 }
             }
@@ -293,4 +300,5 @@ public class MainActivity extends AppCompatActivity {
         var itemId = item.getItemId();
         return super.onOptionsItemSelected(item);
     }
+
 }

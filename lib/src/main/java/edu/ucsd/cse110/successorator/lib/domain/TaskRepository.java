@@ -2,6 +2,7 @@ package edu.ucsd.cse110.successorator.lib.domain;
 import edu.ucsd.cse110.successorator.lib.util.Subject;
 
 
+import java.time.LocalDate;
 import java.util.List;
 
 /* Outlines method names for mutating, finding, and saving Tasks in a repository format */
@@ -25,4 +26,7 @@ public interface TaskRepository {
 
     // prepends a Task object in the repository
     void prepend(Task task);
+
+    //reschedule a Task object in the repository
+    void rescheduleTask(int taskId, LocalDate newDate);
 }

@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import java.time.LocalDate;
 import java.util.Calendar;
+import java.util.IllegalFormatCodePointException;
 
 import edu.ucsd.cse110.successorator.MainViewModel;
 import edu.ucsd.cse110.successorator.R;
@@ -53,16 +54,13 @@ public class CreateTaskDialogFragment extends DialogFragment{// implements View.
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         this.view=FragmentCreateMitBinding.inflate(getLayoutInflater());
-        //var taskText = view.editTaskText.getText().toString();
 
-        var task = new Task(null, null,false,-1, LocalDate.now(),null);
+        var task = new Task(null, null,false,-1, LocalDate.now(),Tag.HOME, 0); // Not sure if setting the default tag to home is okay
 
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
                 .setTitle("New Task")
                 .setMessage("Please provide the task that has to be completed. ")
                 .setView(view.getRoot())
-                //.setPositiveButton(getActivity().findViewById(R.id.saveButton), this::onPositiveButtonClick)
-                //.setNegativeButton("Cancel",this::onNegativeButtonClick)
                 .create();
 
         // Set OnClickListener to the pre-existing save button
@@ -90,15 +88,29 @@ public class CreateTaskDialogFragment extends DialogFragment{// implements View.
 
         //Make more prepends, prepends to different views
 
-        if(view.TomorrowButton.isChecked()){
+
+        // Options for a task
+        if(view.dailyButton.isChecked()){
+            task.setRecurring(1);
+        } else if (view.weeklyButton.isChecked()){
+            task.setRecurring(2);
+        } else if(view.TomorrowButton.isChecked()){
+            task.setRecurring(0);
             task.withDate(LocalDate.now().plusDays(1));
         } else if (view.PendingButton.isChecked()){
+            task.setRecurring(0);
             task.withDate(null);
         } else if (view.monthlyButton.isChecked()) {
+            task.setRecurring(3);
             //should open calendar
         } else if (view.yearlyButton.isChecked()) {
+            task.setRecurring(4);
             //should open calendar
+        } else if (view.oneTimeButton.isChecked()) {
+            task.setRecurring(0);
+            //not sure what to do
         } else if (view.TodayButton.isChecked()) {
+            task.setRecurring(0);
             task.withDate(LocalDate.now());
         } else {
             throw new IllegalStateException("No radio button is checked. ");

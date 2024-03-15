@@ -10,13 +10,13 @@
         android:id="@+id/TasksType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:text="Today's Tasks"
-        app:layout_constraintBottom_toTopOf="@+id/noTasks"
+        android:textColor="#000000"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/spinner_view"
-        app:layout_constraintVertical_bias="0.272" />
+        app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
     <Button
         android:id="@+id/timeskipButton"
@@ -73,39 +73,21 @@
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/white" />
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/container"
-        android:name="edu.ucsd.cse110.successorator.ui.list.TaskListFragment"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="0.0"
-        tools:layout="@layout/task_list" />
-
     <TextView
         android:id="@+id/noTasks"
         android:layout_width="287dp"
         android:layout_height="58dp"
+        android:layout_marginTop="18dp"
         android:text="No goals for the Day.  Click the + at the upper right to enter your Most Important Thing."
-        app:layout_constraintBottom_toBottomOf="@+id/container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="0.184" />
+        app:layout_constraintTop_toBottomOf="@+id/TasksType" />
 
     <Spinner
         android:id="@+id/spinner_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/container"
+        android:layout_marginTop="27dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
@@ -114,25 +96,30 @@
         android:id="@+id/spinner"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        app:layout_constraintBottom_toBottomOf="@+id/noTasks"
+        android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/spinner_view"
-        app:layout_constraintVertical_bias="0.304" />
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_view" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/container"
+        android:name="edu.ucsd.cse110.successorator.ui.list.TaskListFragment"
+        android:layout_width="411dp"
+        android:layout_height="651dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TasksType"
+        tools:layout="@layout/task_list"/>
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="27dp"
         android:text="Focus Mode: "
-        app:layout_constraintBottom_toBottomOf="@+id/noTasks"
-        app:layout_constraintEnd_toStartOf="@+id/spinner"
-        app:layout_constraintHorizontal_bias="0.47"
+        android:textColor="#000000"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timeskipButton"
-        app:layout_constraintVertical_bias="0.371" />
+        app:layout_constraintTop_toBottomOf="@+id/spinner_view" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

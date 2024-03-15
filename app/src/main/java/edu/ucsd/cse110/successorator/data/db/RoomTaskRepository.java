@@ -8,6 +8,7 @@ import edu.ucsd.cse110.successorator.util.LiveDataSubjectAdapter;
 import edu.ucsd.cse110.successorator.lib.domain.Task;
 import edu.ucsd.cse110.successorator.lib.domain.TaskRepository;
 import edu.ucsd.cse110.successorator.lib.util.Subject;
+import java.time.LocalDate;
 
 /**
  * This class is an implementation of Task Repository. It is tailored to work with the Room
@@ -94,5 +95,20 @@ public class RoomTaskRepository implements TaskRepository{
     public void remove(int id) {
         taskDao.delete(id);
     }
+
+    /**
+     * This function reschedule a task by its ID from the database.
+     * @param taskId the ID of the task to remove.
+     * @param newDate the date to reschedule
+     */
+    public void rescheduleTask(int taskId, LocalDate newDate) {
+        TaskEntity taskEntity = taskDao.find(taskId);
+        if(taskEntity != null) {
+            // Convert LocalDate to epoch day for storage
+            taskEntity.date = newDate.toEpochDay();
+            taskDao.prepend(taskEntity);
+        }
+    }
+
 }
 
