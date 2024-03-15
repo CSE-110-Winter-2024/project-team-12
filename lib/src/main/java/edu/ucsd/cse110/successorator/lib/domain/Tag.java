@@ -6,6 +6,7 @@ public enum Tag {
     WORK,
     ERRANDS;
 
+
     public char toChar() {
         switch (this) {
             case HOME: return 'h';

@@ -17,18 +17,19 @@ public class TaskTest {
     private Task todayTask;
     //private Task tomorrowTask;
     private Task homeTask;
+    private Task recurringTask;
     private Task workTask;
     //private Task schoolTask;
     //private Task errandTask;
 
     @Before
     public void setUp() throws Exception {
-        task = new Task(1, "Initial task", false, 1, null, null);
-        todayTask = new Task(2, "Initial task", false, 2, LocalDate.now(), null);
-        homeTask = new Task(3, "Initial task", false, 4, null, Tag.HOME);
+        task = new Task(1, "Initial task", false, 1, null, null,0);
+        todayTask = new Task(2, "Initial task", false, 2, LocalDate.now(), null,0);
+        homeTask = new Task(3, "Initial task", false, 4, null, Tag.HOME,0);
         //tomorrowTask = new Task(4, "Initial task", false, 3, LocalDate.from(LocalDate.now()).plusDays(1), null);
         //pendingTask = new Task(5, "Initial task", false, 3, null, null);
-        //recurringTask = new Task(6, "Initial task", false, 3, null, null);
+        recurringTask = new Task(4, "Initial task", false, 3, null, null,1);
         //workTask = new Task(7, "Initial task", false, 5, null, Tag.WORK);
         //schoolTask = new Task(8, "Initial task", false, 6, null, Tag.SCHOOl);
         //errandTask = new Task(9, "Initial task", false, 7, null, Tag.ERRANDS);
@@ -130,13 +131,27 @@ public class TaskTest {
 
     @Test
     public void testEquals() {
-        Task task2 = new Task(1, "Initial task", false, 1,null,null);
+        Task task2 = new Task(1, "Initial task", false, 1,null,null,0);
         assertEquals(task, task2);
     }
 
     @Test
     public void testHashCode() {
-        Task task2 = new Task(1, "Initial task", false, 1, null, null);
+        Task task2 = new Task(1, "Initial task", false, 1, null, null,0);
         assertEquals(task.hashCode(), task2.hashCode());
     }
+
+    @Test
+    public void testIsRecurring() {
+        assertEquals(recurringTask.isRecurring(),1);
+        assertEquals(todayTask.isRecurring(),0);
+    }
+
+    @Test
+    public void testSetRecurring() {
+        assertEquals(task.isRecurring(), 0);
+        task.setRecurring(1);
+        assertEquals(task.isRecurring(), 1);
+    }
+
 }

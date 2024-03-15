@@ -19,6 +19,8 @@ import java.util.function.Function;
 import edu.ucsd.cse110.successorator.databinding.TaskListItemBinding;
 import edu.ucsd.cse110.successorator.lib.domain.Tag;
 import edu.ucsd.cse110.successorator.lib.domain.Task;
+import edu.ucsd.cse110.successorator.ui.list.dialog.CreateTaskDialogFragment;
+import edu.ucsd.cse110.successorator.ui.list.dialog.TaskOptionsDialogFragment;
 
 
 public class TaskListAdapter extends ArrayAdapter<Task> {
@@ -31,7 +33,6 @@ public class TaskListAdapter extends ArrayAdapter<Task> {
                            Function<Tag, Drawable> tagDrawableFactory) {
         // This sets a bunch of stuff internally, which we can access
         // with getContext() and getItem() for example.
-        //
         // Also note that ArrayAdapter NEEDS a mutable List (ArrayList),
         // or it will crash!
         super(context, 0, new ArrayList<>(tasks));

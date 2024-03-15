@@ -35,6 +35,9 @@ public class TaskEntity {
 
     @ColumnInfo(name="tag")
     public char tag;
+
+    @ColumnInfo(name="isRecurring")
+    public int isRecurring;
     /**
      * This function initializes a TaskEntity object.
      * @param id the task id
@@ -42,13 +45,14 @@ public class TaskEntity {
      * @param isDone the status of the task - whether or not its done
      * @param sortOrder the sortOrder of the task
      */
-    public TaskEntity(Integer id, String text, boolean isDone, int sortOrder, Long date, char tag)  {
+    public TaskEntity(Integer id, String text, boolean isDone, int sortOrder, Long date, char tag, int isRecurring)  {
         this.id = id;
         this.text = text;
         this.isDone = isDone;
         this.sortOrder = sortOrder;
         this.date = date;
         this.tag = tag;
+        this.isRecurring = isRecurring;
     }
 
     /**
@@ -58,17 +62,18 @@ public class TaskEntity {
      */
     public static TaskEntity fromTask(Task task) {
         Long epochDate = task.getDate() != null ? task.getDate().toEpochDay() : null;
-        return new TaskEntity(task.getId(), task.getText(), task.isDone(), task.getSortOrder(), epochDate, task.getTag().toChar());
+        return new TaskEntity(task.getId(), task.getText(), task.isDone(), task.getSortOrder(), epochDate, task.getTag().toChar(), task.isRecurring());
     }
     /**
      * This function makes a task from a TaskEntity object
      * @return it returns a Task object with the features from the TaskEntity Object
      */
     public Task toTask() {
+
         if(date != null) {
-            return new Task(id, text, isDone, sortOrder, LocalDate.ofEpochDay(date), Tag.fromChar(tag));
+            return new Task(id, text, isDone, sortOrder, LocalDate.ofEpochDay(date), Tag.fromChar(tag), isRecurring);
         }else{
-            return new Task(id, text, isDone, sortOrder, null, Tag.fromChar(tag));
+            return new Task(id, text, isDone, sortOrder, null, Tag.fromChar(tag), isRecurring);
         }
     }
 }
