@@ -1,5 +1,6 @@
 package edu.ucsd.cse110.successorator;
 // I want to cry
+// So does half my team
 import static android.app.PendingIntent.getActivity;
 
 import android.content.SharedPreferences;
