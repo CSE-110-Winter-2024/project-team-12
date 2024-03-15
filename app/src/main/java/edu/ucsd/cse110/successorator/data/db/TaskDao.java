@@ -57,11 +57,11 @@ public interface TaskDao {
         var newTask = task;
         if(task.date!= null) {
             newTask = new TaskEntity(
-                    null, task.text, task.isDone, maxSortOrder + 1, task.date, task.tag
+                    null, task.text, task.isDone, maxSortOrder + 1, task.date, task.tag, task.isRecurring
             );
         } else {
             newTask = new TaskEntity(
-                    null, task.text, task.isDone, maxSortOrder + 1, null, task.tag
+                    null, task.text, task.isDone, maxSortOrder + 1, null, task.tag, task.isRecurring
             );
         }
         return Math.toIntExact(insert(newTask));
