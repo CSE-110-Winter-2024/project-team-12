@@ -146,3 +146,4 @@ public class Task implements Serializable {
         isRecurring = recurring;
     }
 }
+
