@@ -4,7 +4,8 @@
     <string name="hello_world">Hello, World!</string>
     <string name="timeskip">Timeskip</string>
     <string name="delete">Delete</string>
-    <string name="completed">Completed</string>
+    <string name="completed">Finish</string>
     <string name="move_to_today">Move to Today</string>
     <string name="move_to_tomorrow">Move to Tomorrow</string>
+    <string name="one_time">One-Time</string>
 </resources>
