@@ -110,5 +110,13 @@ public class RoomTaskRepository implements TaskRepository{
         }
     }
 
+    public void markTaskAsDone(int taskId) {
+        TaskEntity taskEntity = taskDao.find(taskId);
+        if (taskEntity != null) {
+            taskEntity.isDone = true;
+            taskDao.update(taskEntity);
+        }
+    }
+
 }
 

@@ -29,4 +29,6 @@ public interface TaskRepository {
 
     //reschedule a Task object in the repository
     void rescheduleTask(int taskId, LocalDate newDate);
+
+    void markTaskAsDone(int taskId);
 }
