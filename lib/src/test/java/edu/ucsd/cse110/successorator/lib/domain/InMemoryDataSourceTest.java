@@ -23,10 +23,10 @@ public class InMemoryDataSourceTest extends TestCase {
 
     InMemoryDataSource imd = new InMemoryDataSource();
     SimpleTaskRepository str = new SimpleTaskRepository(imd);
-    Task homeTomorrowTask = new Task(1,"Clean room",false,1, LocalDate.from(LocalDate.now()).plusDays(1), Tag.HOME);
-    Task schoolTodayTask = new Task(2,"Submit reflection",false,2, LocalDate.now(), Tag.SCHOOl);
-    Task errandsTodayTask = new Task(3,"Buy groceries",false,3, LocalDate.from(LocalDate.now()), Tag.ERRANDS);
-    Task workTomorrowTask = new Task(4,"Submit PTO request to boss",false,4, LocalDate.from(LocalDate.from(LocalDate.now().plusDays(1))), Tag.WORK);
+    Task homeTomorrowTask = new Task(1,"Clean room",false,1, LocalDate.from(LocalDate.now()).plusDays(1), Tag.HOME,0);
+    Task schoolTodayTask = new Task(2,"Submit reflection",false,2, LocalDate.now(), Tag.SCHOOl,0);
+    Task errandsTodayTask = new Task(3,"Buy groceries",false,3, LocalDate.from(LocalDate.now()), Tag.ERRANDS,0);
+    Task workTomorrowTask = new Task(4,"Submit PTO request to boss",false,4, LocalDate.from(LocalDate.from(LocalDate.now().plusDays(1))), Tag.WORK,0);
 
     private final List<Task> tasks
             = new ArrayList<>();
@@ -46,7 +46,7 @@ public class InMemoryDataSourceTest extends TestCase {
         imd.putTask(workTomorrowTask);
         assertEquals(imd.getTasks().size(),1);
         assertEquals(imd.getTask(workTomorrowTask.getId()),workTomorrowTask);
-        Task testTask1 = new Task(4, "test", false, 5, LocalDate.from(LocalDate.from(LocalDate.now().plusDays(1))),Tag.HOME);
+        Task testTask1 = new Task(4, "test", false, 5, LocalDate.from(LocalDate.from(LocalDate.now().plusDays(1))),Tag.HOME,0);
         imd.putTask(testTask1);
         assertEquals(imd.getTask(4).getSortOrder(), Integer.valueOf(5));
         assertEquals(imd.getTasks().size(),1);

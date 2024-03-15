@@ -26,7 +26,7 @@ public class MainViewModelTest extends TestCase {
     Task homeTomorrowTask = new Task(1,"Clean room",false,1, LocalDate.from(LocalDate.now()).plusDays(1), Tag.HOME,0);
     Task schoolTodayTask = new Task(2,"Submit reflection",false,2, LocalDate.now(), Tag.SCHOOl,0);
     Task errandsTodayTask = new Task(3,"Buy groceries",false,3, LocalDate.from(LocalDate.now()), Tag.ERRANDS,0);
-     Task workTomorrowTask = new Task(4,"Submit PTO request to boss",false,4, LocalDate.from(LocalDate.from(LocalDate.now().plusDays(1))), Tag.WORK,0);
+    Task workTomorrowTask = new Task(4,"Submit PTO request to boss",false,4, LocalDate.from(LocalDate.from(LocalDate.now().plusDays(1))), Tag.WORK,0);
 
     /* inserting tasks into InMemoryDataSource out of order ... */
     @Before
@@ -95,12 +95,60 @@ public class MainViewModelTest extends TestCase {
         assertTrue(imd.getTask(3) == null);
     }
 
+    @Test
     public void testMoveDeletedTask(){
         Task testTask1 = new Task(4,"Test",false,4, LocalDate.from(LocalDate.now()), Tag.WORK,0);
         mvm.append(testTask1);
         mvm.remove(4);
         testTask1.withDate(LocalDate.from(LocalDate.from(LocalDate.now().plusDays(1))));
         assertTrue(imd.getTask(4)==null);
+    }
+    @Test
+    public void testSeeTomorrowsTaskInNewPage() {
+        int countInTomorrowFragment = 0;
+        for(Task t : mvm.getOrderedTasks().getValue()) {
+            if(ChronoUnit.DAYS.between(t.getDate(),LocalDate.from(LocalDate.from(LocalDate.now().plusDays(1))))==0){
+                countInTomorrowFragment++;
+            }
+        }
+        assertEquals(countInTomorrowFragment,1);
+    }
+
+    @Test
+    public void testSeeTodaysTaskInNewPage() {
+        int countInTodayFragment = 0;
+        for(Task t : mvm.getOrderedTasks().getValue()) {
+            if(ChronoUnit.DAYS.between(t.getDate(),LocalDate.now())==0){
+                countInTodayFragment++;
+            }
+        }
+        assertEquals(countInTodayFragment,2);
+    }
+
+    @Test
+    public void testSeePendingTaskInNewPage() {
+        mvm.append(new Task(4,"Test",false,4, null, Tag.WORK,0));
+        mvm.append(new Task(5,"Test",false,5, null, Tag.SCHOOl,0));
+        int countInPendingFragment = 0;
+        for(Task t : mvm.getOrderedTasks().getValue()) {
+            if(t.getDate()==null){
+                countInPendingFragment++;
+            }
+        }
+        assertEquals(countInPendingFragment,2);
+    }
+
+    @Test
+    public void testSeeRecurringTaskInNewPage() {
+        mvm.append(new Task(4,"Test",false,4, LocalDate.from(LocalDate.now()), Tag.WORK,1));
+        mvm.append(new Task(5,"Test",false,5, LocalDate.from(LocalDate.now()), Tag.SCHOOl,1));
+        int countInRecurringFragment = 0;
+        for(Task t : mvm.getOrderedTasks().getValue()) {
+            if(t.isRecurring()==1){
+                countInRecurringFragment++;
+            }
+        }
+        assertEquals(countInRecurringFragment,2);
     }
 
     public void testSeeTasksOfOnlyOneContext() {
@@ -115,9 +163,9 @@ public class MainViewModelTest extends TestCase {
         assertFalse(focusedErrandsContext.stream().findAny().equals(homeTomorrowTask));
         assertFalse(focusedErrandsContext.stream().findAny().equals(schoolTodayTask));
     }
-  
+
     public void testAddContextForTask() {
-        Task testTask1 = new Task(4,"Test",false,4, LocalDate.from(LocalDate.now()), Tag.WORK);
+        Task testTask1 = new Task(4,"Test",false,4, LocalDate.from(LocalDate.now()), Tag.WORK,0);
         assertEquals(testTask1.getTag(),Tag.WORK);
         testTask1.setTag(Tag.HOME);
         assertEquals(testTask1.getTag(),Tag.HOME);
@@ -135,7 +183,7 @@ public class MainViewModelTest extends TestCase {
 
     public void testAddTodayTask() {
         assertEquals(mvm.getOrderedTasks().getValue().size(), 3);
-        Task testTask1 = new Task(4,"Test",false,4, LocalDate.from(LocalDate.now()), Tag.WORK);
+        Task testTask1 = new Task(4,"Test",false,4, LocalDate.from(LocalDate.now()), Tag.WORK,0);
         mvm.append(testTask1);
         assertTrue(ChronoUnit.DAYS.between(mvm.getOrderedTasks().getValue().get(3).getDate(),LocalDate.now()) == 0);
         assertEquals(mvm.getOrderedTasks().getValue().size(),4);
@@ -143,7 +191,7 @@ public class MainViewModelTest extends TestCase {
 
     public void testAddTomorrowTask() {
         assertEquals(mvm.getOrderedTasks().getValue().size(), 3);
-        Task testTask1 = new Task(4,"Test",false,4, LocalDate.from(LocalDate.now().plusDays(1)), Tag.WORK);
+        Task testTask1 = new Task(4,"Test",false,4, LocalDate.from(LocalDate.now().plusDays(1)), Tag.WORK,0);
         mvm.append(testTask1);
         assertTrue(ChronoUnit.DAYS.between(mvm.getOrderedTasks().getValue().get(3).getDate(),LocalDate.from(LocalDate.now().plusDays(1))) == 0);
         assertEquals(mvm.getOrderedTasks().getValue().size(), 4);
