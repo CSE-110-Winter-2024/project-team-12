@@ -27,13 +27,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sButton">
-// noice
       <RadioButton
             android:id="@+id/oneTimeButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10sp"
-            android:text="Today"
+            android:text="@string/one_time"
             android:textSize="30sp" />
 
         <RadioButton
@@ -65,9 +64,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10sp"
-            android:text="Yealy on ..."
+            android:text="Yearly on ..."
             android:textSize="30sp" />
-  // noice
         <RadioButton
             android:id="@+id/TodayButton"
             android:layout_width="match_parent"
