@@ -279,4 +279,13 @@ public class MainViewModelTest extends TestCase {
         assertEquals(mvm.getOrderedTasks().getValue().size(), 4);
     }
 
+    public void testAddPendingTask() {
+        assertEquals(mvm.getOrderedTasks().getValue().size(), 3);
+        Task testTask1 = new Task(4,"Test",false,4, null, Tag.WORK,0);
+        mvm.append(testTask1);
+        assertNull(testTask1.getDate());
+        assertEquals(mvm.getOrderedTasks().getValue().size(), 4);
+    }
+
+
 }
